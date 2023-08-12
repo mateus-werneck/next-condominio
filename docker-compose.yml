@@ -1,0 +1,49 @@
+services:
+  expense-db:
+    image: postgres
+    container_name: expense-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=next
+      - POSTGRES_PASSWORD=845d47df5c3a993de0517f315ca8341a
+      - POSTGRES_DB=expenses
+    expose:
+      - '5432'
+    ports:
+      - 9001:5432
+    networks:
+      expense-network:
+        ipv4_address: 172.19.55.11
+    volumes:
+      - pgdata:/data/postgres
+    command: -p 5432
+  expense-dashboard:
+    build: ./
+    restart: always
+    container_name: expense-dashboard
+    env_file:
+      - .development.env
+    ports:
+      - 9015:80
+    networks:
+      expense-network:
+        ipv4_address: 172.19.55.12
+    volumes:
+      - .:/usr/src/app/dashboard
+      - /usr/src/app/dashboard/node_modules
+    command: npm run dev
+    depends_on:
+      - expense-db
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  expense-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: 172.19.55.0/16  
