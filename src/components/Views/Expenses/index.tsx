@@ -1,8 +1,9 @@
 'use client';
-import { useState } from 'react';
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { MonthRange } from '@Utils/Date';
+import { appendQueryParams } from '@Utils/Request';
+import { useState } from 'react';
 
 interface IViewExpenses {
   monthRange: MonthRange;
@@ -18,23 +19,18 @@ export interface IExpensesFilters {
 export default function ViewExpenses({ monthRange, rows }: IViewExpenses) {
   const [expenses, setExpenses] = useState<any[]>(rows);
 
-  async function onFormSubmit({
-    startAt,
-    endAt,
-    name
-  }: IExpensesFilters): Promise<void> {
+  async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
     // await new Promise<void>((resolve) => {
     //   setTimeout(() => {
     //     resolve();
     //   }, 3000);
     // });
-    const url = new URL(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`);
+    const route = appendQueryParams(
+      `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`,
+      filters
+    );
 
-    url.searchParams.append('startAt', startAt);
-    url.searchParams.append('endAt', endAt);
-    url.searchParams.append('name', String(name));
-
-    const response = await fetch(url.toString());
+    const response = await fetch(route);
     const data = await response.json();
 
     setExpenses(data as any[]);

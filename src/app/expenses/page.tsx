@@ -1,16 +1,17 @@
 import ViewExpenses from '@Components/Views/Expenses';
 import { DateUtil, MonthRange } from '@Utils/Date';
+import { appendQueryParams } from '@Utils/Request';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Despesas'
 };
 
-const data = async ({ startAt, endAt }: MonthRange): Promise<[]> => {
-  const url = new URL(`http://localhost/api/expenses`);
-
-  url.searchParams.append('startAt', DateUtil.toIsoStringDate(startAt));
-  url.searchParams.append('endAt', DateUtil.toIsoStringDate(endAt));
+const data = async (monthRange: MonthRange): Promise<[]> => {
+  const url = appendQueryParams('http://localhost/api/expenses', {
+    startAt: DateUtil.toIsoStringDate(monthRange.startAt),
+    endAt: DateUtil.toIsoStringDate(monthRange.endAt)
+  });
 
   const response = await fetch(url.toString(), {
     next: { revalidate: 1 }
