@@ -1,7 +1,6 @@
 'use client';
 
 import { NavLink } from '@Components/Structure/Header/NavLink';
-import { StyledNavBar } from '@Components/Structure/Header/NavLink/style';
 import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
 import Link from 'next/link';
@@ -48,12 +47,12 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
 
   function getRenderedMenu() {
     return (
-      <StyledNavBar
+      <nav
         className={getStyledNavBarName()}
         style={getStyledNavBarCustomStyle()}
       >
         {getRenderedNavMenu()}
-      </StyledNavBar>
+      </nav>
     );
   }
 
@@ -63,8 +62,8 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
 
     if (isMobileView())
       customStyle =
-        'flex flex-col absolute items-start self-center top-16 gap-8' +
-        ' z-10 py-8 px-2 rounded-2xl bg-black text-white';
+        'w-11/12 flex flex-col absolute items-start self-center top-16 gap-8' +
+        ' z-10 py-8 px-2 rounded-2xl bg-black text-white transition-all delay-75';
 
     return customStyle;
   }

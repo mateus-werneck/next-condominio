@@ -1,3 +1,4 @@
+import { useDevice } from '@Contexts/useDevice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircularProgress } from '@mui/material';
 import {
@@ -31,8 +32,9 @@ export const StandardForm = ({
   align
 }: IStandardForm) => {
   type FormDataType = z.infer<typeof validationSchema>;
-
-  const alignment = align === undefined ? 'self-center' : align;
+  const { isMobileView } = useDevice();
+  const alignment =
+    align === undefined || isMobileView() ? 'self-center' : align;
 
   const formContext = useForm<FormDataType>({
     resolver: zodResolver(validationSchema)
@@ -55,7 +57,9 @@ export const StandardForm = ({
       className={`flex flex-col justify-center items-center ${alignment} rounded-md bg-slate-100 p-4 mt-4`}
     >
       <form
-        className="grid grid-cols-3 gap-4 mt-4"
+        className={
+          isMobileView() ? 'flex flex-col' : 'grid grid-cols-3 gap-4 mt-4'
+        }
         onSubmit={handleSubmit(onSubmitFunction)}
         style={{ minHeight: '150px' }}
       >
