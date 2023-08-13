@@ -1,13 +1,11 @@
 'use client';
 
-import { CSSProperties, useCallback, useState } from 'react';
 import { NavLink } from '@Components/Structure/Header/NavLink';
-import {
-  StyledLink,
-  StyledNavBar
-} from '@Components/Structure/Header/NavLink/style';
+import { StyledNavBar } from '@Components/Structure/Header/NavLink/style';
 import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
+import Link from 'next/link';
+import { CSSProperties, useCallback, useState } from 'react';
 import { MobileActions } from './MobileActions';
 
 interface IResponsive {
@@ -91,14 +89,14 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
         setActiveLink={setActiveLink}
       >
         {parent.children.map((child) => (
-          <StyledLink
+          <Link
             key={child.name}
             href={child.href}
-            className="flex gap-2 items-center"
+            className="flex gap-2 items-center hover:text-cyan-600"
           >
             {child.icon !== undefined && child.icon}
             {child.name}
-          </StyledLink>
+          </Link>
         ))}
       </NavLink>
     ));

@@ -1,3 +1,5 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CircularProgress } from '@mui/material';
 import {
   FieldErrors,
   UseFormRegister,
@@ -5,12 +7,8 @@ import {
   useForm
 } from 'react-hook-form';
 import { ZodType, z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CircularProgress } from '@mui/material';
 import DefaultButton from '../Button';
 import { IStandardInput, StandardInput } from './Input';
-import { StyledValidationAlert } from './Input/style';
-import { FormInputContainer, StyledForm } from './style';
 
 interface IStandardForm {
   inputs: StandardInput[];
@@ -56,9 +54,13 @@ export const StandardForm = ({
     <div
       className={`flex flex-col justify-center items-center ${alignment} rounded-md bg-slate-100 p-4 mt-4`}
     >
-      <StyledForm onSubmit={handleSubmit(onSubmitFunction)}>
+      <form
+        className="grid grid-cols-3 gap-4 mt-4"
+        onSubmit={handleSubmit(onSubmitFunction)}
+        style={{ minHeight: '150px' }}
+      >
         {getFormInputs(inputs, register, errors)}
-      </StyledForm>
+      </form>
       {submitButtonText && (
         <div className="max-w-fit self-end">
           <DefaultButton
@@ -85,7 +87,7 @@ function getFormInputs(
   errors: FieldErrors<any>
 ): JSX.Element[] {
   return inputs.map((formInput) => (
-    <FormInputContainer key={formInput.name + '-div'}>
+    <div className="flex flex-col" key={formInput.name + '-div'}>
       <StandardInput
         {...formInput}
         register={register}
@@ -93,10 +95,13 @@ function getFormInputs(
         hasErrors={errors[formInput.name] ? true : false}
       />
       {errors[formInput.name] && (
-        <StyledValidationAlert key={formInput.name + '-warning'}>
+        <span
+          className="indent-2 text-xs to-red-600 mb-4"
+          key={formInput.name + '-warning'}
+        >
           {String(errors[formInput.name]?.message)}
-        </StyledValidationAlert>
+        </span>
       )}
-    </FormInputContainer>
+    </div>
   ));
 }
