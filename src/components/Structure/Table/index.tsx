@@ -18,6 +18,7 @@ interface ITableData {
   name: string;
   columns: GridColDef[];
   rows: object[];
+  rowsPerPage?: number;
   checkBoxSelection?: boolean;
   customToolbar?: JSX.Element[];
   onDelete?: (selectedRows: string[]) => void;
@@ -30,6 +31,14 @@ export default function StandardTable(props: ITableData) {
     <div className="flex mt-4 items-center justify-center w-full h-full">
       <ThemeProvider theme={theme}>
         <StyledDataGrid
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: props.rowsPerPage ? props.rowsPerPage : 25
+              }
+            }
+          }}
+          pageSizeOptions={[5, 10, 25, 50, 100]}
           key={props.name}
           columns={props.columns}
           rows={props.rows}

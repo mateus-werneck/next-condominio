@@ -28,6 +28,7 @@ export default async function RootLayout({
 }) {
   const nextHeaders = headers();
   const isMobileDevice = isMobileAgent(String(nextHeaders.get('User-Agent')));
+
   return (
     <html lang="en">
       <body className={franklin.className + ' bg-slate-200 text-slate-800'}>

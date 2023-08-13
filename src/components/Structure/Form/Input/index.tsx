@@ -22,6 +22,7 @@ export interface IStandardInput {
     | 'time'
     | 'url'
     | 'tel';
+  initialValue?: any;
   styles?: CSSProperties;
   readOnly?: boolean;
   required?: boolean;
@@ -34,6 +35,7 @@ export const StandardInput = ({
   label,
   placeHolder,
   type,
+  initialValue,
   styles,
   readOnly,
   required,
@@ -43,10 +45,11 @@ export const StandardInput = ({
   const Input = (
     <StyledInput
       {...register(name)}
+      defaultValue={initialValue}
       type={type ? type : 'text'}
       placeholder={placeHolder ? placeHolder : ''}
-      readOnly={readOnly ? readOnly : false}
-      required={required ? required : true}
+      readOnly={readOnly === undefined ? false : readOnly}
+      required={required === undefined ? false : required}
       style={{ marginBottom: hasErrors ? '0.3rem' : '0.8rem', ...styles }}
     />
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { CSSProperties, useCallback, useState } from 'react';
 import { NavLink } from '@Components/Structure/Header/NavLink';
 import {
   StyledLink,
@@ -7,7 +8,6 @@ import {
 } from '@Components/Structure/Header/NavLink/style';
 import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
-import { CSSProperties, useCallback, useState } from 'react';
 import { MobileActions } from './MobileActions';
 
 interface IResponsive {

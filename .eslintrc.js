@@ -47,13 +47,6 @@ module.exports = {
             "match": true
           }
         }
-      ],
-    "import-helpers/order-imports": [
-        "warn",
-        {
-          "groups": ["module", "/^@/", ["parent", "sibling", "index"]],
-          "alphabetize": {"ignoreCase": true }
-        }
       ]
   },
   settings: {

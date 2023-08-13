@@ -20,12 +20,12 @@ export function getMenuDefault(): IMenuDefault[] {
       children: [
         {
           name: 'Despesas',
-          href: '/despesas',
+          href: '/expenses',
           icon: <CurrencyExchangeIcon />
         },
         {
           name: 'Moradores',
-          href: '/moradores',
+          href: '/residents',
           icon: <PeopleAltIcon />
         }
       ]
@@ -35,7 +35,7 @@ export function getMenuDefault(): IMenuDefault[] {
       children: [
         {
           name: 'Relatório de Gastos',
-          href: '/relatorio-de-gastos',
+          href: '/general-expenses-report',
           icon: <SummarizeIcon />
         }
       ]

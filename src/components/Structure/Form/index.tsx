@@ -6,6 +6,7 @@ import {
 } from 'react-hook-form';
 import { ZodType, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CircularProgress } from '@mui/material';
 import DefaultButton from '../Button';
 import { IStandardInput, StandardInput } from './Input';
 import { StyledValidationAlert } from './Input/style';
@@ -19,6 +20,7 @@ interface IStandardForm {
     formContext: UseFormReturn<any>
   ) => void | Promise<void>;
   submitButtonText?: string;
+  align?: 'self-center' | 'self-start' | 'self-end';
 }
 
 export type StandardInput = Omit<IStandardInput, 'register' | 'hasErrors'>;
@@ -27,9 +29,12 @@ export const StandardForm = ({
   inputs,
   validationSchema,
   onSubmit,
-  submitButtonText
+  submitButtonText,
+  align
 }: IStandardForm) => {
   type FormDataType = z.infer<typeof validationSchema>;
+
+  const alignment = align === undefined ? 'self-center' : align;
 
   const formContext = useForm<FormDataType>({
     resolver: zodResolver(validationSchema)
@@ -42,11 +47,15 @@ export const StandardForm = ({
   } = formContext;
 
   function onSubmitFunction(data: any) {
-    onSubmit(data, formContext);
+    return new Promise<void>((resolve) => {
+      resolve(onSubmit(data, formContext));
+    });
   }
 
   return (
-    <div className="flex flex-col justify-center items-center self-center rounded-md bg-slate-100 p-4 mt-4">
+    <div
+      className={`flex flex-col justify-center items-center ${alignment} rounded-md bg-slate-100 p-4 mt-4`}
+    >
       <StyledForm onSubmit={handleSubmit(onSubmitFunction)}>
         {getFormInputs(inputs, register, errors)}
       </StyledForm>
@@ -58,7 +67,11 @@ export const StandardForm = ({
             onClickFunction={handleSubmit(onSubmitFunction)}
             disable={isSubmitting}
           >
-            {submitButtonText}
+            {!isSubmitting ? (
+              submitButtonText
+            ) : (
+              <CircularProgress color="inherit" size={16} />
+            )}
           </DefaultButton>
         </div>
       )}

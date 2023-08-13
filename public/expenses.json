@@ -1,0 +1,683 @@
+[
+  {
+    "name": "Copasa",
+    "value": 733.8,
+    "status": "paid",
+    "dueDate": "2023-01-31"
+  },
+  {
+    "name": "Cemig",
+    "value": 43.18,
+    "status": "paid",
+    "dueDate": "2023-01-31"
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "paid",
+    "dueDate": "2023-01-31"
+  },
+  {
+    "name": "Despesas Bancarias",
+    "value": 121.9,
+    "status": "paid",
+    "dueDate": "2023-01-31"
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Jardim",
+    "value": 250.0,
+    "status": "paid",
+    "dueDate": "2023-01-31"
+  },
+  {
+    "name": "Copasa",
+    "value": 474.95,
+    "status": "paid",
+    "dueDate": "2023-02-28"
+  },
+  {
+    "name": "Cemig",
+    "value": 57.07,
+    "status": "paid",
+    "dueDate": "2023-02-28"
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "paid",
+    "dueDate": "2023-02-28"
+  },
+  {
+    "name": "Despesas Bancarias",
+    "value": 121.9,
+    "status": "paid",
+    "dueDate": "2023-02-28"
+  },
+  {
+    "name": "Copasa",
+    "value": 653.55,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Cemig",
+    "value": 55.2,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Despesas Bancarias",
+    "value": 121.9,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Seguro Predio",
+    "value": 142.36,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Dedetiza\u00e7\u00e3o e Limpeza",
+    "value": 276.66,
+    "status": "paid",
+    "dueDate": "2023-03-31"
+  },
+  {
+    "name": "Copasa",
+    "value": 644.23,
+    "status": "paid",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "Cemig",
+    "value": 51.04,
+    "status": "paid",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "paid",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "Despesas Bancarias",
+    "value": 121.9,
+    "status": "paid",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "Seguro Predio",
+    "value": 142.36,
+    "status": "paid",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "G\u00e1s",
+    "value": 790.0,
+    "status": "paid",
+    "type": "one-time",
+    "dueDate": "2022-12-31"
+  },
+  {
+    "name": "G\u00e1s",
+    "value": 840.0,
+    "status": "pending",
+    "type": "one-time",
+    "dueDate": "2023-04-08"
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 500.257,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 398.184,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 145.067,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 45.773,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-12-31",
+    "residentId": 6
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 505.077,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 400.423,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 147.716,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 47.858,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-01-31",
+    "residentId": 6
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 507.033,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 402.888,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 150.258,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 49.5165,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-02-28",
+    "residentId": 6
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 510.808,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 405.093,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 153.26,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 50.503,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2023-03-31",
+    "residentId": 6
+  },
+  {
+    "name": "Seguro Predio",
+    "value": 142.36,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Seguro Predio",
+    "value": 142.36,
+    "status": "pending",
+    "dueDate": "2023-06-30"
+  },
+  {
+    "name": "Dedetiza\u00e7\u00e3o e Limpeza",
+    "value": 276.66,
+    "status": "pending",
+    "dueDate": "2023-04-30"
+  },
+  {
+    "name": "Dedetiza\u00e7\u00e3o e Limpeza",
+    "value": 276.66,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 497.106,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 396.265,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 143.447,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.814,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 292.593,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "paid",
+    "type": "individual",
+    "dueDate": "2022-11-30",
+    "residentId": 6
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 515.13,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 407.296,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 158.436,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 52.072,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-04-30",
+    "residentId": 6
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Extintores",
+    "value": 370.0,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Port\u00e3o Social",
+    "value": 165.9,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Cemig",
+    "value": 58.14,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Copasa",
+    "value": 571.04,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 519.498,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 409.345,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 162.468,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 53.665,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-05-31",
+    "residentId": 6
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "pending",
+    "dueDate": "2023-05-31"
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Extintores",
+    "value": 370.0,
+    "status": "pending",
+    "dueDate": "2023-06-30"
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Extintores",
+    "value": 370.0,
+    "status": "pending",
+    "dueDate": "2023-07-31"
+  },
+  {
+    "name": "Copasa",
+    "value": 519.7,
+    "status": "pending",
+    "dueDate": "2023-06-30"
+  },
+  {
+    "name": "Cemig",
+    "value": 60.73,
+    "status": "pending",
+    "dueDate": "2023-06-30"
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 523.561,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 410.863,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 166.24,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 55.244,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-06-30",
+    "residentId": 6
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "pending",
+    "dueDate": "2023-06-30"
+  },
+  {
+    "name": "G\u00e1s",
+    "value": 798.0,
+    "status": "pending",
+    "type": "one-time",
+    "dueDate": "2023-07-08"
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 527.576,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 1
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 412.609,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 2
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 170.327,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 3
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 56.069,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 4
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 293.266,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 5
+  },
+  {
+    "name": "Consumo de G\u00e1s Individual",
+    "value": 44.204,
+    "status": "pending",
+    "type": "individual",
+    "dueDate": "2023-07-31",
+    "residentId": 6
+  },
+  {
+    "name": "Copasa",
+    "value": 570.76,
+    "status": "pending",
+    "dueDate": "2023-07-31"
+  },
+  {
+    "name": "Cemig",
+    "value": 75.78,
+    "status": "pending",
+    "dueDate": "2023-07-31"
+  },
+  {
+    "name": "Conserva\u00e7\u00e3o Cond.",
+    "value": 687.17,
+    "status": "pending",
+    "dueDate": "2023-07-31"
+  },
+  {
+    "name": "Manuten\u00e7\u00e3o Jardim",
+    "value": 300.0,
+    "status": "pending",
+    "dueDate": "2023-07-31"
+  }
+]
