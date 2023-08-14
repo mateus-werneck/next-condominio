@@ -1,7 +1,8 @@
 'use client';
-import { z } from 'zod';
-import { StandardForm, StandardInput } from '@Components/Structure/Form';
+import { StandardForm } from '@Components/Structure/Form';
+import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { DateUtil, MonthRange } from '@Utils/Date';
+import { z } from 'zod';
 
 interface IListExpensesForm {
   monthRange: MonthRange;
@@ -28,7 +29,7 @@ export default function ListExpensesForm({
 }
 
 function useFormData({ startAt, endAt }: MonthRange) {
-  const inputs: StandardInput[] = [
+  const inputs: IStandardInput[] = [
     {
       name: 'startAt',
       label: 'Data Inicial',
@@ -48,6 +49,21 @@ function useFormData({ startAt, endAt }: MonthRange) {
       label: 'Despesa',
       placeHolder: 'Nome da Despesa',
       type: 'text'
+    },
+    {
+      name: 'expenseType',
+      label: 'Tipo',
+      type: 'select',
+      options: [
+        {
+          id: 1,
+          label: 'Seguro'
+        },
+        {
+          id: 2,
+          label: 'Conta de Luz'
+        }
+      ]
     }
   ];
   /* eslint-disable camelcase */
@@ -58,7 +74,14 @@ function useFormData({ startAt, endAt }: MonthRange) {
       .min(1, 'Campo Obrigatório'),
     endAt: z
       .string({ required_error: 'Campo Obrigatório.' })
-      .min(1, 'Campo Obrigatório')
+      .min(1, 'Campo Obrigatório'),
+    expenseType: z
+      .object({
+        id: z.number().or(z.string()),
+        label: z.string()
+      })
+      .optional()
+      .nullable()
   });
 
   return { inputs, validationSchema };

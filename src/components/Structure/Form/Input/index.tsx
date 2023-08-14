@@ -1,33 +1,4 @@
-import { CSSProperties } from 'react';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
-
-export interface IStandardInput {
-  name: string;
-  label?: string;
-  placeHolder?: string;
-  type?:
-    | 'text'
-    | 'number'
-    | 'email'
-    | 'date'
-    | 'search'
-    | 'checkbox'
-    | 'file'
-    | 'image'
-    | 'password'
-    | 'radio'
-    | 'range'
-    | 'textarea'
-    | 'time'
-    | 'url'
-    | 'tel';
-  initialValue?: any;
-  styles?: CSSProperties;
-  readOnly?: boolean;
-  required?: boolean;
-  hasErrors: boolean;
-  register: UseFormRegister<FieldValues>;
-}
+import { IFormInput } from './types';
 
 export const StandardInput = ({
   name,
@@ -40,7 +11,7 @@ export const StandardInput = ({
   required,
   hasErrors,
   register
-}: IStandardInput) => {
+}: IFormInput) => {
   const Input = (
     <input
       className="w-80 h-8 text-xs rounded-lg to-gray-500 indent-2 outline-none shadow-none focus:ring-orange-300"

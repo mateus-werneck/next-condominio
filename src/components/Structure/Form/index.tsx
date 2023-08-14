@@ -1,18 +1,14 @@
 import { useDevice } from '@Contexts/useDevice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircularProgress } from '@mui/material';
-import {
-  FieldErrors,
-  UseFormRegister,
-  UseFormReturn,
-  useForm
-} from 'react-hook-form';
+import { UseFormHandleSubmit, UseFormReturn, useForm } from 'react-hook-form';
 import { ZodType, z } from 'zod';
 import DefaultButton from '../Button';
-import { IStandardInput, StandardInput } from './Input';
+import { IStandardInput } from './Input/types';
+import { getFormInputs } from './utils/helpers';
 
 interface IStandardForm {
-  inputs: StandardInput[];
+  inputs: IStandardInput[];
   validationSchema: ZodType;
   onSubmit: (
     data: any,
@@ -21,8 +17,6 @@ interface IStandardForm {
   submitButtonText?: string;
   align?: 'self-center' | 'self-start' | 'self-end';
 }
-
-export type StandardInput = Omit<IStandardInput, 'register' | 'hasErrors'>;
 
 export const StandardForm = ({
   inputs,
@@ -33,8 +27,6 @@ export const StandardForm = ({
 }: IStandardForm) => {
   type FormDataType = z.infer<typeof validationSchema>;
   const { isMobileView } = useDevice();
-  const alignment =
-    align === undefined || isMobileView() ? 'self-center' : align;
 
   const formContext = useForm<FormDataType>({
     resolver: zodResolver(validationSchema)
@@ -43,6 +35,7 @@ export const StandardForm = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting }
   } = formContext;
 
@@ -52,6 +45,9 @@ export const StandardForm = ({
     });
   }
 
+  const alignment =
+    align === undefined || isMobileView() ? 'self-center' : align;
+
   return (
     <div
       className={`flex flex-col justify-center items-center ${alignment} rounded-md bg-slate-100 p-4 mt-4`}
@@ -60,52 +56,42 @@ export const StandardForm = ({
         className={
           isMobileView() ? 'flex flex-col' : 'grid grid-cols-3 gap-4 mt-4'
         }
-        onSubmit={handleSubmit(onSubmitFunction)}
+        onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}
         style={{ minHeight: '150px' }}
       >
-        {getFormInputs(inputs, register, errors)}
+        {getFormInputs(inputs, register, control, errors)}
       </form>
-      {submitButtonText && (
-        <div className="max-w-fit self-end">
-          <DefaultButton
-            type="submit"
-            color="success"
-            onClickFunction={handleSubmit(onSubmitFunction)}
-            disable={isSubmitting}
-          >
-            {!isSubmitting ? (
-              submitButtonText
-            ) : (
-              <CircularProgress color="inherit" size={16} />
-            )}
-          </DefaultButton>
-        </div>
-      )}
+      {submitButtonText &&
+        getSubmitButton(
+          submitButtonText,
+          handleSubmit,
+          onSubmitFunction,
+          isSubmitting
+        )}
     </div>
   );
 };
 
-function getFormInputs(
-  inputs: StandardInput[],
-  register: UseFormRegister<any>,
-  errors: FieldErrors<any>
-): JSX.Element[] {
-  return inputs.map((formInput) => (
-    <div className="flex flex-col" key={formInput.name + '-div'}>
-      <StandardInput
-        {...formInput}
-        register={register}
-        key={formInput.name}
-        hasErrors={errors[formInput.name] ? true : false}
-      />
-      {errors[formInput.name] && (
-        <span
-          className="indent-2 text-xs to-red-600 mb-4"
-          key={formInput.name + '-warning'}
-        >
-          {String(errors[formInput.name]?.message)}
-        </span>
-      )}
+function getSubmitButton(
+  submitButtonText: string,
+  handleSubmit: UseFormHandleSubmit<any>,
+  onSubmitFunction: (data: any) => void,
+  isSubmitting: boolean
+): JSX.Element {
+  return (
+    <div className="max-w-fit self-end">
+      <DefaultButton
+        type="submit"
+        color="success"
+        onClickFunction={handleSubmit(onSubmitFunction)}
+        disable={isSubmitting}
+      >
+        {!isSubmitting ? (
+          submitButtonText
+        ) : (
+          <CircularProgress color="inherit" size={16} />
+        )}
+      </DefaultButton>
     </div>
-  ));
+  );
 }

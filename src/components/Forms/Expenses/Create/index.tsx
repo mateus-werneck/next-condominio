@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 'use client';
-import { z } from 'zod';
 import { StandardForm, StandardInput } from '@Components/Structure/Form';
+import { z } from 'zod';
 
 export default function CreateExpenseForm() {
   const { inputs, validationSchema } = useFormData();
@@ -36,6 +36,17 @@ function useFormData() {
       name: 'dueDate',
       placeHolder: 'Data de Vencimento',
       type: 'date' as const
+    },
+    {
+      name: 'expenseType',
+      placeHolder: 'Tipo',
+      type: 'select',
+      options: [
+        {
+          id: 'Seguro',
+          label: 'insurance'
+        }
+      ]
     }
   ];
 
