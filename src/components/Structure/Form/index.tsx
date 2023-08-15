@@ -5,7 +5,7 @@ import { UseFormHandleSubmit, UseFormReturn, useForm } from 'react-hook-form';
 import { ZodType, z } from 'zod';
 import DefaultButton from '../Button';
 import { IStandardInput } from './Input/types';
-import { getFormInputs } from './utils/helpers';
+import { getFormInputs } from './Utils/FormInputs';
 
 interface IStandardForm {
   inputs: IStandardInput[];

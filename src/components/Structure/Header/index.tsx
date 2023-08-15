@@ -1,17 +1,14 @@
 'use client';
-
 import { NavLink } from '@Components/Structure/Header/NavLink';
 import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
 import Link from 'next/link';
 import { CSSProperties, useCallback, useState } from 'react';
 import { MobileActions } from './MobileActions';
+import { IActiveLink } from './types';
 
 interface IResponsive {
   getMenu: () => JSX.Element;
-}
-export interface IActiveLink {
-  [name: string]: boolean;
 }
 
 export const Header = () => {

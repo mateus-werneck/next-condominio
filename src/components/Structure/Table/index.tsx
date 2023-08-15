@@ -1,7 +1,8 @@
 import DefaultButton from '@Components/Structure/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ThemeProvider } from '@mui/material';
+import { SxProps, Theme, ThemeProvider } from '@mui/material';
 import {
+  DataGrid,
   GridColDef,
   GridRowSelectionModel,
   GridToolbarColumnsButton,
@@ -11,7 +12,6 @@ import {
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
-import { StyledDataGrid } from './style';
 import { localeText, theme } from './utils/customTable';
 
 interface ITableData {
@@ -27,10 +27,44 @@ interface ITableData {
 export default function StandardTable(props: ITableData) {
   const { CustomToolbar, handleSelection } = useCustomTable(props);
 
+  const customStyles: SxProps<Theme> = {
+    '& .MuiDataGrid-toolbarContainer': {
+      'a, button': {
+        color: 'var(--green)',
+        '&:hover': {
+          filter: 'brightness(0.8)'
+        }
+      }
+    },
+    '& .MuiDataGrid-columnHeaders': {
+      background: 'var(--light-gray) !important'
+    },
+    '& .MuiDataGrid-row': {
+      '&:nth-of-type(odd)': {
+        background: 'var(--gray-50)'
+      },
+      '&:nth-of-type(even)': {
+        background: 'var(--gray-light)'
+      }
+    },
+    '& .MuiDataGrid-footerContainer': {
+      background: 'var(--light-gray) !important'
+    },
+    '& .MuiDataGrid-columnHeader': {
+      '&:focus': {
+        outline: 'none'
+      }
+    },
+    '& .MuiDataGrid-virtualScroller': {
+      minHeight: '50px'
+    }
+  };
+
   return (
     <div className="flex mt-4 items-center justify-center w-full h-full">
       <ThemeProvider theme={theme}>
-        <StyledDataGrid
+        <DataGrid
+          sx={customStyles}
           initialState={{
             pagination: {
               paginationModel: {

@@ -51,16 +51,19 @@ function useFormData({ startAt, endAt }: MonthRange) {
       type: 'text'
     },
     {
-      name: 'expenseType',
+      name: 'expenseTypes',
       label: 'Tipo',
       type: 'select',
+      multiSelect: true,
       options: [
         {
           id: 1,
+          name: 'insurance',
           label: 'Seguro'
         },
         {
           id: 2,
+          name: 'power',
           label: 'Conta de Luz'
         }
       ]
@@ -75,11 +78,17 @@ function useFormData({ startAt, endAt }: MonthRange) {
     endAt: z
       .string({ required_error: 'Campo Obrigatório.' })
       .min(1, 'Campo Obrigatório'),
-    expenseType: z
-      .object({
-        id: z.number().or(z.string()),
-        label: z.string()
-      })
+    expenseTypes: z
+      .array(
+        z.object(
+          {
+            id: z.number().or(z.string()),
+            name: z.string(),
+            label: z.string()
+          },
+          { invalid_type_error: 'Valor selecionado inválido' }
+        )
+      )
       .optional()
       .nullable()
   });

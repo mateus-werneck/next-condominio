@@ -14,7 +14,7 @@ export const StandardInput = ({
 }: IFormInput) => {
   const Input = (
     <input
-      className="w-80 h-8 text-xs rounded-lg to-gray-500 indent-2 outline-none shadow-none focus:ring-orange-300"
+      className="w-80 h-8 text-xs rounded-md outline-none text-black indent-2 hover:border-sky-200 border-transparent border-2 focus:outline-none focus:ring-2 focus:ring-sky-200"
       {...register(name)}
       defaultValue={initialValue}
       type={type ? type : 'text'}

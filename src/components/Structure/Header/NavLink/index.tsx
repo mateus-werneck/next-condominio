@@ -2,14 +2,14 @@
 import { useDevice } from '@Contexts/useDevice';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useCallback } from 'react';
-import { IActiveLink } from '..';
+import { ReactNode, useCallback } from 'react';
+import { IActiveLink } from '../types';
 
 interface INavLink {
   name: string;
   activeLink: IActiveLink;
   setActiveLink: (value: any) => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export const NavLink = (props: INavLink) => {

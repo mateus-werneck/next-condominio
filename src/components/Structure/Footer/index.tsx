@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { useDevice } from '@Contexts/useDevice';
+import { useEffect, useState } from 'react';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 export const Footer = () => {

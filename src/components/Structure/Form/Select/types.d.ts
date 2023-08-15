@@ -7,7 +7,9 @@ export interface ISelectOption {
 export interface IStandardSelect {
   name: string;
   options: ISelectOption[];
+  multiSelect?: boolean;
   control: Control<any, any>;
+  multi?: boolean;
   label?: string;
   initialValue?: any;
   readOnly?: boolean;

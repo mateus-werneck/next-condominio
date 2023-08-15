@@ -33,4 +33,5 @@ export type IStandardInput = {
   readOnly?: boolean;
   required?: boolean;
   options?: ISelectOption[];
+  multiSelect?: boolean;
 };

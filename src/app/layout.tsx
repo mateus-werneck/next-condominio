@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-import { Libre_Franklin } from 'next/font/google';
-import { headers } from 'next/headers';
 import { Footer } from '@Components/Structure/Footer';
 import { Header } from '@Components/Structure/Header';
 import Main from '@Components/Structure/Main';
 import { DeviceProvider } from '@Contexts/useDevice';
 import { isMobileAgent } from '@Utils/Mobile';
+import { Libre_Franklin } from 'next/font/google';
+import { headers } from 'next/headers';
 import './globals.css';
 
 export const metadata = {

@@ -44,14 +44,7 @@ function getStandardInput(
         key={formInput.name}
         hasErrors={errors[formInput.name] ? true : false}
       />
-      {errors[formInput.name] && (
-        <span
-          className="indent-2 text-xs to-red-600 mb-4"
-          key={formInput.name + '-warning'}
-        >
-          {String(errors[formInput.name]?.message)}
-        </span>
-      )}
+      {errors[formInput.name] && getErrorMessage(formInput, errors)}
     </div>
   );
 }
@@ -64,14 +57,21 @@ function getSelectInput(
   return (
     <div className="flex flex-col" key={formInput.name + '-div'}>
       <StandardSelect {...formInput} control={control} key={formInput.name} />
-      {errors[formInput.name] && (
-        <span
-          className="indent-2 text-xs to-red-600 mb-4"
-          key={formInput.name + '-warning'}
-        >
-          {String(errors[formInput.name]?.message)}
-        </span>
-      )}
+      {errors[formInput.name] && getErrorMessage(formInput, errors)}
     </div>
+  );
+}
+
+function getErrorMessage<T extends IStandardInput>(
+  formInput: T,
+  errors: FieldErrors<any>
+): JSX.Element {
+  return (
+    <span
+      className="indent-2 text-xs text-red-600/100 mb-4"
+      key={formInput.name + '-warning'}
+    >
+      {String(errors[formInput.name]?.message)}
+    </span>
   );
 }
