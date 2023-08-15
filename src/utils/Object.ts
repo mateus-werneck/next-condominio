@@ -15,6 +15,14 @@ export class ObjectUtil {
       return 0;
     });
   }
+
+  public static empty<T extends IObject>(value: T) {
+    const values = Object.values(value);
+    return (
+      Object.keys(value).length == 0 ||
+      values.filter((element) => element !== undefined).length == 0
+    );
+  }
 }
 
 type IObject = {

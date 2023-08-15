@@ -56,8 +56,7 @@ export const StandardForm = ({
         className={
           isMobileView() ? 'flex flex-col' : 'grid grid-cols-3 gap-4 mt-4'
         }
-        onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}
-        style={{ minHeight: '150px' }}
+        onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs(inputs, register, control, errors)}
       </form>

@@ -15,7 +15,6 @@ export const StandardSelect = ({
 }: IStandardSelect) => {
   const customStyles: SxProps<Theme> = {
     width: 320,
-    height: 32,
     '& .MuiFormControl-root': {
       borderRadius: '0.5rem'
     },
@@ -51,6 +50,7 @@ export const StandardSelect = ({
           autoHighlight
           readOnly={readOnly === undefined ? false : readOnly}
           options={ObjectUtil.sort(options, 'label')}
+          fullWidth
           isOptionEqualToValue={(option, value) => option.id == value.id}
           getOptionLabel={(option) => option.label}
           renderOption={(props, option) => {

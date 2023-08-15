@@ -10,8 +10,6 @@ COPY . .
 
 RUN yarn install --frozen-lockfile
 
-RUN echo "yarn prisma generate"
-
 RUN yarn prisma generate
 
 EXPOSE 9015

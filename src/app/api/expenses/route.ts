@@ -1,57 +1,52 @@
-import { IExpensesFilters } from '@Components/Views/Expenses/types';
-import { promises as fs } from 'fs';
+import { prisma } from '@Lib/prisma';
+import { Prisma } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
-import path from 'path';
-
-interface Expense {
-  id?: number;
-  name: string;
-  value: number;
-  status: string;
-  type: string;
-  dueDate: string;
-}
-
-type IRequestFilters = Omit<IExpensesFilters, 'expenseType'>;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+  const conditions = getConditions(searchParams);
+  const expenses = await prisma.expense.findMany(conditions);
 
-  const filters: IRequestFilters = {
-    startAt: String(searchParams.get('startAt')),
-    endAt: String(searchParams.get('endAt')),
-    name: String(searchParams.get('name'))
-  };
-
-  const expenses = await loadLocalFile(filters);
   return NextResponse.json(expenses);
 }
 
-async function loadLocalFile({
-  startAt,
-  endAt
-}: IRequestFilters): Promise<Expense[]> {
-  const jsonDirectory = path.join(process.cwd(), 'public');
+function getConditions(searchParams: URLSearchParams) {
+  if (!searchParams.size) return {};
 
-  const fileContent = await fs.readFile(
-    `${jsonDirectory}/expenses.json`,
-    'utf-8'
-  );
+  const filters: Prisma.ExpenseFindManyArgs<DefaultArgs> = {
+    where: {}
+  };
 
-  const expenses = JSON.parse(fileContent).map(
-    (expense: Expense, index: number) => {
-      return {
-        id: index,
-        ...expense
-      };
-    }
-  );
+  const startAt = String(searchParams.get('startAt'));
+  const endAt = searchParams.has('endAt') ? searchParams.get('endAt') : startAt;
+  const name = searchParams.get('name');
+  const expenseTypes = searchParams.get('expenseTypes');
 
-  if (!startAt && !endAt) {
-    return expenses;
+  if (searchParams.has('startAt')) {
+    filters.where = {
+      ...filters.where,
+      dueDate: {
+        gte: new Date(startAt),
+        lte: new Date(String(endAt))
+      }
+    };
   }
 
-  return expenses.filter(
-    ({ dueDate }: Expense) => dueDate >= startAt && dueDate <= endAt
-  );
+  if (name) {
+    filters.where = {
+      ...filters.where,
+      name: { contains: String(searchParams.get('name')) }
+    };
+  }
+
+  if (expenseTypes)
+    filters.where = {
+      ...filters.where,
+      expenseType: {
+        id: { in: String(searchParams.get('expenseTypes')).split(',') }
+      }
+    };
+
+  return filters;
 }

@@ -12,3 +12,8 @@ export interface IExpensesFilters extends IFilter {
   name: string | null;
   expenseTypes: IExpenseType[];
 }
+
+export interface IExpenseQueryParams
+  extends Omit<IExpensesFilters, 'expenseTypes'> {
+  expenseTypes: string;
+}

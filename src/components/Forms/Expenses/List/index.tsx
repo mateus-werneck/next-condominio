@@ -2,18 +2,24 @@
 import { StandardForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { DateUtil, MonthRange } from '@Utils/Date';
+import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
 interface IListExpensesForm {
   monthRange: MonthRange;
+  expenseTypes: ExpenseType[];
   onFormSubmit: (data: any) => void;
 }
 
 export default function ListExpensesForm({
   monthRange,
+  expenseTypes,
   onFormSubmit
 }: IListExpensesForm) {
-  const { inputs, validationSchema } = useFormData(monthRange);
+  const { inputs, validationSchema } = useFormData({
+    monthRange,
+    expenseTypes
+  });
 
   return (
     <>
@@ -28,7 +34,12 @@ export default function ListExpensesForm({
   );
 }
 
-function useFormData({ startAt, endAt }: MonthRange) {
+type IFormData = Omit<IListExpensesForm, 'onFormSubmit'>;
+
+function useFormData({
+  monthRange: { startAt, endAt },
+  expenseTypes
+}: IFormData) {
   const inputs: IStandardInput[] = [
     {
       name: 'startAt',
@@ -55,18 +66,7 @@ function useFormData({ startAt, endAt }: MonthRange) {
       label: 'Tipo',
       type: 'select',
       multiSelect: true,
-      options: [
-        {
-          id: 1,
-          name: 'insurance',
-          label: 'Seguro'
-        },
-        {
-          id: 2,
-          name: 'power',
-          label: 'Conta de Luz'
-        }
-      ]
+      options: expenseTypes
     }
   ];
   /* eslint-disable camelcase */
