@@ -1,6 +1,6 @@
 import ViewExpenses from '@Components/Views/Expenses';
-import { DateUtil, MonthRange } from '@Utils/Date';
-import { appendQueryParams } from '@Utils/Request';
+import { DateUtil, MonthRange } from '@Lib/Treat/Date';
+import { appendQueryParams } from '@Lib/Treat/Request';
 import { ExpenseType } from '@prisma/client';
 import { Metadata } from 'next';
 

@@ -1,8 +1,8 @@
 'use client';
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
-import { MonthRange } from '@Utils/Date';
-import { appendQueryParams } from '@Utils/Request';
+import { MonthRange } from '@Lib/Treat/Date';
+import { appendQueryParams } from '@Lib/Treat/Request';
 import { Expense, ExpenseType } from '@prisma/client';
 import { useState } from 'react';
 import { IExpenseQueryParams, IExpensesFilters } from './types';

@@ -3,7 +3,7 @@ import { Footer } from '@Components/Structure/Footer';
 import { Header } from '@Components/Structure/Header';
 import Main from '@Components/Structure/Main';
 import { DeviceProvider } from '@Contexts/useDevice';
-import { isMobileAgent } from '@Utils/Mobile';
+import { isMobileAgent } from '@Lib/Treat/Mobile';
 import { Libre_Franklin } from 'next/font/google';
 import { headers } from 'next/headers';
 import './globals.css';

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 'use client';
-import { StandardForm, StandardInput } from '@Components/Structure/Form';
+import { StandardForm } from '@Components/Structure/Form';
+import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { z } from 'zod';
 
 export default function CreateExpenseForm() {
@@ -23,7 +24,7 @@ export default function CreateExpenseForm() {
 }
 
 function useFormData() {
-  const inputs: StandardInput[] = [
+  const inputs: IStandardInput[] = [
     {
       name: 'name',
       placeHolder: 'Nome'

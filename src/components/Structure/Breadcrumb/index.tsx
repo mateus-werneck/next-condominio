@@ -1,9 +1,9 @@
 'use client';
 
+import { capitalize } from '@Lib/Treat/String';
+import { Breadcrumbs } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { capitalize } from '@Utils/String';
-import { Breadcrumbs } from '@mui/material';
 
 export default function Breadcrumb() {
   const pathName = usePathname();

@@ -2,8 +2,8 @@
 
 import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
-import { DateUtil } from '@Utils/Date';
-import { MoneyUtil } from '@Utils/Money';
+import { DateUtil } from '@Lib/Treat/Date';
+import { MoneyUtil } from '@Lib/Treat/Money';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { getTableAddButton } from '../utils/customButtons';

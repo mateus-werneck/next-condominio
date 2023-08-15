@@ -22,7 +22,6 @@
     "paths": {
       "@Components/*": ["./src/components/*"],
       "@Contexts/*": ["./src/contexts/*"],
-      "@Utils/*": ["./src/utils/*"],
       "@Lib/*": ["./src/lib/*"]
     }
   },

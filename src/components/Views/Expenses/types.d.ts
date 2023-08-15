@@ -1,4 +1,4 @@
-import { IFilter } from '@Utils/Request';
+import { IFilter } from '@Lib/Treat/Request';
 
 interface IExpenseType extends ISelectOption {
   id: number;

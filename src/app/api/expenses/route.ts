@@ -1,4 +1,4 @@
-import { prisma } from '@Lib/prisma';
+import { prisma } from '@Lib/Database/prisma';
 import { Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
