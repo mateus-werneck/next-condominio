@@ -1,7 +1,7 @@
+import { IExpensesFilters } from '@Components/Views/Expenses/types';
 import { promises as fs } from 'fs';
 import { NextResponse } from 'next/server';
 import path from 'path';
-import { IExpensesFilters } from '@Components/Views/Expenses';
 
 interface Expense {
   id?: number;
@@ -12,13 +12,15 @@ interface Expense {
   dueDate: string;
 }
 
+type IRequestFilters = Omit<IExpensesFilters, 'expenseType'>;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const filters: IExpensesFilters = {
+  const filters: IRequestFilters = {
     startAt: String(searchParams.get('startAt')),
     endAt: String(searchParams.get('endAt')),
-    name: searchParams.get('name')
+    name: String(searchParams.get('name'))
   };
 
   const expenses = await loadLocalFile(filters);
@@ -28,7 +30,7 @@ export async function GET(request: Request) {
 async function loadLocalFile({
   startAt,
   endAt
-}: IExpensesFilters): Promise<Expense[]> {
+}: IRequestFilters): Promise<Expense[]> {
   const jsonDirectory = path.join(process.cwd(), 'public');
 
   const fileContent = await fs.readFile(
