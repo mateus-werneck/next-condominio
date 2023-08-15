@@ -13,8 +13,10 @@ interface IViewExpenses {
 
 export default function ViewExpenses({ monthRange, rows }: IViewExpenses) {
   const [expenses, setExpenses] = useState<any[]>(rows);
+  const [loading, setIsLoading] = useState<boolean>(false);
 
   async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
+    setIsLoading(true);
     const route = appendQueryParams(
       `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`,
       filters
@@ -24,12 +26,13 @@ export default function ViewExpenses({ monthRange, rows }: IViewExpenses) {
     const data = await response.json();
 
     setExpenses(data as any[]);
+    setIsLoading(false);
   }
 
   return (
     <>
       <ListExpensesForm monthRange={monthRange} onFormSubmit={onFormSubmit} />
-      <TableListExpenses rows={expenses} />
+      <TableListExpenses rows={expenses} loading={loading} />
     </>
   );
 }

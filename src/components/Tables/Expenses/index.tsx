@@ -10,9 +10,13 @@ import { getTableAddButton } from '../utils/customButtons';
 
 interface ITableListExpenses {
   rows: any[];
+  loading: boolean;
 }
 
-export default function TableListExpenses({ rows }: ITableListExpenses) {
+export default function TableListExpenses({
+  rows,
+  loading
+}: ITableListExpenses) {
   const table = 'TableListExpenses';
   const { getTableActions } = useTableActions(table);
 
@@ -39,6 +43,7 @@ export default function TableListExpenses({ rows }: ITableListExpenses) {
       columns={columns}
       rows={rows}
       customToolbar={getTableAddButton('/expenses/new')}
+      loading={loading}
     />
   );
 }

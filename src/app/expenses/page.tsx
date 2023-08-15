@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Despesas'
 };
 
-const data = async (monthRange: MonthRange): Promise<[]> => {
+const data = async (monthRange: MonthRange): Promise<any[]> => {
   const url = appendQueryParams('http://localhost/api/expenses', {
     startAt: DateUtil.toIsoStringDate(monthRange.startAt),
     endAt: DateUtil.toIsoStringDate(monthRange.endAt)
@@ -23,12 +23,6 @@ const data = async (monthRange: MonthRange): Promise<[]> => {
 export default async function Expenses() {
   const monthRange = DateUtil.getMonthRange();
   const rows = await data(monthRange);
-
-  await new Promise<void>((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 5000);
-  });
 
   return <ViewExpenses rows={rows} monthRange={monthRange} />;
 }

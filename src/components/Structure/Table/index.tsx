@@ -22,6 +22,7 @@ interface ITableData {
   checkBoxSelection?: boolean;
   customToolbar?: JSX.Element[];
   onDelete?: (selectedRows: string[]) => void;
+  loading?: boolean;
 }
 
 export default function StandardTable(props: ITableData) {
@@ -85,6 +86,11 @@ export default function StandardTable(props: ITableData) {
             props.checkBoxSelection == undefined
               ? true
               : props.checkBoxSelection
+          }
+          loading={
+            props.loading !== undefined
+              ? props.loading
+              : props.rows === undefined
           }
         />
       </ThemeProvider>
