@@ -45,6 +45,7 @@ export const StandardSelect = ({
       render={({ field: { onChange, ..._field } }) => (
         <Autocomplete
           sx={customStyles}
+          loading={options === undefined}
           multiple={multiSelect === undefined ? false : multiSelect}
           onChange={(_, data) => onChange(data)}
           autoHighlight
