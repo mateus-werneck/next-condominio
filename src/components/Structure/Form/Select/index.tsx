@@ -14,7 +14,6 @@ export const StandardSelect = ({
   required
 }: IStandardSelect) => {
   const customStyles: SxProps<Theme> = {
-    width: 320,
     '& .MuiInputBase-root': {
       borderRadius: '0.375rem'
     },
@@ -51,6 +50,7 @@ export const StandardSelect = ({
       render={({ field: { onChange, ..._field } }) => (
         <Autocomplete
           sx={customStyles}
+          className="sm:max-w-[228px] xl:max-w-sm"
           loading={options === undefined}
           multiple={multiSelect === undefined ? false : multiSelect}
           onChange={(_, data) => onChange(data)}
@@ -72,7 +72,7 @@ export const StandardSelect = ({
               {...params}
               size="small"
               label={label}
-              variant="outlined"
+              variant="standard"
               inputProps={{
                 ...params.inputProps,
                 autoCorrect: 'disabled',

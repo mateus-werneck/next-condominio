@@ -4,6 +4,10 @@ export class DateUtil {
     return isoDate.split('T').shift() as string;
   }
 
+  public static isoDateFromPtBr(value: string): Date {
+    return new Date(value.split('/').reverse().join('-'));
+  }
+
   public static toLocalePtBr(value: string): string {
     return new Date(value).toLocaleDateString('pt-br', { timeZone: 'UTC' });
   }

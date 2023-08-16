@@ -45,17 +45,10 @@ export const StandardForm = ({
     });
   }
 
-  const alignment =
-    align === undefined || isMobileView() ? 'self-center' : align;
-
   return (
-    <div
-      className={`flex flex-col justify-center items-center ${alignment} rounded-md bg-slate-100 p-4 mt-4`}
-    >
+    <div className="flex flex-col justify-center items-center rounded-md bg-slate-100 p-4 mt-4 gap-4">
       <form
-        className={
-          isMobileView() ? 'flex flex-col' : 'grid grid-cols-3 gap-4 mt-4'
-        }
+        className="flex flex-col mt-4 gap-4 md:grid md:grid-cols-3 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs(inputs, register, control, errors)}

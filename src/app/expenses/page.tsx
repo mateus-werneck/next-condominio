@@ -1,8 +1,8 @@
 import ViewExpenses from '@Components/Views/Expenses';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { appendQueryParams } from '@Lib/Treat/Request';
-import { ExpenseType } from '@prisma/client';
 import { Metadata } from 'next';
+import { fetchTypes } from './utils/expenses';
 
 export const metadata: Metadata = {
   title: 'Despesas'
@@ -15,14 +15,6 @@ const fetchExpenses = async (monthRange: MonthRange): Promise<any[]> => {
   });
 
   const response = await fetch(url.toString(), {
-    next: { revalidate: 1 }
-  });
-
-  return await response.json();
-};
-
-const fetchTypes = async (): Promise<ExpenseType[]> => {
-  const response = await fetch('http://localhost/api/expenses/types', {
     next: { revalidate: 1 }
   });
 

@@ -1,4 +1,5 @@
-import CreateExpenseForm from '@Components/Forms/Expenses/Create';
+import ExpenseForm from '@Components/Forms/Expenses/Create';
+import { fetchTypes } from '../utils/expenses';
 
 interface IExpense {
   params: {
@@ -6,15 +7,18 @@ interface IExpense {
   };
 }
 
-export default function Event({ params }: IExpense) {
+export default async function Event({ params }: IExpense) {
+  let title = 'Editar';
+  const expenseTypes = await fetchTypes();
+
   if (params.id == 'new') {
-    return (
-      <div className="flex flex-col gap-1">
-        <h1 className="text-bold text-2x">Cadastrar</h1>
-        <CreateExpenseForm />
-      </div>
-    );
+    title = 'Cadastrar';
   }
 
-  return <></>;
+  return (
+    <div className="flex flex-col gap-1">
+      <h1 className="text-bold text-2x">{title}</h1>
+      <ExpenseForm expenseTypes={expenseTypes} />
+    </div>
+  );
 }
