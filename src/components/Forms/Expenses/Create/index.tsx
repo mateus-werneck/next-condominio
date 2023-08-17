@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
 'use client';
 import { StandardForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
-import { DateUtil } from '@Lib/Treat/Date';
+import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
@@ -10,12 +9,30 @@ interface IExpenseForm {
   expenseTypes: ExpenseType[];
 }
 
+interface IExpenseSubmit {
+  name: string;
+  value: string;
+  dueDate: string;
+  expenseType: ExpenseType;
+}
+
 export default function ExpenseForm({ expenseTypes }: IExpenseForm) {
   const { inputs, validationSchema } = useFormData(expenseTypes);
 
   const onFormSubmit = (data: any) => {
     console.log(data);
-    return data;
+    // const expense: CreateExpense = {
+    //   name: data.name,
+    //   value: MoneyUtil.toFloat(data.value),
+    //   dueDate: new Date(data.dueDate),
+    //   type: data.expenseType.id
+    // };
+    // fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(expense)
+    // })
+    //   .then((value) => value.json().then((response) => console.log(response)))
+    //   .catch((reason) => console.log(reason));
   };
 
   return (
@@ -38,7 +55,8 @@ function useFormData(expenseTypes: ExpenseType[]) {
     },
     {
       name: 'value',
-      label: 'Valor'
+      label: 'Valor',
+      type: 'number'
     },
     {
       name: 'dueDate',
@@ -53,30 +71,26 @@ function useFormData(expenseTypes: ExpenseType[]) {
     }
   ];
 
+  /* eslint-disable camelcase */
   const validationSchema = z.object({
     name: z
       .string({ required_error: 'Campo Obrigatório.' })
       .min(5, 'O campo deve conter no mínimo 5 caracteres.'),
-    value: z
-      .string({ required_error: 'Valor informado inválido' })
-      .min(2, 'O valor informado deve ser maior que 1.'),
-    dueDate: z
-      .date({
-        required_error: 'Campo Obrigatório',
-        invalid_type_error: 'Data informada inválida.'
-      })
-      .refine((value: any) => DateUtil.isoDateFromPtBr(value as string)),
-    expenseType: z.object(
-      {
-        id: z.string({ required_error: 'Valor selecionado inválido.' }),
-        name: z.string({ required_error: 'Valor selecionado inválido.' }),
-        label: z.string({ required_error: 'Valor selecionado inválido.' })
-      },
-      {
-        invalid_type_error: 'Valor selecionado inválido.',
-        required_error: 'Campo obrigatório.'
-      }
-    )
+    value: ZodValidator.currency(),
+    dueDate: ZodValidator.date(),
+    expenseType: z
+      .object(
+        {
+          id: z.string({ required_error: 'Campo Obrigatório.' }),
+          name: z.string({ required_error: 'Campo Obrigatório.' }),
+          label: z.string({ required_error: 'Campo Obrigatório.' })
+        },
+        {
+          invalid_type_error: 'Valor selecionado inválido.',
+          required_error: 'Campo obrigatório.'
+        }
+      )
+      .transform(({ id }) => id)
   });
   return { inputs, validationSchema };
 }

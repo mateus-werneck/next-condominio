@@ -1,4 +1,4 @@
-import { useDevice } from '@Contexts/useDevice';
+import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircularProgress } from '@mui/material';
 import { UseFormHandleSubmit, UseFormReturn, useForm } from 'react-hook-form';
@@ -22,11 +22,9 @@ export const StandardForm = ({
   inputs,
   validationSchema,
   onSubmit,
-  submitButtonText,
-  align
+  submitButtonText
 }: IStandardForm) => {
   type FormDataType = z.infer<typeof validationSchema>;
-  const { isMobileView } = useDevice();
 
   const formContext = useForm<FormDataType>({
     resolver: zodResolver(validationSchema)
@@ -52,6 +50,16 @@ export const StandardForm = ({
         onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs(inputs, register, control, errors)}
+        <ErrorMessage
+          errors={errors}
+          name="multipleErrorInput"
+          render={({ messages }) =>
+            messages &&
+            Object.entries(messages).map(([type, message]) => (
+              <p key={type}>{message}</p>
+            ))
+          }
+        />
       </form>
       {submitButtonText &&
         getSubmitButton(

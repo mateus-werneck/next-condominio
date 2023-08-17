@@ -9,4 +9,8 @@ export class MoneyUtil {
   public static toBRL(value: number): string {
     return MoneyUtil.formatter().format(value);
   }
+
+  public static toFloat(value: string): number {
+    return Number(value.replace(',', '.'));
+  }
 }

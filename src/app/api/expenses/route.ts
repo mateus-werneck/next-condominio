@@ -1,5 +1,6 @@
 import { prisma } from '@Lib/Database/prisma';
-import { Prisma } from '@prisma/client';
+import { CreateExpense } from '@Types/Expense/types';
+import { Expense, Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
 
@@ -49,4 +50,16 @@ function getConditions(searchParams: URLSearchParams) {
     };
 
   return filters;
+}
+
+export async function POST(request: Request) {
+  const data = await request.json();
+  const expense = data as CreateExpense;
+  await prisma.expense.create({ data: expense });
+}
+
+export async function PUT(request: Request) {
+  const data = await request.json();
+  const expense = data as Expense;
+  await prisma.expense.update({ where: { id: expense.id }, data: expense });
 }

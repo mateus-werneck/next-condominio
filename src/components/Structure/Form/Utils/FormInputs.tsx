@@ -2,7 +2,7 @@ import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { StandardInput } from '../Input';
 import { IStandardInput } from '../Input/types';
 import { StandardSelect } from '../Select';
-import { IStandardSelect } from '../Select/types';
+import { IStandardSelect } from '../Select/types.ts';
 
 export function getFormInputs(
   inputs: IStandardInput[],

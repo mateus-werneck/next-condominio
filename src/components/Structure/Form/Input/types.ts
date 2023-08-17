@@ -1,5 +1,6 @@
-import { ISelectOption } from '@Components/Structure/Form/Input';
-import { Control } from 'react-hook-form';
+import { CSSProperties } from 'react';
+import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
+import { ISelectOption } from '../Select/types';
 
 export interface IFormInput extends IStandardInput {
   hasErrors: boolean;

@@ -1,3 +1,5 @@
+import { Control } from 'react-hook-form';
+
 export interface ISelectOption {
   id: string | number;
   label: string;

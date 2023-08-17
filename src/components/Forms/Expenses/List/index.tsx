@@ -2,6 +2,7 @@
 import { StandardForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
+import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
@@ -70,28 +71,30 @@ function useFormData({
     }
   ];
   /* eslint-disable camelcase */
-  const validationSchema = z.object({
-    name: z.string().optional(),
-    startAt: z
-      .string({ required_error: 'Campo Obrigatório.' })
-      .min(1, 'Campo Obrigatório'),
-    endAt: z
-      .string({ required_error: 'Campo Obrigatório.' })
-      .min(1, 'Campo Obrigatório'),
-    expenseTypes: z
-      .array(
-        z.object(
-          {
-            id: z.number().or(z.string()),
-            name: z.string(),
-            label: z.string()
-          },
-          { invalid_type_error: 'Valor selecionado inválido' }
+  const validationSchema = z
+    .object({
+      name: z.string().optional(),
+      startAt: ZodValidator.date(),
+      endAt: ZodValidator.date(),
+      expenseTypes: z
+        .array(
+          z.object(
+            {
+              id: z.string(),
+              name: z.string(),
+              label: z.string()
+            },
+            { invalid_type_error: 'Valor selecionado inválido' }
+          )
         )
-      )
-      .optional()
-      .nullable()
-  });
+        .optional()
+        .nullable()
+    })
+    .refine((schema) => {
+      const initialDate = new Date(schema.startAt);
+      const finalDate = new Date(schema.endAt);
+      return initialDate.getTime() <= finalDate.getTime();
+    }, 'Período informado inválido.');
 
   return { inputs, validationSchema };
 }

@@ -8,8 +8,9 @@ export function appendQueryParams<T extends IFilter>(
 ): string {
   const url = new URL(route);
 
-  Object.keys(params).forEach((name: string) =>
-    url.searchParams.append(name, params[name])
+  Object.keys(params).forEach(
+    (name: string) =>
+      params[name] && url.searchParams.append(name, params[name])
   );
 
   return url.toString();

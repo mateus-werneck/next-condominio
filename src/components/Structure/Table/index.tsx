@@ -32,6 +32,7 @@ export default function StandardTable(props: ITableData) {
     '& .MuiDataGrid-toolbarContainer': {
       'a, button': {
         color: 'var(--green)',
+        fontSize: '0.75rem',
         '&:hover': {
           filter: 'brightness(0.8)'
         }
@@ -66,6 +67,7 @@ export default function StandardTable(props: ITableData) {
       <ThemeProvider theme={theme}>
         <DataGrid
           sx={customStyles}
+          className="text-xs sm:text-base"
           initialState={{
             pagination: {
               paginationModel: {
