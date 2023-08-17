@@ -90,11 +90,17 @@ function useFormData({
         .optional()
         .nullable()
     })
-    .refine((schema) => {
-      const initialDate = new Date(schema.startAt);
-      const finalDate = new Date(schema.endAt);
-      return initialDate.getTime() <= finalDate.getTime();
-    }, 'Período informado inválido.');
+    .refine(
+      (schema) => {
+        const initialDate = new Date(schema.startAt);
+        const finalDate = new Date(schema.endAt);
+        return initialDate.getTime() <= finalDate.getTime();
+      },
+      {
+        message: 'Período informado inválido.',
+        path: ['startAt']
+      }
+    );
 
   return { inputs, validationSchema };
 }
