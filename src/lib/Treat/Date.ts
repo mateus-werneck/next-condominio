@@ -4,6 +4,11 @@ export class DateUtil {
     return isoDate.split('T').shift() as string;
   }
 
+  public static isoFromString(value: string) {
+    const date = new Date(value);
+    return DateUtil.toIsoStringDate(date);
+  }
+
   public static isoDateFromPtBr(value: string): Date {
     return new Date(value.split('/').reverse().join('-'));
   }

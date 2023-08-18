@@ -1,7 +1,7 @@
 import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, SxProps, TextField, Theme } from '@mui/material';
 import { Controller } from 'react-hook-form';
-import { IStandardSelect } from './types.ts';
+import { IStandardSelect } from './types';
 
 export const StandardSelect = ({
   name,
@@ -38,11 +38,11 @@ export const StandardSelect = ({
       fontSize: '0.75rem'
     }
   };
+
   return (
     <Controller
       control={control}
       name={name}
-      defaultValue={initialValue}
       key={name}
       rules={{
         required: required === undefined ? false : required
@@ -51,6 +51,7 @@ export const StandardSelect = ({
         <Autocomplete
           sx={customStyles}
           className="sm:max-w-[228px] xl:max-w-sm"
+          defaultValue={initialValue}
           loading={options === undefined}
           multiple={multiSelect === undefined ? false : multiSelect}
           onChange={(_, data) => onChange(data)}

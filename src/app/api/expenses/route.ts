@@ -2,14 +2,34 @@ import { prisma } from '@Lib/Database/prisma';
 import { CreateExpense } from '@Types/Expense/types';
 import { Expense, Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const conditions = getConditions(searchParams);
   const expenses = await prisma.expense.findMany(conditions);
 
   return NextResponse.json(expenses);
+}
+export async function POST(request: NextRequest) {
+  const data = await request.json();
+  const expense = data as CreateExpense;
+
+  const createdExpense = await prisma.expense.create({ data: expense });
+
+  return NextResponse.json(createdExpense);
+}
+
+export async function PUT(request: NextRequest) {
+  const data = await request.json();
+  const expense = data as Expense;
+
+  const updatedExpense = await prisma.expense.update({
+    where: { id: expense.id },
+    data: expense
+  });
+
+  return NextResponse.json(updatedExpense);
 }
 
 function getConditions(searchParams: URLSearchParams) {
@@ -50,16 +70,4 @@ function getConditions(searchParams: URLSearchParams) {
     };
 
   return filters;
-}
-
-export async function POST(request: Request) {
-  const data = await request.json();
-  const expense = data as CreateExpense;
-  await prisma.expense.create({ data: expense });
-}
-
-export async function PUT(request: Request) {
-  const data = await request.json();
-  const expense = data as Expense;
-  await prisma.expense.update({ where: { id: expense.id }, data: expense });
 }

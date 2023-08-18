@@ -1,55 +1,71 @@
 'use client';
+import { Alert } from '@Components/Structure/Alert';
 import { StandardForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
-import { MoneyUtil } from '@Lib/Treat/Money';
+import { DateUtil } from '@Lib/Treat/Date';
+import { appendQueryParams } from '@Lib/Treat/Request';
 import { ZodValidator } from '@Lib/Validators/Zod';
-import { CreateExpense } from '@Types/Expense/types';
-import { ExpenseType } from '@prisma/client';
-import { confirmAlert } from 'react-confirm-alert';
-import { UseFormReturn } from 'react-hook-form';
+import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
+import { Expense, ExpenseType } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 
 interface IExpenseForm {
+  expense: ExpenseDto;
   expenseTypes: ExpenseType[];
 }
 
 interface IExpenseSubmit {
   name: string;
-  value: string;
+  value: number;
   dueDate: string;
-  expenseType: ExpenseType;
+  expenseType: string;
 }
 
-export default function ExpenseForm({ expenseTypes }: IExpenseForm) {
-  const { inputs, validationSchema } = useFormData(expenseTypes);
+export default function ExpenseForm(props: IExpenseForm) {
+  const { inputs, validationSchema } = useFormData(props);
+  const router = useRouter();
 
-  const onFormSubmit = (
-    data: IExpenseSubmit,
-    formContext: UseFormReturn<any>
-  ) => {
-    const expense: CreateExpense = {
-      name: data.name,
-      value: MoneyUtil.toFloat(data.value),
-      dueDate: new Date(data.dueDate),
-      type: data.expenseType.id
+  const onFormSubmit = async (submitData: IExpenseSubmit) => {
+    const data: CreateExpense = {
+      name: submitData.name,
+      value: submitData.value,
+      dueDate: new Date(submitData.dueDate),
+      type: submitData.expenseType
     };
-    fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expens2des`, {
-      method: 'POST',
-      body: JSON.stringify(expense)
-    })
-      .then((value) => value.json().then((response) => console.log(response)))
-      .catch((reason: any) => {
-        confirmAlert({
-          title: 'Error ao realizar cadastro',
-          message: 'Verifique os dados enviados.',
-          buttons: [
-            {
-              label: 'Ok',
-              onClick: () => formContext.reset()
-            }
-          ]
-        });
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`,
+        {
+          method: 'POST',
+          body: JSON.stringify(data)
+        }
+      );
+
+      const createdExpense: Expense = await response.json();
+
+      Alert({
+        message: 'Alterações salvas com sucesso.',
+        variant: 'success',
+        timer: 1500,
+        callbackFunction: () => {
+          const url = appendQueryParams('/expenses/edit', {
+            id: createdExpense.id
+          });
+          router.push(url);
+        }
       });
+    } catch (error) {
+      Alert({
+        title: 'Falha no cadastro',
+        message: 'Verifique os dados informados.',
+        variant: 'error',
+        allowOutsideClick: true,
+        allowEscapeKey: true
+      });
+      Promise.resolve();
+    }
   };
 
   return (
@@ -64,27 +80,33 @@ export default function ExpenseForm({ expenseTypes }: IExpenseForm) {
   );
 }
 
-function useFormData(expenseTypes: ExpenseType[]) {
+function useFormData({ expense, expenseTypes }: IExpenseForm) {
   const inputs: IStandardInput[] = [
     {
       name: 'name',
-      label: 'Nome'
+      label: 'Nome',
+      initialValue: expense.name
     },
     {
       name: 'value',
       label: 'Valor',
-      type: 'number'
+      type: 'number',
+      initialValue: expense.value
     },
     {
       name: 'dueDate',
       label: 'Data de Vencimento',
-      type: 'date' as const
+      type: 'date' as const,
+      initialValue: expense.dueDate
+        ? DateUtil.isoFromString(expense.dueDate)
+        : expense.dueDate
     },
     {
       name: 'expenseType',
       label: 'Tipo',
       type: 'select',
-      options: expenseTypes
+      options: expenseTypes,
+      initialValue: expense.expenseType
     }
   ];
 

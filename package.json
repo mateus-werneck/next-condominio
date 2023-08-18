@@ -41,6 +41,7 @@
     "react-hook-form-resolvers": "^0.0.1",
     "react-input-mask": "^2.0.4",
     "styled-components": "^6.0.0-rc.1",
+    "sweetalert2": "^11.7.23",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
     "zod": "^3.21.4"
