@@ -20,3 +20,14 @@ export async function GET(
 
   return NextResponse.json(expense);
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params: { id } }: IExpenseParams
+) {
+  await prisma.expense.delete({
+    where: { id }
+  });
+
+  return NextResponse.json({});
+}

@@ -5,10 +5,11 @@ interface IAlert {
   message: string;
   variant: 'info' | 'success' | 'error' | 'warning' | 'question';
   cancelButton?: boolean;
+  focusCancel?: boolean;
   allowOutsideClick?: boolean;
   allowEscapeKey?: boolean;
   timer?: number;
-  callbackFunction?: () => void;
+  callbackFunction?: () => void | Promise<void>;
 }
 
 export function Alert(props: IAlert) {
@@ -17,16 +18,19 @@ export function Alert(props: IAlert) {
     icon: props.variant,
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancelar',
+    cancelButtonColor: 'rgb(234 88 12)',
     showCancelButton: props.cancelButton === true,
     allowOutsideClick: props.allowOutsideClick === true,
-    allowEscapeKey: props.allowEscapeKey === true
+    allowEscapeKey: props.allowEscapeKey === true,
+    focusCancel: props.focusCancel === true
   };
 
   appendTitle(config, props.title);
   appendTimer(config, props.timer);
 
   Swal.fire(config).then(
-    () => props.callbackFunction && props.callbackFunction()
+    (value) =>
+      props.callbackFunction && value.isConfirmed && props.callbackFunction()
   );
 }
 

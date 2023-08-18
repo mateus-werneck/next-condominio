@@ -1,15 +1,18 @@
 'use client';
 
+import { Alert } from '@Components/Structure/Alert';
 import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
 import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { Expense } from '@prisma/client';
+import { useState } from 'react';
 import { getTableAddButton } from '../utils/customButtons';
 
 interface ITableListExpenses {
-  rows: any[];
+  rows: Expense[];
   loading: boolean;
 }
 
@@ -18,7 +21,9 @@ export default function TableListExpenses({
   loading
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
-  const { getTableActions } = useTableActions(table);
+  const [expenses, setExpenses] = useState<Expense[]>(rows);
+
+  const { getTableActions } = useTableActions(table, setExpenses);
 
   const columns = [
     { field: 'name', headerName: 'Nome', minWidth: 300 },
@@ -47,14 +52,18 @@ export default function TableListExpenses({
     <StandardTable
       name={table}
       columns={columns}
-      rows={rows}
+      rows={expenses}
       customToolbar={getTableAddButton('/expenses/new')}
       loading={loading}
+      checkBoxSelection={false}
     />
   );
 }
 
-function useTableActions(table: string) {
+function useTableActions(
+  table: string,
+  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void
+) {
   function getTableActions() {
     return {
       field: 'actions',
@@ -72,7 +81,24 @@ function useTableActions(table: string) {
             >
               <EditIcon fontSize="small" key={`${table}_Edit_${row.id}`} />
             </DefaultButton>
-            <DefaultButton color="error" key={`${table}_Delete_${row.id}`}>
+            <DefaultButton
+              color="error"
+              key={`${table}_Delete_${row.id}`}
+              onClickFunction={() => {
+                Alert({
+                  title: 'Alerta',
+                  message: 'Tem certeza que deseja deletar ?',
+                  variant: 'warning',
+                  cancelButton: true,
+                  focusCancel: true,
+                  allowEscapeKey: true,
+                  allowOutsideClick: true,
+                  callbackFunction: async () => {
+                    await onDeleteAction(row.id);
+                  }
+                });
+              }}
+            >
               <DeleteIcon fontSize="small" key={`${table}_Delete_${row.id}`} />
             </DefaultButton>
           </div>
@@ -80,5 +106,33 @@ function useTableActions(table: string) {
       }
     };
   }
+
+  async function onDeleteAction(id: string) {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses/${id}`, {
+        method: 'DELETE'
+      });
+    } catch (error) {
+      Alert({
+        title: 'Falha ao remover registro',
+        message: 'Por favor, tente novamente.',
+        variant: 'error',
+        allowOutsideClick: true,
+        allowEscapeKey: true
+      });
+      Promise.resolve();
+    }
+
+    setExpenses((previousValue: Expense[]) =>
+      previousValue.filter((expense) => expense.id != id)
+    );
+
+    Alert({
+      message: 'Alterações salvas com sucesso.',
+      variant: 'success',
+      timer: 1500
+    });
+  }
+
   return { getTableActions };
 }
