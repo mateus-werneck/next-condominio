@@ -2,6 +2,7 @@
 import { NavLink } from '@Components/Structure/Header/NavLink';
 import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
+import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
 import { CSSProperties, useCallback, useState } from 'react';
 import { MobileActions } from './MobileActions';
@@ -48,6 +49,13 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
         className={getStyledNavBarName()}
         style={getStyledNavBarCustomStyle()}
       >
+        <Link
+          key="home"
+          href="/"
+          className="flex gap-2 items-center justify-center self-center hover:text-[var(--orange)] mb-1"
+        >
+          <HomeIcon fontSize="medium" />
+        </Link>
         {getRenderedNavMenu()}
       </nav>
     );
