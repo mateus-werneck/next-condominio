@@ -29,6 +29,12 @@ export default function TableListExpenses({
       valueFormatter: (params: any) => MoneyUtil.toBRL(params.value)
     },
     {
+      field: 'expenseType',
+      headerName: 'Tipo',
+      minWidth: 300,
+      valueFormatter: (params: any) => params.value.label
+    },
+    {
       field: 'dueDate',
       headerName: 'Data de Vencimento',
       minWidth: 200,
@@ -62,7 +68,7 @@ function useTableActions(table: string) {
             <DefaultButton
               key={`${table}_Edit_${row.id}`}
               color="primary"
-              route={`eventos/${row.id}`}
+              route={`expenses/edit?id=${row.id}`}
             >
               <EditIcon fontSize="small" key={`${table}_Edit_${row.id}`} />
             </DefaultButton>

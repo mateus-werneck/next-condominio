@@ -36,6 +36,7 @@ function getConditions(searchParams: URLSearchParams) {
   if (!searchParams.size) return {};
 
   const filters: Prisma.ExpenseFindManyArgs<DefaultArgs> = {
+    include: { expenseType: true },
     where: {}
   };
 
