@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Breadcrumb from '../Breadcrumb';
 
 interface IMain {
   children: React.ReactNode;
@@ -7,6 +8,7 @@ interface IMain {
 export default function Main({ children }: IMain) {
   return (
     <main className="flex flex-col flex-grow p-4 mb-8 min-h-screen">
+      <Breadcrumb />
       {children}
     </main>
   );
