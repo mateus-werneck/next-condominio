@@ -1,14 +1,18 @@
 'use client';
 
-import { Alert } from '@Components/Structure/Alert';
 import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
+import {
+  alertDeletion,
+  alertEditSuccess,
+  onDeleteAction
+} from '@Lib/Alerts/customActions';
+import { IFilter, appendQueryParams } from '@Lib/Treat/Request';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useState } from 'react';
-import { onDeleteAction } from '../utils/customActions';
 import { getTableAddButton } from '../utils/customButtons';
 
 interface ITableListExpenses {
@@ -60,6 +64,25 @@ export default function TableListExpenses({
       customToolbar={getTableAddButton('/expenses/new')}
       loading={loading}
       checkBoxSelection={true}
+      onDelete={(selectedRows: string[]) => {
+        const onConfirmDeletion = async () => {
+          const queryParams = {
+            expenseIds: selectedRows.join(',')
+          } as IFilter;
+
+          const url: string = appendQueryParams(
+            `${process.env.NEXT_PUBLIC_URL}/expenses`,
+            queryParams
+          );
+
+          await fetch(url, {
+            method: 'DELETE'
+          });
+
+          alertEditSuccess();
+        };
+        alertDeletion(onConfirmDeletion);
+      }}
     />
   );
 }
@@ -89,21 +112,13 @@ function useTableActions(
               color="error"
               key={`${table}_Delete_${row.id}`}
               onClickFunction={() => {
-                Alert({
-                  title: 'Alerta',
-                  message: 'Tem certeza que deseja deletar ?',
-                  variant: 'warning',
-                  cancelButton: true,
-                  focusCancel: true,
-                  allowEscapeKey: true,
-                  allowOutsideClick: true,
-                  callbackFunction: async () => {
-                    await onDeleteAction({
-                      info: { id: row.id, endpoint: 'expenses' },
-                      callback: setExpenses
-                    });
-                  }
-                });
+                const onConfirmDeletion = async () => {
+                  await onDeleteAction({
+                    info: { id: row.id, endpoint: 'expenses' },
+                    callback: setExpenses
+                  });
+                };
+                alertDeletion(onConfirmDeletion);
               }}
             >
               <DeleteIcon fontSize="small" key={`${table}_Delete_${row.id}`} />

@@ -1,4 +1,4 @@
-import { Alert } from '@Components/Structure/Alert';
+import { Alert, IAlert } from '@Components/Structure/Alert';
 
 interface IDeleteAction {
   info: IEntityInfo;
@@ -12,6 +12,37 @@ interface IEntityInfo {
 
 interface Entity {
   id: string;
+}
+
+export function alertEditSuccess(
+  callbackFunction?: () => void | Promise<void>
+) {
+  const alertParams: IAlert = {
+    message: 'Alterações salvas com sucesso.',
+    variant: 'success',
+    timer: 1500
+  };
+
+  if (callbackFunction !== undefined) {
+    Object.assign(alertParams, { callbackFunction });
+  }
+
+  Alert(alertParams);
+}
+
+export function alertDeletion(
+  onConfirmFunction: () => void | Promise<void>
+): void {
+  Alert({
+    title: 'Alerta',
+    message: 'Tem certeza que deseja deletar?',
+    variant: 'warning',
+    cancelButton: true,
+    focusCancel: true,
+    allowEscapeKey: true,
+    allowOutsideClick: true,
+    callbackFunction: onConfirmFunction
+  });
 }
 
 export async function onDeleteAction({

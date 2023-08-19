@@ -32,6 +32,17 @@ export async function PUT(request: NextRequest) {
   return NextResponse.json(updatedExpense);
 }
 
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const ids: string | null = searchParams.get('ids');
+
+  if (!ids) return NextResponse.json({});
+
+  await prisma.expense.deleteMany({ where: { id: { in: ids.split(',') } } });
+
+  return NextResponse.json({});
+}
+
 function getConditions(searchParams: URLSearchParams) {
   if (!searchParams.size) return {};
 

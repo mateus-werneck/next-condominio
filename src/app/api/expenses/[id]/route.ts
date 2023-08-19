@@ -3,7 +3,7 @@ import { Expense } from '@prisma/client';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-interface IExpenseParams {
+export interface IExpenseParams {
   params: {
     id: string;
   };

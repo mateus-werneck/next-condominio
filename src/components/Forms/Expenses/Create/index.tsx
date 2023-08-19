@@ -2,6 +2,7 @@
 import { Alert } from '@Components/Structure/Alert';
 import { StandardForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
+import { alertEditSuccess } from '@Lib/Alerts/customActions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { appendQueryParams } from '@Lib/Treat/Request';
 import { ZodValidator } from '@Lib/Validators/Zod';
@@ -45,17 +46,14 @@ export default function ExpenseForm(props: IExpenseForm) {
 
       const createdExpense: Expense = await response.json();
 
-      Alert({
-        message: 'Alterações salvas com sucesso.',
-        variant: 'success',
-        timer: 1500,
-        callbackFunction: () => {
-          const url = appendQueryParams('/expenses/edit', {
-            id: createdExpense.id
-          });
-          router.push(url);
-        }
-      });
+      const callbackFunction = () => {
+        const url = appendQueryParams('/expenses/edit', {
+          id: createdExpense.id
+        });
+        router.push(url);
+      };
+
+      alertEditSuccess(callbackFunction);
     } catch (error) {
       Alert({
         title: 'Falha no cadastro',

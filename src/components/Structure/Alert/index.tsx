@@ -1,6 +1,6 @@
 import Swal, { SweetAlertOptions } from 'sweetalert2';
 
-interface IAlert {
+export interface IAlert {
   title?: string;
   message: string;
   variant: 'info' | 'success' | 'error' | 'warning' | 'question';

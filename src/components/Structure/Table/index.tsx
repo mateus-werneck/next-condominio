@@ -79,7 +79,6 @@ function useCustomTable(props: ITableData) {
   const customBarElements = getCustomBarElements();
   const [customToolbar, setCustomToolbar] =
     useState<JSX.Element[]>(customBarElements);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   const CustomToolbar = useCallback(() => {
     return (
@@ -100,37 +99,51 @@ function useCustomTable(props: ITableData) {
   }
 
   const handleSelection = (newSelection: GridRowSelectionModel) => {
-    if (props.onDelete === undefined) return;
+    if (!shouldHandleSelection()) return;
 
-    setSelectedRows(newSelection.map((row) => String(row)));
+    const currentSelectedRows = newSelection.map((row) => String(row));
 
-    if (!newSelection.length) {
-      setCustomToolbar(customBarElements);
-      return;
+    if (newSelection.length) {
+      showDeleteButton(currentSelectedRows);
+    } else {
+      hideDeleteButton();
     }
+  };
 
-    if (hasDeleteButtonAlready()) return;
+  function shouldHandleSelection(): boolean {
+    return props.onDelete !== undefined;
+  }
 
-    const deleteButton = getDeleteButton();
+  function showDeleteButton(currentSelectedRows: string[]): void {
+    if (isDeleteButtonVisible()) return;
+
+    const deleteButton = getDeleteButton(currentSelectedRows);
+
     setCustomToolbar(
       (previousValue: JSX.Element[]) =>
         [...previousValue, deleteButton] as JSX.Element[]
     );
-  };
-
-  function hasDeleteButtonAlready(): boolean {
-    return (
-      customToolbar.find((element) => element.key === getDeleteButtonKey()) !==
-      undefined
-    );
   }
 
-  function getDeleteButton() {
+  function isDeleteButtonVisible(): boolean {
+    const deleteButton = customToolbar.find(
+      (element) => element.key === getDeleteButtonKey()
+    );
+    return deleteButton !== undefined;
+  }
+
+  function hideDeleteButton(): void {
+    setCustomToolbar(customBarElements);
+  }
+
+  function getDeleteButton(currentSelectedRows: string[]) {
     return (
       <DefaultButton
         key={getDeleteButtonKey()}
         variant="text"
-        onClickFunction={() => props.onDelete && props.onDelete(selectedRows)}
+        onClickFunction={() =>
+          props.onDelete && props.onDelete(currentSelectedRows)
+        }
       >
         <DeleteIcon fontSize="small" />
         Remover
