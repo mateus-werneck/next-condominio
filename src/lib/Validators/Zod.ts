@@ -1,9 +1,10 @@
+import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { z } from 'zod';
 
 export class ZodValidator {
   /* eslint-disable camelcase */
-  public static currency() {
+  public static brl() {
     return z
       .string({ required_error: 'Valor informado inválido' })
       .refine((value) => {
@@ -23,5 +24,19 @@ export class ZodValidator {
         (value: string) => new Date(value).toString() !== 'Invalid Date',
         'Data informada inválida.'
       );
+  }
+
+  public static ptBrDate() {
+    return z
+      .string({
+        required_error: 'Campo Obrigatório',
+        invalid_type_error: 'Data informada inválida.'
+      })
+      .refine(
+        (value: string) =>
+          DateUtil.fromPtBrStringToDate(value).toString() !== 'Invalid Date',
+        'Data informada inválida.'
+      )
+      .transform(DateUtil.fromPtBrStringToIsoString);
   }
 }

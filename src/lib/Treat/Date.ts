@@ -35,7 +35,7 @@ export class DateUtil {
 
   public static fromPtBrStringToIsoString(value: string): string {
     const date = new Date(value);
-    return this.fromDateToIsoString(date);
+    return DateUtil.fromDateToIsoString(date);
   }
 
   public static getMonthRange(month: number | undefined = undefined): {

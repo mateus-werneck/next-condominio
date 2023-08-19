@@ -27,7 +27,7 @@ module.exports = {
     "import/no-unresolved": 1,
     "class-methods-use-this": 1,
     "import/prefer-default-export": 0,
-    "no-shadow": 1,
+    "no-shadow": 0,
     "no-console": 1,
     "no-useless-constructor": 1,
     "no-empty-function": 1,

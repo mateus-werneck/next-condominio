@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 import { ISelectOption } from '../Select/types';
+import { Masks } from './utils/inputMask';
 
 export interface IFormInput extends IStandardInput {
   hasErrors: boolean;
@@ -29,6 +30,8 @@ export type IStandardInput = {
     | 'url'
     | 'tel'
     | 'select';
+  mask?: Masks;
+  maskChar?: string;
   initialValue?: any;
   styles?: CSSProperties;
   readOnly?: boolean;

@@ -2,6 +2,7 @@
 import { Alert } from '@Components/Structure/Alert';
 import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
+import { Masks } from '@Components/Structure/Form/Input/utils/inputMask';
 import { ISubmitForm } from '@Components/Structure/Form/types';
 import { alertEditSuccess } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
@@ -75,12 +76,14 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       name: 'value',
       label: 'Valor',
       type: 'number',
-      initialValue: expense.value
+      initialValue: expense.value,
+      mask: Masks.BRL
     },
     {
       name: 'dueDate',
       label: 'Data de Vencimento',
-      type: 'date' as const,
+      mask: Masks.DATE,
+      placeHolder: 'DD/MM/YYYY',
       initialValue: expense.dueDate
         ? DateUtil.fromPtBrStringToIsoString(expense.dueDate)
         : expense.dueDate
@@ -99,8 +102,8 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
     name: z
       .string({ required_error: 'Campo Obrigatório.' })
       .min(5, 'O campo deve conter no mínimo 5 caracteres.'),
-    value: ZodValidator.currency(),
-    dueDate: ZodValidator.date(),
+    value: ZodValidator.brl(),
+    dueDate: ZodValidator.ptBrDate(),
     expenseType: z
       .object(
         {
