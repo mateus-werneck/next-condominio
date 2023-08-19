@@ -7,6 +7,15 @@ import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import {
+  GridColDef,
+  GridTreeNodeWithRender,
+  GridValueFormatterParams,
+  GridValueGetterParams,
+  getGridDateOperators,
+  getGridNumericOperators,
+  getGridStringOperators
+} from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useState } from 'react';
 import { getTableAddButton } from '../utils/customButtons';
@@ -25,25 +34,42 @@ export default function TableListExpenses({
 
   const { getTableActions } = useTableActions(table, setExpenses);
 
-  const columns = [
-    { field: 'name', headerName: 'Nome', minWidth: 300 },
+  const columns: GridColDef[] = [
+    {
+      field: 'name',
+      headerName: 'Nome',
+      minWidth: 300,
+      filterOperators: getGridStringOperators()
+    },
     {
       field: 'value',
       headerName: 'Valor',
       minWidth: 300,
-      valueFormatter: (params: any) => MoneyUtil.toBRL(params.value)
+      valueFormatter: (params: any) => MoneyUtil.toBRL(params.value),
+      filterOperators: getGridNumericOperators()
     },
     {
       field: 'expenseType',
       headerName: 'Tipo',
       minWidth: 300,
-      valueFormatter: (params: any) => params.value.label
+      valueFormatter: (params: any) => params.value.label,
+      filterOperators: getGridStringOperators()
     },
     {
       field: 'dueDate',
       headerName: 'Data de Vencimento',
       minWidth: 200,
-      valueFormatter: (params: any) => DateUtil.toLocalePtBr(params.value)
+      valueFormatter: (params: GridValueFormatterParams<any>) => {
+        const date = new Date(params.value).toISOString();
+        const offset = DateUtil.BRTOffset(date);
+        return DateUtil.fromDateToPtBrString(offset);
+      },
+      valueGetter: (
+        params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
+      ) => {
+        return DateUtil.GMTOffset(params.value);
+      },
+      filterOperators: getGridDateOperators()
     },
     getTableActions()
   ];

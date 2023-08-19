@@ -7,8 +7,8 @@ export const fetchExpenses = async (
   monthRange: MonthRange
 ): Promise<Expense[]> => {
   const url = appendQueryParams('http://localhost/api/expenses', {
-    startAt: DateUtil.toIsoStringDate(monthRange.startAt),
-    endAt: DateUtil.toIsoStringDate(monthRange.endAt)
+    startAt: DateUtil.fromDateToIsoString(monthRange.startAt),
+    endAt: DateUtil.fromDateToIsoString(monthRange.endAt)
   });
 
   const response = await fetch(url.toString(), {

@@ -32,7 +32,9 @@ export const localeText = {
   'filterOperator>=': 'Maior ou igual que',
   'filterOperator!=': 'Diferente de',
   filterOperatorOnOrAfter: 'A partir de',
-  filterOperatorOnOrBefore: 'Antes de',
+  filterOperatorOnOrBefore: 'Antes ou igual',
+  filterOperatorIs: 'Igual',
+  filterOperatorNot: 'Diferente de',
   columnMenuHideColumn: 'Ocultar',
   columnMenuFilter: 'Filtro',
   columnMenuManageColumns: 'Colunas',
@@ -45,6 +47,7 @@ export const localeText = {
   columnsPanelTextFieldPlaceholder: 'Nome da coluna',
   checkboxSelectionHeaderName: 'Exibir Caixa de Seleção',
   noRowsLabel: 'Nenhum registro encontrado.',
+  noResultsOverlayLabel: 'Nenhum registro encontrado.',
   rowReorderingHeaderName: 'Ordenar',
   footerTotalRows: 'Total de linhas',
   footerTotalVisibleRows: (visibleCount, totalCount) =>

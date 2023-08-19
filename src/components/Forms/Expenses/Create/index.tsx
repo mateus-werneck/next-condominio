@@ -98,7 +98,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       label: 'Data de Vencimento',
       type: 'date' as const,
       initialValue: expense.dueDate
-        ? DateUtil.isoFromString(expense.dueDate)
+        ? DateUtil.fromPtBrStringToIsoString(expense.dueDate)
         : expense.dueDate
     },
     {
