@@ -34,11 +34,13 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const ids: string | null = searchParams.get('ids');
+  const expenseIds: string | null = searchParams.get('expenseIds');
 
-  if (!ids) return NextResponse.json({});
+  if (!expenseIds) return NextResponse.json({});
 
-  await prisma.expense.deleteMany({ where: { id: { in: ids.split(',') } } });
+  await prisma.expense.deleteMany({
+    where: { id: { in: expenseIds.split(',') } }
+  });
 
   return NextResponse.json({});
 }

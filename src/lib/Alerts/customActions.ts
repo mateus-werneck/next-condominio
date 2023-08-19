@@ -45,6 +45,16 @@ export function alertDeletion(
   });
 }
 
+export function alertDeletionFailed(): void {
+  Alert({
+    title: 'Falha ao remover registro(s).',
+    message: 'Por favor, tente novamente.',
+    variant: 'error',
+    allowOutsideClick: true,
+    allowEscapeKey: true
+  });
+}
+
 export async function onDeleteAction({
   info: { id, endpoint },
   callback
@@ -54,13 +64,7 @@ export async function onDeleteAction({
       method: 'DELETE'
     });
   } catch (error) {
-    Alert({
-      title: 'Falha ao remover registro',
-      message: 'Por favor, tente novamente.',
-      variant: 'error',
-      allowOutsideClick: true,
-      allowEscapeKey: true
-    });
+    alertDeletionFailed();
     Promise.resolve();
   }
 

@@ -4,10 +4,11 @@ import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
 import {
   alertDeletion,
+  alertDeletionFailed,
   alertEditSuccess,
   onDeleteAction
 } from '@Lib/Alerts/customActions';
-import { IFilter, appendQueryParams } from '@Lib/Treat/Request';
+import { publicAPI } from '@Lib/Client/api';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { GridColDef } from '@mui/x-data-grid';
@@ -56,6 +57,28 @@ export default function TableListExpenses({
     getTableActions()
   ];
 
+  const onBatchDelete = async (selectedRows: string[]) => {
+    const onConfirmDeletion = async () => {
+      try {
+        await publicAPI.delete(`/expenses`, {
+          params: {
+            expenseIds: selectedRows.join(',')
+          }
+        });
+
+        setExpenses((previousExpenses: Expense[]) =>
+          previousExpenses.filter(({ id }) => !selectedRows.includes(id))
+        );
+
+        alertEditSuccess();
+      } catch (error) {
+        alertDeletionFailed();
+      }
+    };
+
+    alertDeletion(onConfirmDeletion);
+  };
+
   return (
     <StandardTable
       name={table}
@@ -64,25 +87,7 @@ export default function TableListExpenses({
       customToolbar={getTableAddButton('/expenses/new')}
       loading={loading}
       checkBoxSelection={true}
-      onDelete={(selectedRows: string[]) => {
-        const onConfirmDeletion = async () => {
-          const queryParams = {
-            expenseIds: selectedRows.join(',')
-          } as IFilter;
-
-          const url: string = appendQueryParams(
-            `${process.env.NEXT_PUBLIC_URL}/expenses`,
-            queryParams
-          );
-
-          await fetch(url, {
-            method: 'DELETE'
-          });
-
-          alertEditSuccess();
-        };
-        alertDeletion(onConfirmDeletion);
-      }}
+      onBatchDelete={onBatchDelete}
     />
   );
 }

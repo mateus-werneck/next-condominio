@@ -23,7 +23,7 @@ interface ITableData {
   rowsPerPage?: number;
   checkBoxSelection?: boolean;
   customToolbar?: JSX.Element[];
-  onDelete?: (selectedRows: string[]) => void;
+  onBatchDelete?: (selectedRows: string[]) => void;
   loading?: boolean;
 }
 
@@ -111,7 +111,7 @@ function useCustomTable(props: ITableData) {
   };
 
   function shouldHandleSelection(): boolean {
-    return props.onDelete !== undefined;
+    return props.onBatchDelete !== undefined;
   }
 
   function showDeleteButton(currentSelectedRows: string[]): void {
@@ -142,7 +142,7 @@ function useCustomTable(props: ITableData) {
         key={getDeleteButtonKey()}
         variant="text"
         onClickFunction={() =>
-          props.onDelete && props.onDelete(currentSelectedRows)
+          props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }
       >
         <DeleteIcon fontSize="small" />
