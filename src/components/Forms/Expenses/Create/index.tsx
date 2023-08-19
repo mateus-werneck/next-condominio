@@ -1,14 +1,13 @@
 'use client';
 import { Alert } from '@Components/Structure/Alert';
-import { StandardForm } from '@Components/Structure/Form';
+import StandardForm, { ISubmitForm } from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { alertEditSuccess } from '@Lib/Alerts/customActions';
+import { publicAPI } from '@Lib/Client/api';
 import { DateUtil } from '@Lib/Treat/Date';
-import { appendQueryParams } from '@Lib/Treat/Request';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
-import { Expense, ExpenseType } from '@prisma/client';
-import { useRouter } from 'next/navigation';
+import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
 interface IExpenseForm {
@@ -25,9 +24,11 @@ interface IExpenseSubmit {
 
 export default function ExpenseForm(props: IExpenseForm) {
   const { inputs, validationSchema } = useFormData(props);
-  const router = useRouter();
 
-  const onFormSubmit = async (submitData: IExpenseSubmit) => {
+  const onFormSubmit: ISubmitForm = async (
+    submitData: IExpenseSubmit,
+    { reset }
+  ) => {
     const data: CreateExpense = {
       name: submitData.name,
       value: submitData.value,
@@ -36,24 +37,8 @@ export default function ExpenseForm(props: IExpenseForm) {
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`,
-        {
-          method: 'POST',
-          body: JSON.stringify(data)
-        }
-      );
-
-      const createdExpense: Expense = await response.json();
-
-      const callbackFunction = () => {
-        const url = appendQueryParams('/expenses/edit', {
-          id: createdExpense.id
-        });
-        router.push(url);
-      };
-
-      alertEditSuccess(callbackFunction);
+      await publicAPI.post('expenses', data);
+      alertEditSuccess(reset);
     } catch (error) {
       Alert({
         title: 'Falha no cadastro',

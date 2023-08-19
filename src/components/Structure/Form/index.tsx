@@ -1,28 +1,25 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CircularProgress } from '@mui/material';
-import { UseFormHandleSubmit, UseFormReturn, useForm } from 'react-hook-form';
-import { ZodType, z } from 'zod';
+import {
+  Control,
+  FieldErrors,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  useForm
+} from 'react-hook-form';
+import { z } from 'zod';
 import DefaultButton from '../Button';
 import { IStandardInput } from './Input/types';
-import { getFormInputs } from './Utils/FormInputs';
+import { IStandardSelect } from './Select/types';
+import { IStandardForm } from './types';
+import { getSelectInput, getStandardInput } from './utils/formInputs';
 
-interface IStandardForm {
-  inputs: IStandardInput[];
-  validationSchema: ZodType;
-  onSubmit: (
-    data: any,
-    formContext: UseFormReturn<any>
-  ) => void | Promise<void>;
-  submitButtonText?: string;
-  align?: 'self-center' | 'self-start' | 'self-end';
-}
-
-export const StandardForm = ({
+export default function StandardForm({
   inputs,
   validationSchema,
   onSubmit,
   submitButtonText
-}: IStandardForm) => {
+}: IStandardForm) {
   type FormDataType = z.infer<typeof validationSchema>;
 
   const formContext = useForm<FormDataType>({
@@ -58,7 +55,20 @@ export const StandardForm = ({
         )}
     </div>
   );
-};
+}
+
+function getFormInputs(
+  inputs: IStandardInput[],
+  register: UseFormRegister<any>,
+  control: Control<any, any>,
+  errors: FieldErrors<any>
+): JSX.Element[] {
+  return inputs.map((formInput) => {
+    return formInput.type == 'select'
+      ? getSelectInput(formInput as IStandardSelect, control, errors)
+      : getStandardInput(formInput, register, errors);
+  });
+}
 
 function getSubmitButton(
   submitButtonText: string,
