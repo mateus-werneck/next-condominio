@@ -1,5 +1,5 @@
 'use client';
-import { StandardForm } from '@Components/Structure/Form';
+import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';

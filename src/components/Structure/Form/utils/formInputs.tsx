@@ -2,36 +2,9 @@ import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { StandardInput } from '../Input';
 import { IStandardInput } from '../Input/types';
 import { StandardSelect } from '../Select';
-import { IStandardSelect } from '../Select/types.ts';
+import { IStandardSelect } from '../Select/types';
 
-export function getFormInputs(
-  inputs: IStandardInput[],
-  register: UseFormRegister<any>,
-  control: Control<any, any>,
-  errors: FieldErrors<any>
-): JSX.Element[] {
-  return inputs.map((formInput) =>
-    getEachFormInput(formInput, register, control, errors)
-  );
-}
-
-function getEachFormInput(
-  formInput: IStandardInput,
-  register: UseFormRegister<any>,
-  control: Control<any, any>,
-  errors: FieldErrors<any>
-) {
-  if (isSelectInput(formInput.type)) {
-    return getSelectInput(formInput as IStandardSelect, control, errors);
-  }
-  return getStandardInput(formInput, register, errors);
-}
-
-function isSelectInput(inputType?: string) {
-  return inputType === 'select';
-}
-
-function getStandardInput(
+export function getStandardInput(
   formInput: IStandardInput,
   register: UseFormRegister<any>,
   errors: FieldErrors<any>
@@ -49,7 +22,7 @@ function getStandardInput(
   );
 }
 
-function getSelectInput(
+export function getSelectInput(
   formInput: IStandardSelect,
   control: Control<any, any>,
   errors: FieldErrors<any>
