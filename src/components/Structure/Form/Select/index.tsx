@@ -51,16 +51,17 @@ export const StandardSelect = ({
         <Autocomplete
           sx={customStyles}
           className="sm:max-w-[228px] xl:max-w-sm"
+          value={_field.value || []}
           defaultValue={initialValue}
           loading={options === undefined}
           multiple={multiSelect === undefined ? false : multiSelect}
           onChange={(_, data) => onChange(data)}
           autoHighlight
           readOnly={readOnly === undefined ? false : readOnly}
-          options={ObjectUtil.sort(options, 'label')}
+          options={ObjectUtil.sort(options, 'label') || []}
           fullWidth
           isOptionEqualToValue={(option, value) => option.id == value.id}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(option) => (option.label ? option.label : '')}
           renderOption={(props, option) => {
             return (
               <li {...props} key={option.label} style={{ fontSize: '0.75rem' }}>

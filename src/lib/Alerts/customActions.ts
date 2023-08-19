@@ -20,12 +20,9 @@ export function alertEditSuccess(
   const alertParams: IAlert = {
     message: 'Alterações salvas com sucesso.',
     variant: 'success',
-    timer: 1500
+    timer: 1500,
+    callbackFunction
   };
-
-  if (callbackFunction !== undefined) {
-    Object.assign(alertParams, { callbackFunction });
-  }
 
   Alert(alertParams);
 }

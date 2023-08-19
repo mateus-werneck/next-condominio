@@ -28,10 +28,17 @@ export function Alert(props: IAlert) {
   appendTitle(config, props.title);
   appendTimer(config, props.timer);
 
-  Swal.fire(config).then(
-    (value) =>
-      props.callbackFunction && value.isConfirmed && props.callbackFunction()
-  );
+  Swal.fire(config).then((value) => {
+    if (!props.callbackFunction) {
+      return;
+    }
+    if (
+      value.isConfirmed ||
+      (value.isDismissed && value.dismiss == Swal.DismissReason.timer)
+    ) {
+      props.callbackFunction();
+    }
+  });
 }
 
 function appendTitle(config: SweetAlertOptions, title?: string) {

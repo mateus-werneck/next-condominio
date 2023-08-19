@@ -1,7 +1,8 @@
 'use client';
 import { Alert } from '@Components/Structure/Alert';
-import StandardForm, { ISubmitForm } from '@Components/Structure/Form';
+import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/types';
+import { ISubmitForm } from '@Components/Structure/Form/types';
 import { alertEditSuccess } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
 import { DateUtil } from '@Lib/Treat/Date';
