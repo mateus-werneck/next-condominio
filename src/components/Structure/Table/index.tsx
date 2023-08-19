@@ -12,6 +12,7 @@ import {
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
+import { appendColumnConfig } from './utils/columns';
 import { localeText, theme } from './utils/customTable';
 
 interface ITableData {
@@ -77,7 +78,7 @@ export default function StandardTable(props: ITableData) {
           }}
           pageSizeOptions={[5, 10, 25, 50, 100]}
           key={props.name}
-          columns={props.columns}
+          columns={props.columns.map(appendColumnConfig)}
           rows={props.rows}
           localeText={localeText}
           slots={{

@@ -3,19 +3,9 @@
 import { Alert } from '@Components/Structure/Alert';
 import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
-import { DateUtil } from '@Lib/Treat/Date';
-import { MoneyUtil } from '@Lib/Treat/Money';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {
-  GridColDef,
-  GridTreeNodeWithRender,
-  GridValueFormatterParams,
-  GridValueGetterParams,
-  getGridDateOperators,
-  getGridNumericOperators,
-  getGridStringOperators
-} from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useState } from 'react';
 import { getTableAddButton } from '../utils/customButtons';
@@ -38,38 +28,25 @@ export default function TableListExpenses({
     {
       field: 'name',
       headerName: 'Nome',
-      minWidth: 300,
-      filterOperators: getGridStringOperators()
+      minWidth: 300
     },
     {
       field: 'value',
       headerName: 'Valor',
       minWidth: 300,
-      valueFormatter: (params: any) => MoneyUtil.toBRL(params.value),
-      filterOperators: getGridNumericOperators()
+      type: 'number'
     },
     {
       field: 'expenseType',
       headerName: 'Tipo',
       minWidth: 300,
-      valueFormatter: (params: any) => params.value.label,
-      filterOperators: getGridStringOperators()
+      type: 'select'
     },
     {
       field: 'dueDate',
       headerName: 'Data de Vencimento',
       minWidth: 200,
-      valueFormatter: (params: GridValueFormatterParams<any>) => {
-        const date = new Date(params.value).toISOString();
-        const offset = DateUtil.BRTOffset(date);
-        return DateUtil.fromDateToPtBrString(offset);
-      },
-      valueGetter: (
-        params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
-      ) => {
-        return DateUtil.GMTOffset(params.value);
-      },
-      filterOperators: getGridDateOperators()
+      type: 'date'
     },
     getTableActions()
   ];
