@@ -26,6 +26,7 @@ export const localeText = {
   filterOperatorIsEmpty: 'Vazio',
   filterOperatorIsNotEmpty: 'Preenchido',
   filterOperatorIsAnyOf: 'Qualquer um',
+  'filterOperator=': 'Igual',
   'filterOperator<': 'Menor que',
   'filterOperator<=': 'Menor ou igual que',
   'filterOperator>': 'Maior que',
