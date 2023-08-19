@@ -1,5 +1,10 @@
 import { Alert } from '@Components/Structure/Alert';
 
+interface IDeleteAction {
+  info: IEntityInfo;
+  callback: (value: (previousValue: any[]) => any[]) => void;
+}
+
 interface IEntityInfo {
   id: string;
   endpoint: string;
@@ -9,17 +14,14 @@ interface Entity {
   id: string;
 }
 
-export async function onDeleteAction(
-  info: IEntityInfo,
-  callback: (previousValue: any) => any
-) {
+export async function onDeleteAction({
+  info: { id, endpoint },
+  callback
+}: IDeleteAction) {
   try {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/${info.endpoint}/${info.id}`,
-      {
-        method: 'DELETE'
-      }
-    );
+    await fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/${endpoint}/${id}`, {
+      method: 'DELETE'
+    });
   } catch (error) {
     Alert({
       title: 'Falha ao remover registro',
@@ -32,7 +34,7 @@ export async function onDeleteAction(
   }
 
   callback((previousValue: Entity[]) =>
-    previousValue.filter((expense) => expense.id != info.id)
+    previousValue.filter((expense) => expense.id != id)
   );
 
   Alert({

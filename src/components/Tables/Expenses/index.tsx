@@ -98,10 +98,10 @@ function useTableActions(
                   allowEscapeKey: true,
                   allowOutsideClick: true,
                   callbackFunction: async () => {
-                    await onDeleteAction(
-                      { id: row.id, endpoint: 'expenses' },
-                      setExpenses
-                    );
+                    await onDeleteAction({
+                      info: { id: row.id, endpoint: 'expenses' },
+                      callback: setExpenses
+                    });
                   }
                 });
               }}
