@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useState } from 'react';
+import { onDeleteAction } from '../utils/customActions';
 import { getTableAddButton } from '../utils/customButtons';
 
 interface ITableListExpenses {
@@ -58,7 +59,7 @@ export default function TableListExpenses({
       rows={expenses}
       customToolbar={getTableAddButton('/expenses/new')}
       loading={loading}
-      checkBoxSelection={false}
+      checkBoxSelection={true}
     />
   );
 }
@@ -97,7 +98,10 @@ function useTableActions(
                   allowEscapeKey: true,
                   allowOutsideClick: true,
                   callbackFunction: async () => {
-                    await onDeleteAction(row.id);
+                    await onDeleteAction(
+                      { id: row.id, endpoint: 'expenses' },
+                      setExpenses
+                    );
                   }
                 });
               }}
@@ -108,33 +112,6 @@ function useTableActions(
         );
       }
     };
-  }
-
-  async function onDeleteAction(id: string) {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses/${id}`, {
-        method: 'DELETE'
-      });
-    } catch (error) {
-      Alert({
-        title: 'Falha ao remover registro',
-        message: 'Por favor, tente novamente.',
-        variant: 'error',
-        allowOutsideClick: true,
-        allowEscapeKey: true
-      });
-      Promise.resolve();
-    }
-
-    setExpenses((previousValue: Expense[]) =>
-      previousValue.filter((expense) => expense.id != id)
-    );
-
-    Alert({
-      message: 'Alterações salvas com sucesso.',
-      variant: 'success',
-      timer: 1500
-    });
   }
 
   return { getTableActions };
