@@ -2,7 +2,7 @@
 import { Alert } from '@Components/Structure/Alert';
 import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
-import { ISubmitForm } from '@Components/Structure/Form/types';
+import { ISubmitForm } from '@Components/Structure/Form/utils/types';
 import { alertEditSuccess } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
 import { Masks } from '@Lib/Input/masks';

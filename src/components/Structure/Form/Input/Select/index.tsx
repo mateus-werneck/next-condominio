@@ -35,6 +35,7 @@ export default function StandardSelect(props: IStandardSelect) {
       control={props.control}
       name={props.name}
       key={props.name}
+      defaultValue={props.initialValue ?? ''}
       rules={{
         required: props.required === undefined ? false : props.required
       }}
