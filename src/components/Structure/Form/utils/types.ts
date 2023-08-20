@@ -1,6 +1,6 @@
-import { UseFormReturn } from 'react-hook-form';
+import { Mode, UseFormReturn } from 'react-hook-form';
 import { ZodType } from 'zod';
-import { IStandardInput } from './Input/utils/types';
+import { IStandardInput } from '../Input/utils/types';
 
 export type ISubmitForm = (
   data: any,
@@ -13,4 +13,5 @@ export interface IStandardForm {
   onSubmit: ISubmitForm;
   submitButtonText?: string;
   align?: 'self-center' | 'self-start' | 'self-end';
+  mode?: Mode;
 }

@@ -14,23 +14,19 @@ import {
   IStandardMasked,
   IStandardSelect
 } from './Input/utils/types';
-import { IStandardForm } from './types';
 import {
   getMaskedInput,
   getSelectInput,
   getStandardInput
 } from './utils/form-inputs';
+import { IStandardForm } from './utils/types';
 
-export default function StandardForm({
-  inputs,
-  validationSchema,
-  onSubmit,
-  submitButtonText
-}: IStandardForm) {
-  type FormDataType = z.infer<typeof validationSchema>;
+export default function StandardForm(props: IStandardForm) {
+  type FormDataType = z.infer<typeof props.validationSchema>;
 
   const formContext = useForm<FormDataType>({
-    resolver: zodResolver(validationSchema)
+    resolver: zodResolver(props.validationSchema),
+    mode: props.mode ?? 'onChange'
   });
 
   const {
@@ -42,7 +38,7 @@ export default function StandardForm({
 
   function onSubmitFunction(data: any) {
     return new Promise<void>((resolve) => {
-      resolve(onSubmit(data, formContext));
+      resolve(props.onSubmit(data, formContext));
     });
   }
   return (
@@ -51,11 +47,11 @@ export default function StandardForm({
         className="flex flex-col mt-4 gap-4 md:grid md:grid-cols-3 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}
       >
-        {getFormInputs(inputs, register, control, errors)}
+        {getFormInputs(props.inputs, register, control, errors)}
       </form>
-      {submitButtonText &&
+      {props.submitButtonText &&
         getSubmitButton(
-          submitButtonText,
+          props.submitButtonText,
           handleSubmit,
           onSubmitFunction,
           isSubmitting

@@ -1,4 +1,4 @@
-import ExpenseForm from '@Components/Forms/Expenses/Create';
+import ExpenseForm from '@Components/Forms/Expenses/Edit';
 import { ExpenseDto } from '@Types/Expense/types';
 import { fetchExpense, fetchTypes } from '../utils/requests';
 
