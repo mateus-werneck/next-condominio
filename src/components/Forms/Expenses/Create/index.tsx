@@ -1,11 +1,11 @@
 'use client';
 import { Alert } from '@Components/Structure/Alert';
 import StandardForm from '@Components/Structure/Form';
-import { IStandardInput } from '@Components/Structure/Form/Input/types';
-import { Masks } from '@Components/Structure/Form/Input/utils/inputMask';
+import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/Form/types';
 import { alertEditSuccess } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
+import { Masks } from '@Lib/Input/masks';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
@@ -85,7 +85,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       mask: Masks.DATE,
       placeHolder: 'DD/MM/YYYY',
       initialValue: expense.dueDate
-        ? DateUtil.fromPtBrStringToIsoString(expense.dueDate)
+        ? DateUtil.toLocalePtBr(expense.dueDate)
         : expense.dueDate
     },
     {

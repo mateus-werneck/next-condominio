@@ -9,10 +9,17 @@ import {
 } from 'react-hook-form';
 import { z } from 'zod';
 import DefaultButton from '../Button';
-import { IStandardInput } from './Input/types';
-import { IStandardSelect } from './Select/types';
+import {
+  IStandardInput,
+  IStandardMasked,
+  IStandardSelect
+} from './Input/utils/types';
 import { IStandardForm } from './types';
-import { getSelectInput, getStandardInput } from './utils/formInputs';
+import {
+  getMaskedInput,
+  getSelectInput,
+  getStandardInput
+} from './utils/form-inputs';
 
 export default function StandardForm({
   inputs,
@@ -64,9 +71,13 @@ function getFormInputs(
   errors: FieldErrors<any>
 ): JSX.Element[] {
   return inputs.map((formInput) => {
-    return formInput.type == 'select'
-      ? getSelectInput(formInput as IStandardSelect, control, errors)
-      : getStandardInput(formInput, register, errors);
+    if (formInput.type == 'select')
+      return getSelectInput(formInput as IStandardSelect, control, errors);
+
+    if (formInput.mask)
+      return getMaskedInput(formInput as IStandardMasked, control, errors);
+
+    return getStandardInput(formInput, register, control, errors);
   });
 }
 

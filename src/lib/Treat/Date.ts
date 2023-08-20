@@ -34,7 +34,7 @@ export class DateUtil {
   }
 
   public static fromPtBrStringToIsoString(value: string): string {
-    const date = new Date(value);
+    const date = DateUtil.fromPtBrStringToDate(value);
     return DateUtil.fromDateToIsoString(date);
   }
 

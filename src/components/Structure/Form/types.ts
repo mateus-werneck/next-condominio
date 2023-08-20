@@ -1,6 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { ZodType } from 'zod';
-import { IStandardInput } from './Input/types';
+import { IStandardInput } from './Input/utils/types';
 
 export type ISubmitForm = (
   data: any,

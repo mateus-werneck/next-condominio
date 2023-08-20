@@ -1,18 +1,9 @@
 import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, SxProps, TextField, Theme } from '@mui/material';
 import { Controller } from 'react-hook-form';
-import { IStandardSelect } from './types';
+import { IStandardSelect } from '../utils/types';
 
-export const StandardSelect = ({
-  name,
-  options,
-  control,
-  multiSelect,
-  label,
-  initialValue,
-  readOnly,
-  required
-}: IStandardSelect) => {
+export default function StandardSelect(props: IStandardSelect) {
   const customStyles: SxProps<Theme> = {
     '& .MuiInputBase-root': {
       borderRadius: '0.375rem'
@@ -41,24 +32,24 @@ export const StandardSelect = ({
 
   return (
     <Controller
-      control={control}
-      name={name}
-      key={name}
+      control={props.control}
+      name={props.name}
+      key={props.name}
       rules={{
-        required: required === undefined ? false : required
+        required: props.required === undefined ? false : props.required
       }}
       render={({ field: { onChange, ..._field } }) => (
         <Autocomplete
           sx={customStyles}
           className="sm:max-w-[228px] xl:max-w-sm"
           value={_field.value || []}
-          defaultValue={initialValue}
-          loading={options === undefined}
-          multiple={multiSelect === undefined ? false : multiSelect}
+          defaultValue={props.initialValue}
+          loading={props.options === undefined}
+          multiple={props.multiSelect === undefined ? false : props.multiSelect}
           onChange={(_, data) => onChange(data)}
           autoHighlight
-          readOnly={readOnly === undefined ? false : readOnly}
-          options={ObjectUtil.sort(options, 'label') || []}
+          readOnly={props.readOnly === undefined ? false : props.readOnly}
+          options={ObjectUtil.sort(props.options, 'label') || []}
           fullWidth
           isOptionEqualToValue={(option, value) => option.id == value.id}
           getOptionLabel={(option) => (option.label ? option.label : '')}
@@ -73,7 +64,7 @@ export const StandardSelect = ({
             <TextField
               {...params}
               size="small"
-              label={label}
+              label={props.label}
               variant="standard"
               inputProps={{
                 ...params.inputProps,
@@ -87,4 +78,4 @@ export const StandardSelect = ({
       )}
     />
   );
-};
+}
