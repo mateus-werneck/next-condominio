@@ -1,10 +1,14 @@
+import { Masks } from '@Lib/Input/masks';
+import CurrencyInput from 'react-currency-input-field';
 import { Controller } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { getInputProps, getLabel } from '../utils/input-props';
 import { IStandardMasked } from '../utils/types';
 
 export default function StandardMaskedInput(props: IStandardMasked) {
-  return getLabel(getInputMask(props), props.label);
+  const maskedInput =
+    props.mask == Masks.BRL ? getCurrencyInput(props) : getInputMask(props);
+  return getLabel(maskedInput, props.label);
 }
 
 function getInputMask(props: IStandardMasked): JSX.Element {
@@ -24,6 +28,30 @@ function getInputMask(props: IStandardMasked): JSX.Element {
           onChange={onChange}
           {...getInputProps(props)}
           {..._field}
+        />
+      )}
+    />
+  );
+}
+
+function getCurrencyInput(props: IStandardMasked): JSX.Element {
+  return (
+    <Controller
+      name={props.name}
+      control={props.control}
+      defaultValue={props.initialValue ?? ''}
+      rules={{ required: props.required ?? false }}
+      render={({ field: { onChange, ..._field } }) => (
+        <CurrencyInput
+          decimalSeparator=","
+          groupSeparator="."
+          decimalsLimit={2}
+          onValueChange={onChange}
+          allowNegativeValue={true}
+          prefix="R$ "
+          {...getInputProps(props)}
+          {..._field}
+          placeholder="R$ 0,00"
         />
       )}
     />

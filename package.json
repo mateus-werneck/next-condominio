@@ -37,6 +37,7 @@
     "prisma": "^5.1.1",
     "react": "18.2.0",
     "react-confirm-alert": "^3.0.6",
+    "react-currency-input-field": "^3.6.11",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-hook-form-resolvers": "^0.0.1",
