@@ -39,7 +39,9 @@ export default function ExpenseForm(props: IExpenseForm) {
     };
 
     try {
-      await publicAPI.post('expenses', data);
+      props.expense.id
+        ? await publicAPI.put('expenses', { id: props.expense.id, ...data })
+        : await publicAPI.post('expenses', data);
       alertEditSuccess(reset);
     } catch (error) {
       Alert({
