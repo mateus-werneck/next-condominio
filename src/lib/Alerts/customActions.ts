@@ -27,6 +27,16 @@ export function alertEditSuccess(
   Alert(alertParams);
 }
 
+export function alertEditFailed() {
+  Alert({
+    title: 'Falha na solicitação',
+    message: 'Verifique os dados informados.',
+    variant: 'error',
+    allowOutsideClick: true,
+    allowEscapeKey: true
+  });
+}
+
 export function alertDeletion(
   onConfirmFunction: () => void | Promise<void>
 ): void {

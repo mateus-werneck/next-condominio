@@ -1,9 +1,8 @@
 'use client';
-import { Alert } from '@Components/Structure/Alert';
 import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/Form/utils/types';
-import { alertEditSuccess } from '@Lib/Alerts/customActions';
+import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
 import { Masks } from '@Lib/Input/masks';
 import { DateUtil } from '@Lib/Treat/Date';
@@ -42,15 +41,9 @@ export default function ExpenseForm(props: IExpenseForm) {
       props.expense.id
         ? await publicAPI.put('expenses', { id: props.expense.id, ...data })
         : await publicAPI.post('expenses', data);
-      alertEditSuccess(reset);
+      alertEditSuccess(props.expense.id ? undefined : reset);
     } catch (error) {
-      Alert({
-        title: 'Falha no cadastro',
-        message: 'Verifique os dados informados.',
-        variant: 'error',
-        allowOutsideClick: true,
-        allowEscapeKey: true
-      });
+      alertEditFailed();
       Promise.resolve();
     }
   };
