@@ -104,19 +104,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       .min(5, 'O campo deve conter no mínimo 5 caracteres.'),
     value: ZodValidator.brl(),
     dueDate: ZodValidator.ptBrDate(),
-    expenseType: z
-      .object(
-        {
-          id: z.string({ required_error: 'Campo Obrigatório.' }),
-          name: z.string({ required_error: 'Campo Obrigatório.' }),
-          label: z.string({ required_error: 'Campo Obrigatório.' })
-        },
-        {
-          invalid_type_error: 'Valor selecionado inválido.',
-          required_error: 'Campo obrigatório.'
-        }
-      )
-      .transform(({ id }) => id)
+    expenseType: ZodValidator.select()
   });
   return { inputs, validationSchema };
 }

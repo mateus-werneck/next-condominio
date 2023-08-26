@@ -1,6 +1,6 @@
 'use client';
 import StandardForm from '@Components/Structure/Form';
-import { IStandardInput } from '@Components/Structure/Form/Input/types';
+import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
@@ -67,7 +67,8 @@ function useFormData({
       label: 'Tipo',
       type: 'select',
       multiSelect: true,
-      options: expenseTypes
+      options: expenseTypes,
+      initialValue: []
     }
   ];
   /* eslint-disable camelcase */
@@ -76,19 +77,7 @@ function useFormData({
       name: z.string().optional(),
       startAt: ZodValidator.date(),
       endAt: ZodValidator.date(),
-      expenseTypes: z
-        .array(
-          z.object(
-            {
-              id: z.string(),
-              name: z.string(),
-              label: z.string()
-            },
-            { invalid_type_error: 'Valor selecionado inválido' }
-          )
-        )
-        .optional()
-        .nullable()
+      expenseTypes: ZodValidator.multiSelect().optional().nullable()
     })
     .refine(
       (schema) => {

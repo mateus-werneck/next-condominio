@@ -24,14 +24,10 @@ export default function ViewExpenses({
   async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
     setIsLoading(true);
 
-    const expenseTypeFilter = filters.expenseTypes ? filters.expenseTypes : [];
-
     const queryParams: IExpenseQueryParams = {
       ...filters,
       name: String(filters.name),
-      expenseTypes: expenseTypeFilter
-        .map((expenseType) => expenseType.id)
-        .toString()
+      expenseTypes: filters.expenseTypes.join(',')
     };
 
     const route = appendQueryParams(

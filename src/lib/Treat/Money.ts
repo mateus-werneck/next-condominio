@@ -11,7 +11,7 @@ export class MoneyUtil {
   }
 
   public static toFloat(value: string): number {
-    const money = value.replace(',', '.').replace('R$ ', '');
-    return Number(money);
+    const money = value.replace(/[^0-9]/g, '');
+    return Number(money) / 100;
   }
 }

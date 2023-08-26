@@ -39,4 +39,33 @@ export class ZodValidator {
       )
       .transform(DateUtil.fromPtBrStringToIsoString);
   }
+
+  public static select() {
+    return z
+      .object(
+        {
+          id: z.string({ required_error: 'Campo Obrigatório.' }),
+          name: z.string({ required_error: 'Campo Obrigatório.' }),
+          label: z.string({ required_error: 'Campo Obrigatório.' })
+        },
+        { invalid_type_error: 'Valor selecionado inválido' }
+      )
+      .transform(({ id }) => id);
+  }
+
+  public static multiSelect() {
+    return z
+      .array(
+        z.object({
+          id: z.string({ required_error: 'Campo Obrigatório.' }),
+          name: z.string({ required_error: 'Campo Obrigatório.' }),
+          label: z.string({ required_error: 'Campo Obrigatório.' })
+        }),
+        {
+          required_error: 'Campo Obrigatório.',
+          invalid_type_error: 'Valor selecionado inválido'
+        }
+      )
+      .transform((value) => value.map(({ id }) => id));
+  }
 }
