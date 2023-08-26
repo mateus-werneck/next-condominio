@@ -38,7 +38,7 @@ export default function ViewExpenses({
     const response = await fetch(route);
     const data = await response.json();
 
-    setExpenses(data as Expense[]);
+    setExpenses(() => data as Expense[]);
     setIsLoading(false);
   }
 

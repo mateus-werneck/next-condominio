@@ -12,7 +12,7 @@ export const fetchExpenses = async (
   });
 
   const response = await fetch(url.toString(), {
-    next: { revalidate: 1 }
+    next: { revalidate: 0 }
   });
 
   return await response.json();

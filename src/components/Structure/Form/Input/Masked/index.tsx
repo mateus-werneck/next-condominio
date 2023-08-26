@@ -43,12 +43,10 @@ function getCurrencyInput(props: IStandardMasked): JSX.Element {
       rules={{ required: props.required ?? false }}
       render={({ field: { onChange, ..._field } }) => (
         <CurrencyInput
-          decimalSeparator=","
-          groupSeparator="."
-          decimalsLimit={2}
+          disableGroupSeparators
           onValueChange={onChange}
           allowNegativeValue={true}
-          prefix="R$ "
+          intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
           {...getInputProps(props)}
           {..._field}
           placeholder="R$ 0,00"
