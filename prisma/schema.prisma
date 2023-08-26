@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -30,4 +27,15 @@ model ExpenseType {
   name    String    @unique @map("name_expense") @db.VarChar(256)
   label   String    @unique @map("label_expense") @db.VarChar(256)
   Expense Expense[]
+}
+
+model Resident {
+  id        String  @id @default(uuid()) @map("id_resident")
+  name      String  @map("name_resident") @db.VarChar(50)
+  email     String? @map("email_resident") @db.VarChar(50)
+  phone     String? @map("phone_resident") @db.VarChar(20)
+  apartment Int     @map("apartment_resident") @db.Integer
+
+  createdAt DateTime @default(now()) @map("insertdate_resident")
+  updatedAt DateTime @default(now()) @map("updatedate_resident")
 }
