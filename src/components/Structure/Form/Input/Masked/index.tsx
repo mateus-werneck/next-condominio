@@ -41,17 +41,23 @@ function getCurrencyInput(props: IStandardMasked): JSX.Element {
       control={props.control}
       defaultValue={props.initialValue ?? ''}
       rules={{ required: props.required ?? false }}
-      render={({ field: { onChange, ..._field } }) => (
+      render={({ field: { onChange, value, ..._field } }) => (
         <CurrencyInput
-          disableGroupSeparators
-          disableAbbreviations
-          onValueChange={onChange}
-          allowNegativeValue={true}
-          fixedDecimalLength={2}
-          intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
           {...getInputProps(props)}
           {..._field}
+          disableGroupSeparators
+          disableAbbreviations
+          value={value}
+          onValueChange={onChange}
+          allowNegativeValue={true}
+          intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
           placeholder="R$ 0,00"
+          onBlur={() => {
+            const money = value.split(',');
+            if (money.length == 1 || (money.length > 1 && !money[1].length)) {
+              onChange(value.replace(',', '') + ',00');
+            }
+          }}
         />
       )}
     />
