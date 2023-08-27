@@ -28,7 +28,7 @@ interface ITableData {
 }
 
 export default function StandardTable(props: ITableData) {
-  const { CustomToolbar, handleSelection } = useCustomTable(props);
+  const { CustomToolbar, handleSelection } = useCustomActions(props);
 
   return (
     <div className="flex mt-4 items-center justify-center w-full h-full">
@@ -75,7 +75,7 @@ export default function StandardTable(props: ITableData) {
   );
 }
 
-function useCustomTable(props: ITableData) {
+function useCustomActions(props: ITableData) {
   const customBarElements = getCustomBarElements();
   const [customToolbar, setCustomToolbar] =
     useState<JSX.Element[]>(customBarElements);

@@ -1,6 +1,5 @@
 'use client';
 
-import DefaultButton from '@Components/Structure/Button';
 import StandardTable from '@Components/Structure/Table';
 import {
   alertDeletion,
@@ -9,8 +8,7 @@ import {
   onDeleteAction
 } from '@Lib/Alerts/customActions';
 import { publicAPI } from '@Lib/Client/api';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { getDefaultTableActions } from '@Lib/Table/Actions';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useState } from 'react';
@@ -28,7 +26,7 @@ export default function TableListExpenses({
   const table = 'TableListExpenses';
   const [expenses, setExpenses] = useState<Expense[]>(rows);
 
-  const { getTableActions } = useTableActions(table, setExpenses);
+  const { onConfirmDeletion, onBatchDelete } = useTableActions({ setExpenses });
 
   const columns: GridColDef[] = [
     {
@@ -54,8 +52,33 @@ export default function TableListExpenses({
       minWidth: 200,
       type: 'date'
     },
-    getTableActions()
+    getDefaultTableActions({ table, route: '/expenses', onConfirmDeletion })
   ];
+
+  return (
+    <StandardTable
+      name={table}
+      columns={columns}
+      rows={expenses}
+      customToolbar={getTableAddButton('/expenses/new')}
+      loading={loading}
+      checkBoxSelection={true}
+      onBatchDelete={onBatchDelete}
+    />
+  );
+}
+
+function useTableActions({
+  setExpenses
+}: {
+  setExpenses: (value: (previousValue: any[]) => any[]) => void;
+}) {
+  const onConfirmDeletion = async (row: { id: string }) => {
+    await onDeleteAction({
+      info: { id: row.id, endpoint: 'residents' },
+      callback: setExpenses
+    });
+  };
 
   const onBatchDelete = async (selectedRows: string[]) => {
     const onConfirmDeletion = async () => {
@@ -79,60 +102,5 @@ export default function TableListExpenses({
     alertDeletion(onConfirmDeletion);
   };
 
-  return (
-    <StandardTable
-      name={table}
-      columns={columns}
-      rows={expenses}
-      customToolbar={getTableAddButton('/expenses/new')}
-      loading={loading}
-      checkBoxSelection={true}
-      onBatchDelete={onBatchDelete}
-    />
-  );
-}
-
-function useTableActions(
-  table: string,
-  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void
-) {
-  function getTableActions() {
-    return {
-      field: 'actions',
-      headerName: 'Ações',
-      minWidth: 200,
-      renderCell: (params: any) => {
-        const row = params.row;
-
-        return (
-          <div className="flex gap-2" key={`${table}_Actions_${row.id}`}>
-            <DefaultButton
-              key={`${table}_Edit_${row.id}`}
-              color="primary"
-              route={`expenses/edit?id=${row.id}`}
-            >
-              <EditIcon fontSize="small" key={`${table}_Edit_${row.id}`} />
-            </DefaultButton>
-            <DefaultButton
-              color="error"
-              key={`${table}_Delete_${row.id}`}
-              onClickFunction={() => {
-                const onConfirmDeletion = async () => {
-                  await onDeleteAction({
-                    info: { id: row.id, endpoint: 'expenses' },
-                    callback: setExpenses
-                  });
-                };
-                alertDeletion(onConfirmDeletion);
-              }}
-            >
-              <DeleteIcon fontSize="small" key={`${table}_Delete_${row.id}`} />
-            </DefaultButton>
-          </div>
-        );
-      }
-    };
-  }
-
-  return { getTableActions };
+  return { onConfirmDeletion, onBatchDelete };
 }
