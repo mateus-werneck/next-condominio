@@ -38,7 +38,7 @@ export default function TableListExpenses({
       field: 'value',
       headerName: 'Valor',
       minWidth: 300,
-      type: 'number'
+      type: 'money'
     },
     {
       field: 'expenseType',

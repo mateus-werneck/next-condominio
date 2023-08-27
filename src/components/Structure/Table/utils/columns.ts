@@ -33,6 +33,11 @@ const GridColumnsConfig = {
   },
   number: {
     valueFormatter: (params: GridValueFormatterParams<any>) =>
+      Number(params.value),
+    filterOperators: getGridNumericOperators()
+  },
+  money: {
+    valueFormatter: (params: GridValueFormatterParams<any>) =>
       MoneyUtil.toBRL(params.value),
     filterOperators: getGridNumericOperators()
   },
