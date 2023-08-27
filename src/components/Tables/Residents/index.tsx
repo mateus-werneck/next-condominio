@@ -45,7 +45,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       name={table}
       columns={columns}
       rows={residents}
-      customToolbar={getTableAddButton('/expenses/new')}
+      customToolbar={getTableAddButton('/residents/new')}
       checkBoxSelection={true}
       onBatchDelete={onBatchDelete}
     />
@@ -69,7 +69,7 @@ function useTableActions({
       try {
         await publicAPI.delete(`/residents`, {
           params: {
-            expenseIds: selectedRows.join(',')
+            residents: selectedRows.join(',')
           }
         });
 

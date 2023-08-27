@@ -68,4 +68,24 @@ export class ZodValidator {
       )
       .transform((value) => value.map(({ id }) => id));
   }
+
+  public static string() {
+    return z
+      .string({ required_error: 'Campo Obrigatório.' })
+      .min(5, 'O campo deve conter no mínimo 5 caracteres.');
+  }
+
+  public static phone() {
+    return z.string().min(15, 'Telefone inválido.');
+  }
+
+  public static number() {
+    return z
+      .string({
+        required_error: 'Campo Obrigatário.',
+        invalid_type_error: 'Valor informado inválido.'
+      })
+      .refine((value) => !isNaN(Number(value)), 'Valor informado inválido')
+      .transform(Number);
+  }
 }

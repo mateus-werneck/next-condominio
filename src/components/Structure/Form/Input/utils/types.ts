@@ -1,4 +1,4 @@
-import { Masks } from '@Lib/Input/masks';
+import { IMasks } from '@Lib/Input/masks';
 import { CSSProperties } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 
@@ -23,7 +23,7 @@ export type IStandardInput = {
     | 'url'
     | 'tel'
     | 'select';
-  mask?: Masks;
+  mask?: IMasks;
   maskChar?: string;
   initialValue?: any;
   styles?: CSSProperties;
@@ -60,5 +60,5 @@ export interface IStandardSelect
 
 export interface IStandardMasked
   extends Omit<IFormInput, 'type' | 'options' | 'multiselect' | 'mask'> {
-  mask: Masks;
+  mask: IMasks;
 }

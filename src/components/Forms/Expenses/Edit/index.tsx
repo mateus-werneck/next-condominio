@@ -94,9 +94,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
 
   /* eslint-disable camelcase */
   const validationSchema = z.object({
-    name: z
-      .string({ required_error: 'Campo Obrigatório.' })
-      .min(5, 'O campo deve conter no mínimo 5 caracteres.'),
+    name: ZodValidator.string(),
     value: ZodValidator.brl(),
     dueDate: ZodValidator.ptBrDate(),
     expenseType: ZodValidator.select()
