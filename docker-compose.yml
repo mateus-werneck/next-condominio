@@ -34,6 +34,19 @@ services:
     command: npm run dev
     depends_on:
       - expense-db
+  pg-admin-web:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    ports:
+      - 9000:80
+    networks:
+      expense-network:
+        ipv4_address: 172.19.55.13
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=werneck.mateus@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=p6@dm1n
+    depends_on:
+      - expense-db
 
 volumes:
   pgdata:

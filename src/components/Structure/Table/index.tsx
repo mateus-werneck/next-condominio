@@ -141,11 +141,12 @@ function useCustomTable(props: ITableData) {
       <DefaultButton
         key={getDeleteButtonKey()}
         variant="text"
+        styles={{ color: 'var(--gray-700)' }}
         onClickFunction={() =>
           props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }
       >
-        <DeleteIcon fontSize="small" />
+        <DeleteIcon fontSize="small" color="error" />
         Remover
       </DefaultButton>
     );

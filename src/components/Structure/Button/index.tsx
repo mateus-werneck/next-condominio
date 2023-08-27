@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@mui/material';
+import { CSSProperties } from 'react';
 
 interface IDefaultButton {
   onClickFunction?: () => void;
@@ -16,6 +17,7 @@ interface IDefaultButton {
   type?: 'button' | 'submit' | 'reset';
   route?: string;
   disable?: boolean;
+  styles?: CSSProperties;
   children: React.ReactNode;
 }
 
@@ -26,9 +28,10 @@ export default function DefaultButton({
   type,
   route,
   disable,
+  styles,
   children
 }: IDefaultButton) {
-  const { getCustomStyle } = useColor(color);
+  const { getCustomStyle } = useColor(color, styles);
   const customVariant = variant ? variant : 'contained';
   const disabled = disable !== undefined ? disable : false;
   const buttonType = type !== undefined ? type : 'button';
@@ -48,11 +51,14 @@ export default function DefaultButton({
   );
 }
 
-function useColor(color: string | undefined = undefined) {
+function useColor(color?: string, styles?: CSSProperties) {
   function getCustomStyle() {
-    if (color === undefined) return {};
+    const customStyle = styles ? styles : {};
+
+    if (color === undefined) return customStyle;
 
     return {
+      ...customStyle,
       background: getColor()
     };
   }
