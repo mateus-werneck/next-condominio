@@ -75,7 +75,7 @@ function useTableActions({
 }) {
   const onConfirmDeletion = async (row: { id: string }) => {
     await onDeleteAction({
-      info: { id: row.id, endpoint: 'residents' },
+      info: { id: row.id, endpoint: 'expenses' },
       callback: setExpenses
     });
   };
