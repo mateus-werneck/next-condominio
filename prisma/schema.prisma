@@ -38,4 +38,6 @@ model Resident {
 
   createdAt DateTime @default(now()) @map("insertdate_resident")
   updatedAt DateTime @default(now()) @map("updatedate_resident")
+
+  @@map("residents")
 }
