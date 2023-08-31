@@ -27,6 +27,8 @@ model ExpenseType {
   name    String    @unique @map("name_expense") @db.VarChar(256)
   label   String    @unique @map("label_expense") @db.VarChar(256)
   Expense Expense[]
+
+  @@map("expense_types")
 }
 
 model Resident {
