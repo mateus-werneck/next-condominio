@@ -17,14 +17,18 @@ export default function Breadcrumb() {
   }
 
   return (
-    <div className="absolute right-8">
-      <Breadcrumbs aria-label="breadcrumb" className="text-sm text-gray-500">
-        <Link href="/" className="hover:text-black">
+    <div className="absolute right-6">
+      <Breadcrumbs aria-label="breadcrumb" className="text-sm text-black">
+        <Link href="/" className="hover:underline hover:text-slate-400">
           Home
         </Link>
         {breadcrumbs !== undefined &&
           breadcrumbs.map((path) => (
-            <Link href={`/${path}`} key={path} className="hover:text-black">
+            <Link
+              href={`/${path}`}
+              key={path}
+              className="hover:underline hover:text-slate-400"
+            >
               {capitalize(path)}
             </Link>
           ))}
