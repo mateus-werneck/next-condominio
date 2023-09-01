@@ -1,7 +1,7 @@
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SummarizeIcon from '@mui/icons-material/Summarize';
-import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
 
 interface IMenuDefault {
@@ -12,6 +12,7 @@ interface IMenuDefault {
 interface IMenuChildren {
   name: string;
   href: string;
+  desc: string;
   icon?: JSX.Element;
 }
 
@@ -23,11 +24,13 @@ export function getMenuDefault(): IMenuDefault[] {
         {
           name: 'Despesas',
           href: '/expenses',
+          desc: 'Lista de despesas',
           icon: <CurrencyExchangeIcon />
         },
         {
           name: 'Moradores',
           href: '/residents',
+          desc: 'Lista de moradores',
           icon: <PeopleAltIcon />
         }
       ]
@@ -38,6 +41,7 @@ export function getMenuDefault(): IMenuDefault[] {
         {
           name: 'Relatório de Gastos',
           href: '/general-expenses-report',
+          desc: 'Exibir relatório mensal de gastos',
           icon: <SummarizeIcon />
         }
       ]

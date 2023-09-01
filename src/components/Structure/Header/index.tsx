@@ -5,9 +5,8 @@ import {
   getMenuDefault
 } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
-import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
-import { CSSProperties, useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useMemo, useState } from 'react';
 import { MobileActions } from './MobileActions';
 import { IActiveLink } from './types';
 
@@ -24,10 +23,16 @@ export const Header = () => {
     setShowMobileMenu((previousValue: boolean) => !previousValue);
   }
 
+  const MobileMenu = useMemo(() => {
+    return (
+      <MobileActions showMobileMenu={showMobileMenu} onClick={onClickMobile} />
+    );
+  }, [showMobileMenu]);
+
   return (
     <>
       <div className="flex flex-col justify-between bg-white">
-        <MobileActions onClick={onClickMobile} />
+        {MobileMenu}
         {getMenu()}
       </div>
     </>
@@ -98,11 +103,14 @@ function useResponsive(
           <Link
             key={child.name}
             href={child.href}
-            className="flex gap-2 items-center md:hover:text-cyan-600"
+            className="flex gap-4 items-start md:hover:text-cyan-600 focus:text-cyan-600"
             onClick={() => setShowMobileMenu(false)}
           >
             {child.icon !== undefined && child.icon}
-            {child.name}
+            <span className="flex flex-col items-start gap-2">
+              {child.name}
+              <span className="text-xs text-gray-300">{child.desc}</span>
+            </span>
           </Link>
         ))}
       </NavLink>
