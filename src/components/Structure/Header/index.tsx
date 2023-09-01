@@ -1,10 +1,13 @@
 'use client';
 import { NavLink } from '@Components/Structure/Header/NavLink';
-import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu';
+import {
+  getHomeButton,
+  getMenuDefault
+} from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
-import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 import { MobileActions } from './MobileActions';
 import { IActiveLink } from './types';
 
@@ -22,10 +25,12 @@ export const Header = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-white">
-      <MobileActions onClick={onClickMobile} />
-      {getMenu()}
-    </div>
+    <>
+      <div className="flex flex-col justify-between bg-white">
+        <MobileActions onClick={onClickMobile} />
+        {getMenu()}
+      </div>
+    </>
   );
 };
 
@@ -52,14 +57,7 @@ function useResponsive(
         className={getStyledNavBarName()}
         style={getStyledNavBarCustomStyle()}
       >
-        <Link
-          key="home"
-          href="/"
-          className="flex gap-2 items-center justify-center self-center hover:text-[var(--orange)] mb-1"
-          onClick={() => setShowMobileMenu(false)}
-        >
-          <HomeIcon fontSize="medium" />
-        </Link>
+        {!isMobileView() && getHomeButton()}
         {getRenderedNavMenu()}
       </nav>
     );

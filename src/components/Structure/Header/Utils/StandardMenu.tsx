@@ -1,6 +1,8 @@
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SummarizeIcon from '@mui/icons-material/Summarize';
+import HomeIcon from '@mui/icons-material/Home';
+import Link from 'next/link';
 
 interface IMenuDefault {
   name: string;
@@ -41,4 +43,16 @@ export function getMenuDefault(): IMenuDefault[] {
       ]
     }
   ];
+}
+
+export function getHomeButton(): JSX.Element {
+  return (
+    <Link
+      key="home"
+      href="/"
+      className="flex gap-2 items-center justify-center self-center md:hover:text-[var(--orange)] mb-1"
+    >
+      <HomeIcon style={{ color: 'white' }} fontSize="medium" />
+    </Link>
+  );
 }
