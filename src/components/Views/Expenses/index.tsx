@@ -6,6 +6,7 @@ import { appendQueryParams } from '@Lib/Treat/Request';
 import { Expense, ExpenseType } from '@prisma/client';
 import { useState } from 'react';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
+import { publicAPI } from '@Lib/Client/api';
 
 interface IViewExpenses {
   monthRange: MonthRange;
@@ -24,19 +25,14 @@ export default function ViewExpenses({
   async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
     setIsLoading(true);
 
-    const queryParams: IExpenseQueryParams = {
+    const params: IExpenseQueryParams = {
       ...filters,
       name: String(filters.name),
       expenseTypes: filters.expenseTypes.join(',')
     };
 
-    const route = appendQueryParams(
-      `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/expenses`,
-      queryParams
-    );
-
-    const response = await fetch(route);
-    const data = await response.json();
+    const response = await publicAPI.get('expenses', { params });
+    const data = await response.data;
 
     setExpenses(() => data as Expense[]);
     setIsLoading(false);
