@@ -44,7 +44,6 @@ function useResponsive(
   setShowMobileMenu: (value: boolean) => void
 ): IResponsive {
   const { isMobileView } = useDevice();
-
   const [activeLink, setActiveLink] = useState<IActiveLink>({});
 
   const getMenu = useCallback(getRenderedMenu, [
@@ -52,32 +51,24 @@ function useResponsive(
     showMobileMenu,
     activeLink,
     getRenderedMenu,
-    getStyledNavBarCustomStyle,
-    getStyledNavBarName
+    getStyledNavBarCustomStyle
   ]);
 
   function getRenderedMenu() {
     return (
       <nav
-        className={getStyledNavBarName()}
+        className={
+          'w-11/12 flex flex-col absolute items-start self-center top-16 gap-12' +
+          ' z-10 py-8 px-2 rounded-2xl bg-black text-white transition-all delay-75' +
+          ' md:flex md:flex-row md:gap-12 md:items-center md:text-sm md:h-16 md:py-6 md:px-24' +
+          ' md:w-full md:rounded-none md:static'
+        }
         style={getStyledNavBarCustomStyle()}
       >
         {!isMobileView() && getHomeButton()}
         {getRenderedNavMenu()}
       </nav>
     );
-  }
-
-  function getStyledNavBarName(): string {
-    let customStyle =
-      'flex gap-12 items-center bg-black text-white text-sm h-16 py-6 px-24';
-
-    if (isMobileView())
-      customStyle =
-        'w-11/12 flex flex-col absolute items-start self-center top-16 gap-12' +
-        ' z-10 py-8 px-2 rounded-2xl bg-black text-white transition-all delay-75';
-
-    return customStyle;
   }
 
   function getStyledNavBarCustomStyle(): CSSProperties {
@@ -103,13 +94,15 @@ function useResponsive(
           <Link
             key={child.name}
             href={child.href}
-            className="flex gap-4 items-start md:hover:text-cyan-600 focus:text-cyan-600"
+            className="flex gap-4 items-start text-white md:text-slate-800 hover:text-cyan-600"
             onClick={() => setShowMobileMenu(false)}
           >
             {child.icon !== undefined && child.icon}
             <span className="flex flex-col items-start gap-2">
               {child.name}
-              <span className="text-xs text-gray-300">{child.desc}</span>
+              <span className="text-xs text-gray-300 md:text-inherit">
+                {child.desc}
+              </span>
             </span>
           </Link>
         ))}
