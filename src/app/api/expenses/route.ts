@@ -54,7 +54,7 @@ function getConditions(searchParams: URLSearchParams) {
   };
 
   const startAt = String(searchParams.get('startAt'));
-  const endAt = searchParams.has('endAt') ? searchParams.get('endAt') : startAt;
+  const endAt = searchParams.get('endAt') ?? startAt;
   const name = searchParams.get('name');
   const expenseTypes = searchParams.get('expenseTypes');
 

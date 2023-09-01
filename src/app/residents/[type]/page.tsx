@@ -6,14 +6,14 @@ interface ISearchParams {
   id?: string;
 }
 
-interface IExpense {
+interface IResident {
   params: {
     type: string;
   };
   searchParams?: ISearchParams;
 }
 
-export default async function Expense({ params, searchParams }: IExpense) {
+export default async function Resident({ params, searchParams }: IResident) {
   const title = params.type == 'new' ? 'Cadastrar' : 'Editar';
 
   let resident = {} as Resident;

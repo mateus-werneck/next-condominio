@@ -64,19 +64,22 @@ function useFormData({ resident }: IResidentForm) {
       name: 'apartment',
       label: 'Apartamento',
       type: 'number',
-      mask: Masks.APARTMENT
+      mask: Masks.APARTMENT,
+      initialValue: resident.apartment
     },
     {
       name: 'email',
       label: 'Email',
       type: 'email',
-      required: false
+      required: false,
+      initialValue: resident.email
     },
     {
       name: 'phone',
       label: 'Telefone',
       mask: Masks.PHONE,
-      required: false
+      required: false,
+      initialValue: resident.phone
     }
   ];
 

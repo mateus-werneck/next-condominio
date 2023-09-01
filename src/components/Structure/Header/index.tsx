@@ -4,7 +4,7 @@ import { getMenuDefault } from '@Components/Structure/Header/Utils/StandardMenu'
 import { useDevice } from '@Contexts/useDevice';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
-import { CSSProperties, useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { MobileActions } from './MobileActions';
 import { IActiveLink } from './types';
 
@@ -14,7 +14,7 @@ interface IResponsive {
 
 export const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-  const { getMenu } = useResponsive(showMobileMenu);
+  const { getMenu } = useResponsive(showMobileMenu, setShowMobileMenu);
 
   function onClickMobile(e: any) {
     e.preventDefault();
@@ -29,7 +29,10 @@ export const Header = () => {
   );
 };
 
-function useResponsive(showMobileMenu: boolean): IResponsive {
+function useResponsive(
+  showMobileMenu: boolean,
+  setShowMobileMenu: (value: boolean) => void
+): IResponsive {
   const { isMobileView } = useDevice();
 
   const [activeLink, setActiveLink] = useState<IActiveLink>({});
@@ -53,6 +56,7 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
           key="home"
           href="/"
           className="flex gap-2 items-center justify-center self-center hover:text-[var(--orange)] mb-1"
+          onClick={() => setShowMobileMenu(false)}
         >
           <HomeIcon fontSize="medium" />
         </Link>
@@ -67,7 +71,7 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
 
     if (isMobileView())
       customStyle =
-        'w-11/12 flex flex-col absolute items-start self-center top-16 gap-8' +
+        'w-11/12 flex flex-col absolute items-start self-center top-16 gap-12' +
         ' z-10 py-8 px-2 rounded-2xl bg-black text-white transition-all delay-75';
 
     return customStyle;
@@ -96,7 +100,8 @@ function useResponsive(showMobileMenu: boolean): IResponsive {
           <Link
             key={child.name}
             href={child.href}
-            className="flex gap-2 items-center hover:text-cyan-600"
+            className="flex gap-2 items-center md:hover:text-cyan-600"
+            onClick={() => setShowMobileMenu(false)}
           >
             {child.icon !== undefined && child.icon}
             {child.name}

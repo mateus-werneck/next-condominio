@@ -44,12 +44,12 @@ function useResponsive({
           }))
         }
       >
-        <span className="flex px-2 items-center justify-between">
+        <span className="flex px-10 items-center justify-between">
           {name}
           {isActiveLink() ? <KeyboardArrowDownIcon /> : <KeyboardArrowRight />}
         </span>
         <nav
-          className="flex flex-col p-4 gap-4 text-white text-sm"
+          className="flex flex-col p-12 gap-12 text-white text-sm"
           style={{
             opacity: isActiveLink() ? 1 : 0,
             visibility: isActiveLink() ? 'visible' : 'hidden'

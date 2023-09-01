@@ -12,7 +12,7 @@ export const MobileActions = ({ onClick }: IMobileActions) => {
       {isMobileView() && (
         <div className="absolute right-4 flex items-center justify-center py-8">
           <button onClick={onClick}>
-            <MenuIcon style={{ color: 'black' }} />
+            <MenuIcon style={{ color: 'black' }} fontSize="large" />
           </button>
         </div>
       )}
