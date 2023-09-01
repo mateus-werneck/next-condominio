@@ -25,7 +25,7 @@ export default async function Expense({ params, searchParams }: IExpense) {
   const expenseTypes = await fetchTypes();
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 mt-4">
       <h1 className="text-bold text-2x">{title}</h1>
       <ExpenseForm expense={expense} expenseTypes={expenseTypes} />
     </div>

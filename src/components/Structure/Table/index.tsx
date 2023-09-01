@@ -15,6 +15,7 @@ import { useCallback, useState } from 'react';
 import { appendColumnConfig } from './utils/columns';
 import { DataGridCustomStyles } from './utils/customStyle';
 import { localeText, theme } from './utils/customTable';
+import { useDevice } from '@Contexts/useDevice';
 
 interface ITableData {
   name: string;
@@ -76,6 +77,7 @@ export default function StandardTable(props: ITableData) {
 }
 
 function useCustomActions(props: ITableData) {
+  const { isMobileView } = useDevice();
   const customBarElements = getCustomBarElements();
   const [customToolbar, setCustomToolbar] =
     useState<JSX.Element[]>(customBarElements);
@@ -85,7 +87,7 @@ function useCustomActions(props: ITableData) {
       <GridToolbarContainer>
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
+        {!isMobileView() && <GridToolbarDensitySelector />}
         <GridToolbarExport />
         {customToolbar}
       </GridToolbarContainer>

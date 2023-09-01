@@ -14,6 +14,8 @@ export const Footer = () => {
   }, []);
 
   return (
-    <footer className="w-full flex flex-col items-start justify-center gap-8 bg-black text-white p-16" />
+    <footer className="w-full flex flex-col items-center justify-center gap-8 bg-black text-white p-16">
+      Copyright © werneck.mateus@gmail.com
+    </footer>
   );
 };
