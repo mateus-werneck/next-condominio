@@ -99,7 +99,9 @@ function useResponsive(
             key={child.name}
             href={child.href}
             className="flex gap-2 items-center md:hover:text-cyan-600"
-            onClick={() => setShowMobileMenu(false)}
+            onClick={() => {
+              setShowMobileMenu(false);
+            }}
           >
             {child.icon !== undefined && child.icon}
             {child.name}
