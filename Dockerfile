@@ -12,7 +12,7 @@ RUN yarn install --frozen-lockfile
 
 RUN yarn prisma generate
 
-RUN yarn prisma db pull
+RUN yarn prisma db push
 
 RUN yarn prisma db seed
 
