@@ -1,0 +1,27 @@
+Expense:
+  description: Expense
+  properties:
+    id:
+      type: string
+      example: 16f82ead-1384-4035-879c-da59b0547f99
+    name:
+      type: string
+      example: Cemig
+    value:
+      type: number
+      example: "57.74"
+    dueDate:
+      type: string
+      format: date-time
+      example: "2023-08-31T00:00:00.000Z"
+    type:
+      type: string
+      example: 720ada10-cb59-4ee0-bdfa-b031a9e3c2bc
+    createdAt:
+      type: string
+      format: date-time
+      example: "2023-08-27T12:58:15.153Z"
+    updatedAt:
+      type: string
+      format: date-time
+      example: "2023-08-27T12:58:15.153Z"

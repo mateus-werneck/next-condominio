@@ -1,0 +1,32 @@
+get:
+  description: Retorna uma despesa
+  tags:
+    - Despesas
+  parameters:
+    - in: path
+      name: id
+      description: ID da despesa
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Despesa encontrada
+      content:
+        application/json:
+          schema:
+            $ref: ./components/standard.yaml#Expense
+delete:
+  description: Deletar despesa
+  tags:
+    - Despesas
+  parameters:
+    - in: path
+      name: id
+      description: ID da despesa
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Despesa deletada com sucesso

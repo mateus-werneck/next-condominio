@@ -1,0 +1,16 @@
+CreateExpense:
+  description: Nova Despesa
+  properties:
+    name:
+      type: string
+      example: Copasa
+    value:
+      type: number
+      example: "57.74"
+    dueDate:
+      type: string
+      format: date
+      example: "2023-08-31"
+    type:
+      type: string
+      example: 720ada10-cb59-4ee0-bdfa-b031a9e3c2bc

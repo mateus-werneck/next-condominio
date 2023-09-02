@@ -1,0 +1,90 @@
+get:
+  description: Retorna todas as despesas do condomínio
+  tags:
+    - Despesas
+  parameters:
+    - in: query
+      name: startAt
+      description: Data Inicial
+      required: false
+      schema:
+        type: date
+        example: "2023-01-01"
+    - in: query
+      name: endAt
+      description: Data Final
+      required: false
+      schema:
+        type: date
+        example: "2023-01-31"
+    - in: query
+      name: name
+      description: Nome da Despesa
+      required: false
+      schema:
+        type: string
+        example: "Cemig"
+    - in: query
+      name: expenseTypes
+      description: ID de Tipos de Despesa
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Despesas encontradas
+      content:
+        application/json:
+          schema:
+            description: Expense[]
+            type: array
+            items:
+              $ref: ./components/standard.yaml#Expense
+post:
+  description: Cadastrar uma despesa
+  tags:
+    - Despesas
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ./components/createExpense.yaml#CreateExpense
+  responses:
+    "200":
+      description: Despesa cadastada com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: ./components/standard.yaml#Expense
+put:
+  description: Altera os dados de uma despesa
+  tags:
+    - Despesas
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ./components/updateExpense.yaml#UpdateExpense
+  responses:
+    "200":
+      description: Despesa alterada com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: ./components/standard.yaml#Expense
+delete:
+  description: Deletar despesas
+  tags:
+    - Despesas
+  parameters:
+    - in: query
+      name: expenseIds
+      description: IDs de despesas para deletar
+      required: false
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Despesas deletadas com sucesso
