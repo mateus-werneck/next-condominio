@@ -1,0 +1,32 @@
+get:
+  description: Retorna todas as despesas do condomínio
+  tags:
+    - Despesas
+  parameters:
+    - in: query
+      name: startAt
+      description: Data inicial
+      required: true
+      schema:
+        type: date
+        example: "2023-01-01"
+  responses:
+    "200":
+      description: Despesas encontradas
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../models/expense.yaml#/components/schema/Expense
+put:
+  description: Altera os dados de uma despesa
+  tags:
+    - Despesas
+  responses:
+    "200":
+      description: Despesa alterada com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: ../models/expense.yaml#/components/schema/Expense

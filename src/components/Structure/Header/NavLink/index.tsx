@@ -49,7 +49,7 @@ function useResponsive({
           {isActiveLink() ? <KeyboardArrowDownIcon /> : <KeyboardArrowRight />}
         </span>
         <nav
-          className="flex flex-col p-12 gap-12 text-white text-sm"
+          className="flex flex-col p-12 gap-8 text-white text-sm"
           style={{
             opacity: isActiveLink() ? 1 : 0,
             visibility: isActiveLink() ? 'visible' : 'hidden'
