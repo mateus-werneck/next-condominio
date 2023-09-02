@@ -1,0 +1,18 @@
+UpdateResident:
+  properties: 
+    id: 
+      type: string
+      example: 10dfcb15-31af-4c17-be83-c9d753cc0770
+    name: 
+      type: string
+      example: Pedro
+    email: 
+      type: string
+      format: nullable
+    phone: 
+      type: string
+      format: nullable
+    apartment: 
+      type: integer
+      format: int32
+      example: 202

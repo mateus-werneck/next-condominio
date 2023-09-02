@@ -7,3 +7,5 @@ paths:
     $ref: ./routes/expenses/common.yaml
   /api/expenses/{id}:
     $ref: ./routes/expenses/expense.yaml
+  /api/residents:
+    $ref: ./routes/residents/common.yaml

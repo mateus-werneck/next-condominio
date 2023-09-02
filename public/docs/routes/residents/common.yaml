@@ -1,0 +1,62 @@
+get:
+  description: Retorna todos os moradores do condomínio
+  tags:
+    - Moradores
+  responses:
+    "200":
+      description: Moradores encontrados
+      content:
+        application/json:
+          schema:
+            description: Resident[]
+            type: array
+            items:
+              $ref: ./components/standard.yaml#Resident
+post:
+  description: Cadastrar um morador
+  tags:
+    - Moradores
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ./components/create.yaml#CreateResident
+  responses:
+    "200":
+      description: Despesa cadastada com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: ./components/standard.yaml#Resident
+put:
+  description: Altera os dados de um morador
+  tags:
+    - Despesas
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ./components/update.yaml#UpdateResident
+  responses:
+    "200":
+      description: Morador alterado com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: ./components/update.yaml#UpdateResident
+delete:
+  description: Deletar despesas
+  tags:
+    - Moradores
+  parameters:
+    - in: query
+      name: residentIds
+      description: IDs de moradores para deletar
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Moradores deletados com sucesso

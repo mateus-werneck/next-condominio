@@ -1,0 +1,15 @@
+CreateResident:
+  properties: 
+    name: 
+      type: string
+      example: Pedro
+    email: 
+      type: string
+      format: nullable
+    phone: 
+      type: string
+      format: nullable
+    apartment: 
+      type: integer
+      format: int32
+      example: 202

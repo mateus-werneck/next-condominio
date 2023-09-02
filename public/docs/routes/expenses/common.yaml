@@ -49,7 +49,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: ./components/createExpense.yaml#CreateExpense
+          $ref: ./components/create.yaml#CreateExpense
   responses:
     "200":
       description: Despesa cadastada com sucesso
@@ -66,7 +66,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: ./components/updateExpense.yaml#UpdateExpense
+          $ref: ./components/update.yaml#UpdateExpense
   responses:
     "200":
       description: Despesa alterada com sucesso
@@ -82,7 +82,7 @@ delete:
     - in: query
       name: expenseIds
       description: IDs de despesas para deletar
-      required: false
+      required: true
       schema:
         type: string
   responses:
