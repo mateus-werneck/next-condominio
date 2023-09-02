@@ -49,6 +49,7 @@ function useResponsive(
   const getMenu = useCallback(getRenderedMenu, [
     isMobileView,
     showMobileMenu,
+    setShowMobileMenu,
     activeLink
   ]);
 

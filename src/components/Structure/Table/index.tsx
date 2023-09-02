@@ -1,4 +1,5 @@
 import DefaultButton from '@Components/Structure/Button';
+import { useDevice } from '@Contexts/useDevice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from '@mui/material';
 import {
@@ -15,7 +16,6 @@ import { useCallback, useState } from 'react';
 import { appendColumnConfig } from './utils/columns';
 import { DataGridCustomStyles } from './utils/customStyle';
 import { localeText, theme } from './utils/customTable';
-import { useDevice } from '@Contexts/useDevice';
 
 interface ITableData {
   name: string;
@@ -92,7 +92,7 @@ function useCustomActions(props: ITableData) {
         {customToolbar}
       </GridToolbarContainer>
     );
-  }, [customToolbar]);
+  }, [customToolbar, isMobileView]);
 
   function getCustomBarElements() {
     return props.customToolbar !== undefined

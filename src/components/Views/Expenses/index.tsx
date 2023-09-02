@@ -1,12 +1,11 @@
 'use client';
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
+import { publicAPI } from '@Lib/Client/api';
 import { MonthRange } from '@Lib/Treat/Date';
-import { appendQueryParams } from '@Lib/Treat/Request';
 import { Expense, ExpenseType } from '@prisma/client';
 import { useState } from 'react';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
-import { publicAPI } from '@Lib/Client/api';
 
 interface IViewExpenses {
   monthRange: MonthRange;

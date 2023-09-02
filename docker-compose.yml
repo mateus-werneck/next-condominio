@@ -18,20 +18,20 @@ services:
       - pgdata:/data/postgres
     command: -p 5432
   expense-dashboard:
-    build: ./
+    build:
+      context: .
+      args:
+        NODE_ENV: 'development'
     restart: always
     container_name: expense-dashboard
-    env_file:
-      - .development.env
     ports:
       - 9015:80
     networks:
       expense-network:
         ipv4_address: 172.19.55.12
     volumes:
-      - .:/usr/src/app/dashboard
-      - /usr/src/app/dashboard/node_modules
-    command: npm run dev
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - expense-db
   pg-admin-web:

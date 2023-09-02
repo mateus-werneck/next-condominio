@@ -1,0 +1,13 @@
+.next/
+
+.dockerignore
+Dockerfile
+docker-compose.yml
+.gitignore
+yarn-error.log
+.env
+.git
+.eslintignore
+.eslintrc.js
+.prettierrc
+
