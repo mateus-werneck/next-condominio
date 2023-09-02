@@ -8,18 +8,28 @@ datasource db {
 }
 
 model Expense {
-  id      String   @id @default(uuid()) @map("id_expense")
-  name    String   @map("name_expense") @db.VarChar(256)
-  value   Decimal  @map("value_expense") @db.Money
-  dueDate DateTime @map("duedate_expense") @db.Date
-  type    String   @map("type_expense") @db.VarChar(256)
-
-  createdAt DateTime @default(now()) @map("insertdate_expense")
-  updatedAt DateTime @default(now()) @map("updatedate_expense")
-
+  id          String      @id @default(uuid()) @map("id_expense")
+  name        String      @map("name_expense") @db.VarChar(256)
+  value       Decimal     @map("value_expense") @db.Money
+  dueDate     DateTime    @map("duedate_expense") @db.Date
+  type        String      @map("type_expense") @db.VarChar(256)
+  createdAt   DateTime    @default(now()) @map("insertdate_expense")
+  updatedAt   DateTime    @default(now()) @map("updatedate_expense")
   expenseType ExpenseType @relation(fields: [type], references: [id])
 
   @@map("expenses")
+}
+
+model Resident {
+  id        String   @id @default(uuid()) @map("id_resident")
+  name      String   @map("name_resident") @db.VarChar(50)
+  email     String?  @map("email_resident") @db.VarChar(50)
+  phone     String?  @map("phone_resident") @db.VarChar(20)
+  apartment Int      @map("apartment_resident")
+  createdAt DateTime @default(now()) @map("insertdate_resident")
+  updatedAt DateTime @default(now()) @map("updatedate_resident")
+
+  @@map("residents")
 }
 
 model ExpenseType {
@@ -29,17 +39,4 @@ model ExpenseType {
   Expense Expense[]
 
   @@map("expense_types")
-}
-
-model Resident {
-  id        String  @id @default(uuid()) @map("id_resident")
-  name      String  @map("name_resident") @db.VarChar(50)
-  email     String? @map("email_resident") @db.VarChar(50)
-  phone     String? @map("phone_resident") @db.VarChar(20)
-  apartment Int     @map("apartment_resident") @db.Integer
-
-  createdAt DateTime @default(now()) @map("insertdate_resident")
-  updatedAt DateTime @default(now()) @map("updatedate_resident")
-
-  @@map("residents")
 }
