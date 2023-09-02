@@ -1,0 +1,16 @@
+parameters:
+  name:
+    in: query
+    name: name
+    description: Nome da Despesa
+    required: false
+    schema:
+      type: string
+      example: "Cemig"
+  expenseTypes:
+    in: query
+    name: expenseTypes
+    description: ID de Tipos de Despesa
+    required: false
+    schema:
+      type: string

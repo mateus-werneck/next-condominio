@@ -1,4 +1,5 @@
-UpdateResident:
+Resident:
+  description: Resident
   properties: 
     id: 
       type: string

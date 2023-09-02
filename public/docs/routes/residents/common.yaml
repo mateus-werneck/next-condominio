@@ -11,7 +11,7 @@ get:
             description: Resident[]
             type: array
             items:
-              $ref: ./components/standard.yaml#Resident
+              $ref: components/schemas/standard.yaml#Resident
 post:
   description: Cadastrar um morador
   tags:
@@ -21,31 +21,31 @@ post:
     content:
       application/json:
         schema:
-          $ref: ./components/create.yaml#CreateResident
+          $ref: components/schemas/create.yaml#CreateResident
   responses:
     "200":
       description: Despesa cadastada com sucesso
       content:
         application/json:
           schema:
-            $ref: ./components/standard.yaml#Resident
+            $ref: components/schemas/standard.yaml#Resident
 put:
   description: Altera os dados de um morador
   tags:
-    - Despesas
+    - Moradores
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: ./components/update.yaml#UpdateResident
+          $ref: components/schemas/standard.yaml#Resident
   responses:
     "200":
       description: Morador alterado com sucesso
       content:
         application/json:
           schema:
-            $ref: ./components/update.yaml#UpdateResident
+            $ref: components/schemas/standard.yaml#Resident
 delete:
   description: Deletar despesas
   tags:

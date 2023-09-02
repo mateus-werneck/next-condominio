@@ -1,0 +1,8 @@
+parameters:
+  id:
+    in: path
+    name: id
+    summary: ID do objeto
+    required: true
+    schema:
+      type: string

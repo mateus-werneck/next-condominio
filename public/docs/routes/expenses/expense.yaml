@@ -3,19 +3,14 @@ get:
   tags:
     - Despesas
   parameters:
-    - in: path
-      name: id
-      description: ID da despesa
-      required: true
-      schema:
-        type: string
+    - $ref: ../../common/parameters/path.yaml#parameters/id
   responses:
     "200":
       description: Despesa encontrada
       content:
         application/json:
           schema:
-            $ref: ./components/standard.yaml#Expense
+            $ref: components/schemas/standard.yaml#Expense
 delete:
   description: Deletar despesa
   tags:

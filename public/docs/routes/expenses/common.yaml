@@ -3,33 +3,10 @@ get:
   tags:
     - Despesas
   parameters:
-    - in: query
-      name: startAt
-      description: Data Inicial
-      required: false
-      schema:
-        type: date
-        example: "2023-01-01"
-    - in: query
-      name: endAt
-      description: Data Final
-      required: false
-      schema:
-        type: date
-        example: "2023-01-31"
-    - in: query
-      name: name
-      description: Nome da Despesa
-      required: false
-      schema:
-        type: string
-        example: "Cemig"
-    - in: query
-      name: expenseTypes
-      description: ID de Tipos de Despesa
-      required: false
-      schema:
-        type: string
+    - $ref: ../../common/parameters/query.yaml#parameters/startAt    
+    - $ref: ../../common/parameters/query.yaml#parameters/endAt    
+    - $ref: components/parameters/query.yaml#parameters/name    
+    - $ref: components/parameters/query.yaml#parameters/expenseTypes   
   responses:
     "200":
       description: Despesas encontradas
@@ -39,7 +16,7 @@ get:
             description: Expense[]
             type: array
             items:
-              $ref: ./components/standard.yaml#Expense
+              $ref: components/schemas/standard.yaml#Expense
 post:
   description: Cadastrar uma despesa
   tags:
@@ -49,14 +26,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: ./components/create.yaml#CreateExpense
+          $ref: components/schemas/create.yaml#CreateExpense
   responses:
     "200":
       description: Despesa cadastada com sucesso
       content:
         application/json:
           schema:
-            $ref: ./components/standard.yaml#Expense
+            $ref: components/schemas/standard.yaml#Expense
 put:
   description: Altera os dados de uma despesa
   tags:
@@ -66,14 +43,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: ./components/update.yaml#UpdateExpense
+          $ref: components/schemas/standard.yaml#Expense
   responses:
     "200":
       description: Despesa alterada com sucesso
       content:
         application/json:
           schema:
-            $ref: ./components/standard.yaml#Expense
+            $ref: components/schemas/standard.yaml#Expense
 delete:
   description: Deletar despesas
   tags:
