@@ -5,11 +5,18 @@ get:
   parameters:
     - in: query
       name: startAt
-      description: Data inicial
+      description: Data Inicial
       required: true
       schema:
         type: date
         example: "2023-01-01"
+    - in: query
+      name: endAt
+      description: Data Final
+      required: false
+      schema:
+        type: date
+        example: "2023-01-31"
   responses:
     "200":
       description: Despesas encontradas
