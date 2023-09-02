@@ -1,20 +1,20 @@
 get:
-  description: Retorna uma despesa
+  description: Retorna um morador
   tags:
-    - Despesas
+    - Moradores
   parameters:
     - $ref: ../../common/parameters/path.yaml#parameters/id
   responses:
     "200":
-      description: Despesa encontrada
+      description: Morador encontrado
       content:
         application/json:
           schema:
-            $ref: components/schemas/standard.yaml#Expense
+            $ref: components/schemas/standard.yaml#Resident
 delete:
-  description: Deletar despesa
+  description: Deletar morador
   tags:
-    - Despesas
+    - Moradores
   parameters:
     - $ref: ../../common/parameters/path.yaml#parameters/id
   responses:
