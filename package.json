@@ -7,9 +7,9 @@
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development next dev -p 80",
-    "local": "next dev",
+    "local": "NODE_ENV=test next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -32,7 +32,6 @@
     "eslint-config-next": "13.4.1",
     "eslint-plugin-prettier": "^4.2.1",
     "next": "13.4.1",
-    "next-swagger-doc": "^0.4.0",
     "postcss": "8.4.23",
     "prettier": "^2.8.8",
     "prisma": "^5.2.0",

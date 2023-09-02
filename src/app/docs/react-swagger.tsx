@@ -3,12 +3,9 @@
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 
-type Props = {
-  spec: Record<string, any>;
-};
-
-function ReactSwagger({ spec }: Props) {
-  return <SwaggerUI spec={spec} />;
+function ReactSwagger() {
+  const systemUrl = process.env.NEXT_PUBLIC_SYSTEM_URL;
+  return <SwaggerUI url={`${systemUrl}/swagger.json`} deepLinking />;
 }
 
 export default ReactSwagger;
