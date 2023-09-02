@@ -1,6 +1,7 @@
 components:
   schema:
     Expense:
+      description: Expense
       properties:
         id:
           type: string

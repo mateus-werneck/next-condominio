@@ -6,7 +6,7 @@ get:
     - in: query
       name: startAt
       description: Data Inicial
-      required: true
+      required: false
       schema:
         type: date
         example: "2023-01-01"
@@ -17,15 +17,29 @@ get:
       schema:
         type: date
         example: "2023-01-31"
+    - in: query
+      name: name
+      description: Nome da Despesa
+      required: false
+      schema:
+        type: string
+        example: "Cemig"
+    - in: query
+      name: expenseTypes
+      description: ID de Tipos de Despesa
+      required: false
+      schema:
+        type: string
   responses:
     "200":
       description: Despesas encontradas
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: ../models/expense.yaml#/components/schema/Expense
+              description: Expense[]
+              type: array
+              items:
+                $ref: ../models/expense.yaml#/components/schema/Expense
 put:
   description: Altera os dados de uma despesa
   tags:
