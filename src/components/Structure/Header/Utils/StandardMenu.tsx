@@ -56,7 +56,10 @@ export function getHomeButton(): JSX.Element {
       href="/"
       className="flex gap-2 items-center justify-center self-center mb-1"
     >
-      <HomeIcon fontSize="medium" className="md:hover:text-[var(--orange)]" />
+      <HomeIcon
+        fontSize="medium"
+        className="text-white md:hover:text-[var(--orange)]"
+      />
     </Link>
   );
 }
