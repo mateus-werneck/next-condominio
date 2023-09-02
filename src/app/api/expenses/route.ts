@@ -4,6 +4,17 @@ import { Expense, Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/expenses:
+ *   get:
+ *     description: Retorna todas as despesas do condomínio
+ *     tags:
+ *      - Despesas
+ *     responses:
+ *       200:
+ *         description: Despesas encontradas
+ */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const conditions = getConditions(searchParams);
@@ -20,6 +31,17 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(createdExpense);
 }
 
+/**
+ * @swagger
+ * /api/expenses:
+ *   put:
+ *     description: Altera os dados de uma despesa
+ *     tags:
+ *      - Despesas
+ *     responses:
+ *       200:
+ *         description: Despesa alterada com sucesso
+ */
 export async function PUT(request: NextRequest) {
   const data = await request.json();
   const expense = data as Expense;

@@ -1,0 +1,35 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Condomínio API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/expenses": {
+      "get": {
+        "description": "Retorna todas as despesas do condomínio",
+        "tags": [
+          "Despesas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Despesas encontradas"
+          }
+        }
+      },
+      "put": {
+        "description": "Altera os dados de uma despesa",
+        "tags": [
+          "Despesas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Despesa alterada com sucesso"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
