@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 
-ARG NODE_ENV
+ARG NODE_ENV CMD
 
 COPY .env.${NODE_ENV} ./.env
 
@@ -26,4 +26,4 @@ RUN yarn build
 
 EXPOSE 9015
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", ${CMD}]

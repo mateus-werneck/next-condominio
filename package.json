@@ -6,7 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "next start -p 80",
+    "dev": "next dev -p 80",
     "local": "NODE_ENV=test next dev",
     "build": "next build",
     "start": "next start -p 80",
