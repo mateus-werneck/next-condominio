@@ -12,6 +12,10 @@ RUN yarn install --frozen-lockfile
 
 RUN yarn prisma generate
 
+RUN yarn prisma db pull
+
+RUN yarn prisma db seed
+
 EXPOSE 9015
 
 CMD ["npm", "run", "dev"]
