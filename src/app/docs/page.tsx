@@ -1,15 +1,14 @@
-'use client';
+import Swagger from '@Components/Swagger/Swagger';
 import { notFound } from 'next/navigation';
-import ReactSwagger from './react-swagger';
 
-export default async function IndexPage() {
+export default async function DocsPage() {
   if (process.env.NODE_ENV == 'production') {
     notFound();
   }
 
   return (
     <section className="container">
-      <ReactSwagger />
+      <Swagger />
     </section>
   );
 }

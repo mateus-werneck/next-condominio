@@ -1,0 +1,8 @@
+openapi: 3.0.0
+info:
+  title: Condomínio API
+  version: "1.0"
+paths:
+  /api/expenses:
+    $ref: ./routes/expenses.yaml
+tags: []
