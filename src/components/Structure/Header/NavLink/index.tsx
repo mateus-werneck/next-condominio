@@ -38,10 +38,19 @@ function useResponsive({
           height: isActiveLink() ? 'auto' : '20px'
         }}
         onClick={() =>
-          setActiveLink((previousValue: IActiveLink) => ({
-            ...previousValue,
-            [name]: !previousValue[name]
-          }))
+          !isActiveLink()
+            ? setActiveLink((previousValue: IActiveLink) => ({
+                ...previousValue,
+                [name]: !previousValue[name]
+              }))
+            : setTimeout(
+                () =>
+                  setActiveLink((previousValue: IActiveLink) => ({
+                    ...previousValue,
+                    [name]: !previousValue[name]
+                  })),
+                500
+              )
         }
       >
         <span className="flex px-10 items-center justify-between">

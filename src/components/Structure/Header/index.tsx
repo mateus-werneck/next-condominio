@@ -6,54 +6,37 @@ import {
 } from '@Components/Structure/Header/Utils/StandardMenu';
 import { useDevice } from '@Contexts/useDevice';
 import Link from 'next/link';
-import { useCallback, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
 import { MobileActions } from './MobileActions';
 import { IActiveLink } from './types';
 
 interface IResponsive {
   getMenu: () => JSX.Element;
+  getMobileActions: () => JSX.Element;
 }
 
 export const Header = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-  const { getMenu } = useResponsive(showMobileMenu, setShowMobileMenu);
-
-  function onClickMobile(e: any) {
-    e.preventDefault();
-    setShowMobileMenu((previousValue: boolean) => !previousValue);
-  }
-
-  const MobileMenu = useMemo(() => {
-    return (
-      <MobileActions showMobileMenu={showMobileMenu} onClick={onClickMobile} />
-    );
-  }, [showMobileMenu]);
+  const { getMenu, getMobileActions } = useResponsive();
 
   return (
     <>
       <div className="flex flex-col justify-between bg-white">
-        {MobileMenu}
+        {getMobileActions()}
         {getMenu()}
       </div>
     </>
   );
 };
 
-function useResponsive(
-  showMobileMenu: boolean,
-  setShowMobileMenu: (value: boolean) => void
-): IResponsive {
+function useResponsive(): IResponsive {
+  const router = useRouter();
   const { isMobileView } = useDevice();
+
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const [activeLink, setActiveLink] = useState<IActiveLink>({});
 
-  const getMenu = useCallback(getRenderedMenu, [
-    isMobileView,
-    showMobileMenu,
-    setShowMobileMenu,
-    activeLink
-  ]);
-
-  function getRenderedMenu() {
+  function getMenu() {
     const menu = getMenuDefault();
 
     return (
@@ -80,14 +63,27 @@ function useResponsive(
                 key={child.name}
                 href={child.href}
                 className="flex gap-4 items-start text-white md:text-slate-800 hover:text-cyan-600"
-                onClick={() => setShowMobileMenu(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(child.href);
+
+                  !isMobileView() &&
+                    setActiveLink((previousValue: IActiveLink) => ({
+                      ...previousValue,
+                      [parent.name]: false
+                    }));
+
+                  setTimeout(() => {
+                    setShowMobileMenu((previousValue: boolean) => {
+                      return !previousValue;
+                    });
+                  }, 800);
+                }}
               >
                 {child.icon !== undefined && child.icon}
                 <span className="flex flex-col items-start gap-2">
                   {child.name}
-                  <span className="text-xs text-gray-300 md:text-inherit">
-                    {child.desc}
-                  </span>
+                  <span className="text-xs">{child.desc}</span>
                 </span>
               </Link>
             ))}
@@ -97,5 +93,22 @@ function useResponsive(
     );
   }
 
-  return { getMenu };
+  function getMobileActions() {
+    const MobileMenu = useMemo(() => {
+      function onClickMobile(e: any) {
+        e.preventDefault();
+        setShowMobileMenu((previousValue: boolean) => !previousValue);
+      }
+      return (
+        <MobileActions
+          showMobileMenu={showMobileMenu}
+          onClick={onClickMobile}
+        />
+      );
+    }, [showMobileMenu]);
+
+    return MobileMenu;
+  }
+
+  return { getMenu, getMobileActions };
 }
