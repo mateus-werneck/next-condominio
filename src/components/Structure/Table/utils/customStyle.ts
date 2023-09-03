@@ -3,10 +3,10 @@ import { SxProps, Theme } from '@mui/material';
 export const DataGridCustomStyles: SxProps<Theme> = {
   '& .MuiDataGrid-toolbarContainer': {
     'a, button': {
-      color: 'var(--green)',
-      fontSize: '0.75rem',
+      color: 'var(--black)',
+      fontSize: '0.7rem',
       '&:hover': {
-        filter: 'brightness(0.8)'
+        filter: 'brightness(1.5)'
       }
     }
   },

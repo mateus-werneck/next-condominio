@@ -58,7 +58,7 @@ const GridColumnsConfig = {
     valueFormatter: (params: GridValueFormatterParams) => params.value.label,
     valueGetter: (
       params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
-    ) => params.value.label,
+    ) => params.value?.label ?? '',
     filterOperators: getGridStringOperators()
   }
 } as const;

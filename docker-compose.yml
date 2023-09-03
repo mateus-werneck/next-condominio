@@ -1,7 +1,7 @@
 services:
-  expense-db:
+  expensedb:
     image: postgres
-    container_name: expense-db
+    container_name: expensedb
     restart: unless-stopped
     environment:
       - POSTGRES_USER=next
@@ -21,23 +21,29 @@ services:
     build:
       context: .
       args:
-        NODE_ENV: 'development'
-        CMD: 'dev'
+        NODE_ENV: ${NODE_ENV:-development}
+        CMD: ${CMD:-dev}
     restart: always
     container_name: expense-dashboard
+    environment:
+      - DB_USER=next
+      - DB_PASS=845d47df5c3a993de0517f315ca8341a
+      - DB_HOST=expensedb
+      - DB_NAME=expenses
     ports:
       - 9015:80
     networks:
       expense-network:
         ipv4_address: 172.19.55.12
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/app
+      - /app/node_modules
     depends_on:
-      - expense-db
-  pg-admin-web:
+      - expensedb
+  pgadmin-web:
     image: dpage/pgadmin4
     restart: unless-stopped
+    container_name: pgadmin-web
     ports:
       - 9000:80
     networks:
@@ -47,7 +53,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=werneck.mateus@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=p6@dm1n
     depends_on:
-      - expense-db
+      - expensedb
 
 volumes:
   pgdata:

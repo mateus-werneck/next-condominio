@@ -1,13 +1,8 @@
+node_modules/
 .next/
-
-.dockerignore
+.git/
+.gitignore
 Dockerfile
 docker-compose.yml
-.gitignore
 yarn-error.log
 .env
-.git
-.eslintignore
-.eslintrc.js
-.prettierrc
-

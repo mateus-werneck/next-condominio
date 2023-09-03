@@ -44,7 +44,11 @@ export default function ViewExpenses({
         expenseTypes={expenseTypes}
         onFormSubmit={onFormSubmit}
       />
-      <TableListExpenses rows={expenses} loading={loading} />
+      <TableListExpenses
+        rows={expenses}
+        loading={loading}
+        setExpenses={setExpenses}
+      />
     </>
   );
 }

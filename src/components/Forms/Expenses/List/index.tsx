@@ -29,7 +29,6 @@ export default function ListExpensesForm({
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}
         submitButtonText="Salvar"
-        align="self-start"
       />
     </>
   );

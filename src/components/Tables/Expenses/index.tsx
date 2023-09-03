@@ -11,20 +11,20 @@ import { publicAPI } from '@Lib/Client/api';
 import { getDefaultTableActions } from '@Lib/Table/Actions';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
-import { useState } from 'react';
 import { getTableAddButton } from '../utils/customButtons';
 
 interface ITableListExpenses {
   rows: Expense[];
+  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void;
   loading: boolean;
 }
 
 export default function TableListExpenses({
   rows,
+  setExpenses,
   loading
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
-  const [expenses, setExpenses] = useState<Expense[]>(rows);
 
   const { onConfirmDeletion, onBatchDelete } = useTableActions({ setExpenses });
 
@@ -59,7 +59,7 @@ export default function TableListExpenses({
     <StandardTable
       name={table}
       columns={columns}
-      rows={expenses}
+      rows={rows}
       customToolbar={getTableAddButton('/expenses/new')}
       loading={loading}
       checkBoxSelection={true}
@@ -71,7 +71,7 @@ export default function TableListExpenses({
 function useTableActions({
   setExpenses
 }: {
-  setExpenses: (value: (previousValue: any[]) => any[]) => void;
+  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void;
 }) {
   const onConfirmDeletion = async (row: { id: string }) => {
     await onDeleteAction({

@@ -12,6 +12,5 @@ export interface IStandardForm {
   validationSchema: ZodType;
   onSubmit: ISubmitForm;
   submitButtonText?: string;
-  align?: 'self-center' | 'self-start' | 'self-end';
   mode?: Mode;
 }

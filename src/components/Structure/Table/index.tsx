@@ -49,6 +49,11 @@ export default function StandardTable(props: ITableData) {
               paginationModel: {
                 pageSize: props.rowsPerPage ? props.rowsPerPage : 25
               }
+            },
+            columns: {
+              columnVisibilityModel: {
+                __check__: false
+              }
             }
           }}
           pageSizeOptions={[5, 10, 25, 50, 100]}
@@ -60,11 +65,7 @@ export default function StandardTable(props: ITableData) {
             toolbar: CustomToolbar
           }}
           onRowSelectionModelChange={handleSelection}
-          checkboxSelection={
-            props.checkBoxSelection == undefined
-              ? true
-              : props.checkBoxSelection
-          }
+          checkboxSelection={props.checkBoxSelection ?? true}
           loading={
             props.loading !== undefined
               ? props.loading
@@ -148,7 +149,10 @@ function useCustomActions(props: ITableData) {
           props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }
       >
-        <DeleteIcon fontSize="small" color="error" />
+        <DeleteIcon
+          style={{ maxWidth: '16px', maxHeight: '16px' }}
+          color="error"
+        />
         Remover
       </DefaultButton>
     );

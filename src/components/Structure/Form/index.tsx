@@ -42,7 +42,7 @@ export default function StandardForm(props: IStandardForm) {
     });
   }
   return (
-    <div className="flex flex-col justify-center items-center rounded-md bg-slate-100 p-4 mt-4 gap-8">
+    <div className="flex flex-col justify-center items-center lg:self-start rounded-md bg-slate-100 p-4 mt-4 gap-8">
       <form
         className="flex flex-col mt-4 gap-4 md:grid md:grid-cols-3 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}

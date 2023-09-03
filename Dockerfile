@@ -1,29 +1,31 @@
 FROM node:18-alpine
-
 RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
 
-WORKDIR /usr/src/app
-
-COPY package.json yarn.lock ./
-
-ARG NODE_ENV CMD
-
-COPY .env.${NODE_ENV} ./.env
+WORKDIR /app
 
 COPY . .
 
-RUN rm .env.test .env.development .env.production
+RUN pnpm install --frozen-lockfile
 
-RUN rm -rf .next/ dist/
+ARG NODE_ENV
+COPY ./.env.${NODE_ENV} /app/.env
 
-RUN yarn install --frozen-lockfile
+RUN rm .env.development .env.production
 
-RUN yarn lint --fix
+RUN pnpm lint --fix
 
-RUN yarn prisma generate
+# RUN pnpm prisma migrate dev --name docker-build
 
-RUN yarn build
+# RUN pnpm prisma generate
+
+# RUN pnpm prisma db push
+
+# RUN pnpm prisma db seed
+
 
 EXPOSE 9015
 
-CMD ["npm", "run", ${CMD}]
+USER node
+
+CMD ["npm", "run", "dev"]

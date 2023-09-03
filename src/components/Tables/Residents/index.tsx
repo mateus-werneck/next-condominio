@@ -37,6 +37,17 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       minWidth: 300,
       type: 'number'
     },
+    {
+      field: 'email',
+      headerName: 'Email',
+      minWidth: 300,
+      type: 'email'
+    },
+    {
+      field: 'phone',
+      headerName: 'Telefone',
+      minWidth: 300
+    },
     getDefaultTableActions({ table, route: '/residents', onConfirmDeletion })
   ];
 
@@ -46,7 +57,6 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       columns={columns}
       rows={residents}
       customToolbar={getTableAddButton('/residents/new')}
-      checkBoxSelection={true}
       onBatchDelete={onBatchDelete}
     />
   );
