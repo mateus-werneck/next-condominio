@@ -12,7 +12,7 @@ interface IMenuDefault {
 interface IMenuChildren {
   name: string;
   href: string;
-  desc: string;
+  desc?: string;
   icon?: JSX.Element;
 }
 
@@ -24,13 +24,13 @@ export function getMenuDefault(): IMenuDefault[] {
         {
           name: 'Despesas',
           href: '/expenses',
-          desc: 'Lista de despesas',
+          desc: 'Exibir despesas do condomínio',
           icon: <CurrencyExchangeIcon />
         },
         {
           name: 'Moradores',
           href: '/residents',
-          desc: 'Lista de moradores',
+          desc: 'Exibir moradores do condomínio',
           icon: <PeopleAltIcon />
         }
       ]

@@ -62,7 +62,7 @@ function useResponsive(): IResponsive {
               <Link
                 key={child.name}
                 href={child.href}
-                className="flex gap-4 items-start text-white md:text-slate-800 hover:text-cyan-600"
+                className="flex gap-4 items-start text-white w-96 hover:text-cyan-600 md:text-slate-800 md:w-full"
                 onClick={(e) => {
                   e.preventDefault();
                   router.push(child.href);
@@ -77,13 +77,17 @@ function useResponsive(): IResponsive {
                     setShowMobileMenu((previousValue: boolean) => {
                       return !previousValue;
                     });
+                    setActiveLink((previousValue: IActiveLink) => ({
+                      ...previousValue,
+                      [parent.name]: false
+                    }));
                   }, 800);
                 }}
               >
                 {child.icon !== undefined && child.icon}
                 <span className="flex flex-col items-start gap-2">
                   {child.name}
-                  <span className="text-xs">{child.desc}</span>
+                  {child.desc && <span className="text-xs">{child.desc}</span>}
                 </span>
               </Link>
             ))}

@@ -2,7 +2,7 @@
 import { useDevice } from '@Contexts/useDevice';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { IActiveLink } from '../types';
 
 interface INavLink {
@@ -31,42 +31,48 @@ function useResponsive({
   children
 }: INavLink) {
   function getMobile(): JSX.Element {
+    const [navStyle, setNavStyle] = useState<string>('opactity-0 invisible');
+
     return (
-      <button
-        className="flex flex-col w-full text-lg"
-        style={{
-          height: isActiveLink() ? 'auto' : '20px'
-        }}
-        onClick={() =>
-          !isActiveLink()
-            ? setActiveLink((previousValue: IActiveLink) => ({
-                ...previousValue,
-                [name]: !previousValue[name]
-              }))
-            : setTimeout(
-                () =>
-                  setActiveLink((previousValue: IActiveLink) => ({
-                    ...previousValue,
-                    [name]: !previousValue[name]
-                  })),
-                500
-              )
-        }
-      >
-        <span className="flex px-10 items-center justify-between">
-          {name}
-          {isActiveLink() ? <KeyboardArrowDownIcon /> : <KeyboardArrowRight />}
-        </span>
-        <nav
-          className="flex flex-col p-12 gap-8 text-white text-sm"
+      <>
+        <button
+          className="flex flex-col w-full text-lg"
           style={{
-            opacity: isActiveLink() ? 1 : 0,
-            visibility: isActiveLink() ? 'visible' : 'hidden'
+            height: isActiveLink() ? 'auto' : '20px'
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            setActiveLink((previousValue: IActiveLink) => {
+              const isActive = !previousValue[name];
+
+              setNavStyle(
+                isActive ? 'opactity-1 visible' : 'opactity-0 invisible'
+              );
+
+              return {
+                ...previousValue,
+                [name]: isActive
+              };
+            });
           }}
         >
-          {children}
-        </nav>
-      </button>
+          <span className="flex px-10 items-center justify-between">
+            {name}
+            {isActiveLink() ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </span>
+        </button>
+        {isActiveLink() && (
+          <nav
+            className={`flex flex-col px-12 gap-8 text-white text-sm ${navStyle}`}
+          >
+            {children}
+          </nav>
+        )}
+      </>
     );
   }
 
