@@ -30,7 +30,7 @@ export default function ViewExpenses({
       expenseTypes: filters.expenseTypes.join(',')
     };
 
-    const response = await publicAPI.get('expenses', { params });
+    const response = await publicAPI.get('expeneses', { params });
     const data = await response.data;
 
     setExpenses(() => data as Expense[]);

@@ -98,6 +98,7 @@ function useResponsive(): IResponsive {
   }
 
   function getMobileActions() {
+    /* eslint-disable */
     const MobileMenu = useMemo(() => {
       function onClickMobile(e: any) {
         e.preventDefault();
@@ -109,7 +110,7 @@ function useResponsive(): IResponsive {
           onClick={onClickMobile}
         />
       );
-    }, [showMobileMenu]);
+    }, []);
 
     return MobileMenu;
   }

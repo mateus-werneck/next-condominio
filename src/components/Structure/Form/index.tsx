@@ -94,7 +94,7 @@ function getSubmitButton(
         {!isSubmitting ? (
           submitButtonText
         ) : (
-          <CircularProgress color="inherit" size={16} />
+          <CircularProgress color="info" size={16} />
         )}
       </DefaultButton>
     </div>

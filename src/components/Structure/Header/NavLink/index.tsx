@@ -31,6 +31,7 @@ function useResponsive({
   children
 }: INavLink) {
   function getMobile(): JSX.Element {
+    /* eslint-disable */
     const [navStyle, setNavStyle] = useState<string>('opactity-0 invisible');
 
     return (
