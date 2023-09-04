@@ -20,11 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
       args:
-        DB_USER: next
-        DB_PASS: e486143f6fea732c97f03864232c02c1
-        DB_HOST: host.docker.internal
-        DB_PORT: 9001
-        DB_NAME: condominium
+        DATABASE_URL: postgresql://next:e486143f6fea732c97f03864232c02c1@host.docker.internal:9001/condominium?schema=public&connect_timeout=60
     restart: always
     container_name: expense-dashboard
     networks:

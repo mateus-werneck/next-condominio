@@ -3,24 +3,19 @@ services:
     build:
       context: .
       args:
-        NODE_ENV: ${NODE_ENV}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
-        DB_HOST: ${DB_HOST}
-        DB_PORT: ${DB_PORT}
-        DB_NAME: ${DB_NAME}
+        DATABASE_URL: postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public&connect_timeout=60
     restart: unless-stopped
     container_name: expense-dashboard
     networks:
       condominium-network:
-        ipv4_address: 172.18.55.12
+        ipv4_address: 172.18.55.11
+    ports:
+      - 80:80
+      - 443:443
     volumes:
       - .:/app
       - /app/node_modules
 
-volumes:
-  pgdata:
-    driver: local
 networks:
   condominium-network:
     driver: bridge

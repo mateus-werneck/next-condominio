@@ -12,9 +12,9 @@ RUN pnpm install --frozen-lockfile
 COPY ./.env.development /app/.env
 RUN rm .env.development .env.production
 
-ARG DB_USER DB_PASS DB_HOST DB_PORT DB_NAME
+ARG DATABASE_URL
 
-ENV DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public&connect_timeout=60
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN pnpm prisma generate
 
@@ -30,9 +30,9 @@ VOLUME ["/usr/app"]
 
 WORKDIR /usr/app
 
-ARG DB_USER DB_PASS DB_HOST DB_PORT DB_NAME
+ARG DATABASE_URL
 
-ENV NODE_ENV=development DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public&connect_timeout=60
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN addgroup --system --gid 1001 app
 RUN adduser --system --uid 1001 app
