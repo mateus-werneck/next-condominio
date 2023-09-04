@@ -1,12 +1,14 @@
+import { alertEditFailed } from '@Lib/Alerts/customActions';
 import axios from 'axios';
 
-export const publicAPI = axios.create({
+export const clientConn = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/`
 });
 
-publicAPI.interceptors.response.use(
+clientConn.interceptors.response.use(
   (value) => Promise.resolve(value),
-  (error) => {
-    throw new Error('Falha na requisição.', { cause: error });
+  () => {
+    alertEditFailed();
+    Promise.reject('Falha na requisição. Verifique com o administrador.');
   }
 );

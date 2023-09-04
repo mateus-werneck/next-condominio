@@ -1,7 +1,7 @@
 'use client';
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
-import { publicAPI } from '@Lib/Client/api';
+import { clientConn } from '@Lib/Client/api';
 import { MonthRange } from '@Lib/Treat/Date';
 import { Expense, ExpenseType } from '@prisma/client';
 import { useState } from 'react';
@@ -30,8 +30,8 @@ export default function ViewExpenses({
       expenseTypes: filters.expenseTypes.join(',')
     };
 
-    const response = await publicAPI.get('expeneses', { params });
-    const data = await response.data;
+    const response = await clientConn.get('expenssses', { params });
+    const data = (await response?.data) ?? expenses;
 
     setExpenses(() => data as Expense[]);
     setIsLoading(false);

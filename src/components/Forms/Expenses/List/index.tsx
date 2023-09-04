@@ -28,7 +28,7 @@ export default function ListExpensesForm({
         inputs={inputs}
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}
-        submitButtonText="Salvar"
+        submitButtonText="Filtrar"
       />
     </>
   );

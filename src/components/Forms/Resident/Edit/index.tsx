@@ -3,7 +3,7 @@ import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/Form/utils/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
-import { publicAPI } from '@Lib/Client/api';
+import { clientConn } from '@Lib/Client/api';
 import { Masks } from '@Lib/Input/masks';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { Resident } from '@prisma/client';
@@ -29,11 +29,11 @@ export default function ResidentForm(props: IResidentForm) {
   ) => {
     try {
       props.resident.id
-        ? await publicAPI.put('residents', {
+        ? await clientConn.put('residents', {
             id: props.resident.id,
             ...submitData
           })
-        : await publicAPI.post('residents', submitData);
+        : await clientConn.post('residents', submitData);
       alertEditSuccess(props.resident.id ? undefined : reset);
     } catch (error) {
       alertEditFailed();

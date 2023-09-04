@@ -7,7 +7,7 @@ import {
   alertEditSuccess,
   onDeleteAction
 } from '@Lib/Alerts/customActions';
-import { publicAPI } from '@Lib/Client/api';
+import { clientConn } from '@Lib/Client/api';
 import { getDefaultTableActions } from '@Lib/Table/Actions';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
@@ -83,7 +83,7 @@ function useTableActions({
   const onBatchDelete = async (selectedRows: string[]) => {
     const onConfirmDeletion = async () => {
       try {
-        await publicAPI.delete(`/expenses`, {
+        await clientConn.delete(`/expenses`, {
           params: {
             expenseIds: selectedRows.join(',')
           }

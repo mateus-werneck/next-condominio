@@ -3,7 +3,7 @@ import StandardForm from '@Components/Structure/Form';
 import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/Form/utils/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
-import { publicAPI } from '@Lib/Client/api';
+import { clientConn } from '@Lib/Client/api';
 import { Masks } from '@Lib/Input/masks';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
@@ -39,8 +39,8 @@ export default function ExpenseForm(props: IExpenseForm) {
 
     try {
       props.expense.id
-        ? await publicAPI.put('expenses', { id: props.expense.id, ...data })
-        : await publicAPI.post('expenses', data);
+        ? await clientConn.put('expenses', { id: props.expense.id, ...data })
+        : await clientConn.post('expenses', data);
       alertEditSuccess(props.expense.id ? undefined : reset);
     } catch (error) {
       alertEditFailed();
