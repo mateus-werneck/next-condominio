@@ -1,0 +1,30 @@
+services:
+  expense-dashboard:
+    build:
+      context: .
+      args:
+        NODE_ENV: ${NODE_ENV}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+        DB_HOST: ${DB_HOST}
+        DB_PORT: ${DB_PORT}
+        DB_NAME: ${DB_NAME}
+    restart: unless-stopped
+    container_name: expense-dashboard
+    networks:
+      condominium-network:
+        ipv4_address: 172.18.55.12
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:
+    driver: local
+networks:
+  condominium-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.55.0/16

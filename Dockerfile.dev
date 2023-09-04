@@ -1,0 +1,46 @@
+FROM node:18-alpine AS builder
+
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+COPY . .
+
+RUN pnpm install --frozen-lockfile
+
+ARG NODE_ENV DB_USER DB_PASS DB_HOST DB_PORT DB_NAME
+
+COPY ./.env.${NODE_ENV} /app/.env
+RUN rm .env.development .env.production
+
+ENV DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public&connect_timeout=60
+
+RUN pnpm prisma generate
+
+RUN pnpm prisma migrate dev
+
+RUN pnpm prisma db seed
+
+RUN pnpm build
+
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=development
+
+RUN addgroup --system --gid 1001 app
+RUN adduser --system --uid 1001 app
+
+USER app
+
+COPY --chown=app:app --from=builder /app/.next/standalone /app/src/
+COPY --chown=app:app --from=builder /app/public /app/public
+COPY --chown=app:app --from=builder /app/.next/static /app/.next/static
+
+ENV PORT 80
+
+EXPOSE 80
+
+CMD ["node", "app/server.js"]

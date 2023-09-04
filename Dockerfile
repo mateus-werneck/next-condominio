@@ -8,24 +8,20 @@ COPY . .
 
 RUN pnpm install --frozen-lockfile
 
-ARG NODE_ENV
-COPY ./.env.${NODE_ENV} /app/.env
+ARG NODE_ENV DB_USER DB_PASS DB_HOST DB_PORT DB_NAME
 
+ENV DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public&connect_timeout=60
+COPY ./.env.${NODE_ENV} /app/.env
 RUN rm .env.development .env.production
 
-RUN pnpm lint --fix
+RUN pnpm prisma generate
 
-# RUN pnpm prisma migrate dev --name docker-build
+RUN pnpm prisma migrate deploy
 
-# RUN pnpm prisma generate
+RUN pnpm prisma db seed
 
-# RUN pnpm prisma db push
+RUN pnpm build
 
-# RUN pnpm prisma db seed
+EXPOSE 80
 
-
-EXPOSE 9015
-
-USER node
-
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]

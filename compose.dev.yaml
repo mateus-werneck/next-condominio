@@ -1,0 +1,52 @@
+services:
+  expensedb:
+    image: postgres
+    container_name: expensedb
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=next
+      - POSTGRES_PASSWORD=e486143f6fea732c97f03864232c02c1
+      - POSTGRES_DB=condominium
+    ports:
+      - 9001:5432
+    networks:
+      condominium-network:
+        ipv4_address: 172.18.55.11
+    volumes:
+      - pgdata:/data/postgres
+
+  expense-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        NODE_ENV: development
+        DB_USER: next
+        DB_PASS: e486143f6fea732c97f03864232c02c1
+        DB_HOST: host.docker.internal
+        DB_PORT: 9001
+        DB_NAME: condominium
+    restart: always
+    container_name: expense-dashboard
+    networks:
+      condominium-network:
+        ipv4_address: 172.18.55.12
+    ports:
+      - 9015:80
+    volumes:
+      - .:/app
+      - /var/www/html/next-condominio:/usr/app
+      - /app/node_modules
+    depends_on:
+      - expensedb
+
+volumes:
+  pgdata:
+    driver: local
+networks:
+  condominium-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.55.0/16

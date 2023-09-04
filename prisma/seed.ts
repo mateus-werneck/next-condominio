@@ -8,6 +8,10 @@ async function main() {
 }
 
 async function createExpenseTypes() {
+  const count = await prisma.expenseType.count();
+
+  if (count) return;
+
   const expenseTypes = await prisma.expenseType.createMany({
     data: [
       {

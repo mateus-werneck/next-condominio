@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 export default function Breadcrumb() {
   const { isMobileView } = useDevice();
   const pathName = usePathname();
-  const paths = pathName.split('?')[0].split('/').filter(Boolean);
+  const paths = pathName?.split('?')[0].split('/').filter(Boolean) ?? [];
   const breadcrumbs = paths.slice(0, -1);
 
   if (isMobileView() || paths.length <= 1) {
