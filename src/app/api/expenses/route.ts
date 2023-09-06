@@ -1,3 +1,4 @@
+import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
 import { CreateExpense } from '@Types/Expense/types';
 import { Expense, Prisma } from '@prisma/client';
@@ -15,21 +16,23 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
   const expense = data as CreateExpense;
 
-  const createdExpense = await prisma.expense.create({ data: expense });
-
-  return NextResponse.json(createdExpense);
+  return await safelyExecute(async (): Promise<Expense> => {
+    const createdExpense = await prisma.expense.create({ data: expense });
+    return createdExpense;
+  });
 }
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();
   const expense = data as Expense;
 
-  const updatedExpense = await prisma.expense.update({
-    where: { id: expense.id },
-    data: expense
+  return await safelyExecute(async (): Promise<Expense> => {
+    const updatedExpense = await prisma.expense.update({
+      where: { id: expense.id },
+      data: expense
+    });
+    return updatedExpense;
   });
-
-  return NextResponse.json(updatedExpense);
 }
 
 export async function DELETE(req: NextRequest) {

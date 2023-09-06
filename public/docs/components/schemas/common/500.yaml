@@ -1,0 +1,6 @@
+"500":
+  type: object
+  properties:
+    message:
+      type: string
+      default: "Internal Server Error"

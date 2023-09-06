@@ -3,20 +3,20 @@ get:
   tags:
     - Moradores
   parameters:
-    - $ref: ../../common/parameters/path.yaml#parameters/id
+    - $ref: ../../components/parameters/common/path.yaml#parameters/id
   responses:
     "200":
       description: Morador encontrado
       content:
         application/json:
           schema:
-            $ref: components/schemas/standard.yaml#Resident
+            $ref: ../../components/schemas/residents/standard.yaml#Resident
 delete:
   description: Deletar morador
   tags:
     - Moradores
   parameters:
-    - $ref: ../../common/parameters/path.yaml#parameters/id
+    - $ref: ../../components/parameters/common/path.yaml#parameters/id
   responses:
     "200":
       description: Despesa deletada com sucesso

@@ -1,0 +1,6 @@
+"500":
+  description: Erro Interno
+  content:
+    application/json:
+      schema:
+        $ref: ../../schemas/common/500.yaml#500

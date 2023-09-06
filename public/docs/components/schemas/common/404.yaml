@@ -1,0 +1,6 @@
+"404":
+  type: object
+  properties:
+    message:
+      type: string
+      default: "Record not found"

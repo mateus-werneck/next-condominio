@@ -3,20 +3,40 @@ get:
   tags:
     - Despesas
   parameters:
-    - $ref: ../../common/parameters/path.yaml#parameters/id
+    - $ref: ../../components/parameters/common/path.yaml#parameters/id
   responses:
     "200":
       description: Despesa encontrada
       content:
         application/json:
           schema:
-            $ref: components/schemas/standard.yaml#Expense
+            $ref: ../../components/schemas/expenses/standard.yaml#Expense
+    "404":
+      description: Nenhum despesa encontrada
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                default: "No Expense found"
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500
 delete:
   description: Deletar despesa
   tags:
     - Despesas
   parameters:
-    - $ref: ../../common/parameters/path.yaml#parameters/id
+    - $ref: ../../components/parameters/common/path.yaml#parameters/id
   responses:
     "200":
       description: Despesa deletada com sucesso
+    "404":
+      description: Falha ao deletar despesa
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/common/404.yaml#404
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500

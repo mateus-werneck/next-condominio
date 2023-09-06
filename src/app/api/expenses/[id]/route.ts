@@ -1,7 +1,8 @@
+import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
 import { Expense } from '@prisma/client';
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export interface IExpenseParams {
   params: {
@@ -13,21 +14,23 @@ export async function GET(
   req: NextRequest,
   { params: { id } }: IExpenseParams
 ) {
-  const expense: Expense = await prisma.expense.findFirstOrThrow({
-    include: { expenseType: true },
-    where: { id }
+  return await safelyExecute(async (): Promise<Expense> => {
+    const expense: Expense = await prisma.expense.findFirstOrThrow({
+      include: { expenseType: true },
+      where: { id }
+    });
+    return expense;
   });
-
-  return NextResponse.json(expense);
 }
 
 export async function DELETE(
   req: NextRequest,
   { params: { id } }: IExpenseParams
 ) {
-  await prisma.expense.delete({
-    where: { id }
+  return await safelyExecute(async (): Promise<object> => {
+    await prisma.expense.delete({
+      where: { id }
+    });
+    return {};
   });
-
-  return NextResponse.json({});
 }
