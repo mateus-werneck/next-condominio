@@ -20,7 +20,7 @@ get:
             properties:
               message:
                 type: string
-                default: "No Expense found"
+                default: "Record not found"
     "500":
       $ref: ../../components/responses/common/500.yaml#500
 delete:

@@ -9,5 +9,5 @@ paths:
     $ref: ./routes/expenses/expense.yaml
   /api/residents:
     $ref: ./routes/residents/common.yaml
-  /api/residents{id}:
+  /api/residents/{id}:
     $ref: ./routes/residents/resident.yaml
