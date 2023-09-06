@@ -11,6 +11,14 @@ get:
         application/json:
           schema:
             $ref: ../../components/schemas/residents/standard.yaml#Resident
+    "404":
+      description: Morador não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/common/404.yaml#404
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500
 delete:
   description: Deletar morador
   tags:
@@ -20,3 +28,11 @@ delete:
   responses:
     "200":
       description: Despesa deletada com sucesso
+    "404":
+      description: Falha ao deletar morador
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/common/404.yaml#404
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500

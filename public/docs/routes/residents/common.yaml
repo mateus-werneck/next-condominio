@@ -29,6 +29,8 @@ post:
         application/json:
           schema:
             $ref: ../../components/schemas/residents/standard.yaml#Resident
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500
 put:
   description: Altera os dados de um morador
   tags:
@@ -46,6 +48,14 @@ put:
         application/json:
           schema:
             $ref: ../../components/schemas/residents/standard.yaml#Resident
+    "404":
+      description: Falha ao atualizar morador
+      content:
+        application/json:
+          schema:
+            $ref: ../../components/schemas/common/404.yaml#404
+    "500":
+      $ref: ../../components/responses/common/500.yaml#500
 delete:
   description: Deletar despesas
   tags:
