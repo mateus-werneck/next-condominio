@@ -1,7 +1,8 @@
+import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
 import { Resident } from '@prisma/client';
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export interface IResidentParams {
   params: {
@@ -13,20 +14,22 @@ export async function GET(
   req: NextRequest,
   { params: { id } }: IResidentParams
 ) {
-  const resident: Resident = await prisma.resident.findFirstOrThrow({
-    where: { id }
+  return await safelyExecute(async (): Promise<Resident> => {
+    const resident: Resident = await prisma.resident.findFirstOrThrow({
+      where: { id }
+    });
+    return resident;
   });
-
-  return NextResponse.json(resident);
 }
 
 export async function DELETE(
   req: NextRequest,
   { params: { id } }: IResidentParams
 ) {
-  await prisma.resident.delete({
-    where: { id }
+  return await safelyExecute(async (): Promise<object> => {
+    await prisma.resident.delete({
+      where: { id }
+    });
+    return {};
   });
-
-  return NextResponse.json({});
 }

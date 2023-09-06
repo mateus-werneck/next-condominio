@@ -1,3 +1,4 @@
+import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
 import { CreateResident } from '@Types/Resident/types';
 import { Resident } from '@prisma/client';
@@ -15,21 +16,23 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
   const resident = data as CreateResident;
 
-  const createdResident = await prisma.resident.create({ data: resident });
-
-  return NextResponse.json(createdResident);
+  return await safelyExecute(async (): Promise<Resident> => {
+    const createdResident = await prisma.resident.create({ data: resident });
+    return createdResident;
+  });
 }
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();
   const resident = data as Resident;
 
-  const updatedExpense = await prisma.resident.update({
-    where: { id: resident.id },
-    data: resident
+  return await safelyExecute(async (): Promise<Resident> => {
+    const updateResident = await prisma.resident.update({
+      where: { id: resident.id },
+      data: resident
+    });
+    return updateResident;
   });
-
-  return NextResponse.json(updatedExpense);
 }
 
 export async function DELETE(req: NextRequest) {
