@@ -12,7 +12,7 @@ export const fetchResident = async (id: string): Promise<Resident> => {
   const url = `${process.env.SYSTEM_URL}/api/residents/${id}`;
 
   const response = await fetch(url, {
-    next: { revalidate: 1 }
+    next: { revalidate: 0 }
   });
 
   return await response.json();

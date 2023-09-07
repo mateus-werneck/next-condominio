@@ -6,7 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=test next dev",
+    "dev": "NODE_ENV=test next dev -p 9015",
     "build": "next build",
     "start": "next start -p 80",
     "lint": "next lint"
