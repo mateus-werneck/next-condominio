@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Residents() {
+  throw new Error();
   const rows = await fetchResidents();
   return (
     <>

@@ -9,11 +9,11 @@ import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
-  GridToolbarExport,
   GridToolbarFilterButton
 } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
 import { appendColumnConfig } from './utils/columns';
+import CustomGridToolbarExport from './utils/customExport';
 import { DataGridCustomStyles } from './utils/customStyle';
 import { localeText, theme } from './utils/customTable';
 
@@ -89,11 +89,11 @@ function useCustomActions(props: ITableData) {
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
         {!isMobileView() && <GridToolbarDensitySelector />}
-        <GridToolbarExport />
+        <CustomGridToolbarExport rows={props.rows} />
         {customToolbar}
       </GridToolbarContainer>
     );
-  }, [customToolbar, isMobileView]);
+  }, [customToolbar, isMobileView, props.rows]);
 
   function getCustomBarElements() {
     return props.customToolbar !== undefined

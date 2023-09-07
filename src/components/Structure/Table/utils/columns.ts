@@ -11,7 +11,7 @@ import {
 } from '@mui/x-data-grid';
 
 export function appendColumnConfig(column: GridColDef): GridColDef {
-  const columnType: string = column.type !== undefined ? column.type : 'string';
+  const columnType: string = column.type ?? 'string';
   const customConfig = getColumnConfig(columnType as IGridColumnTypes);
 
   const customColumn = {

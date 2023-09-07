@@ -14,6 +14,7 @@ export const DataGridCustomStyles: SxProps<Theme> = {
     background: 'var(--light-gray) !important'
   },
   '& .MuiDataGrid-row': {
+    textIndent: '0.75rem',
     '&:nth-of-type(odd)': {
       background: 'var(--gray-50)'
     },
