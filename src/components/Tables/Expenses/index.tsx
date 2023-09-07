@@ -31,25 +31,21 @@ export default function TableListExpenses({
   const columns: GridColDef[] = [
     {
       field: 'name',
-      headerName: 'Nome',
-      minWidth: 300
+      headerName: 'Nome'
     },
     {
       field: 'value',
       headerName: 'Valor',
-      minWidth: 300,
       type: 'money'
     },
     {
       field: 'expenseType',
       headerName: 'Tipo',
-      minWidth: 300,
       type: 'select'
     },
     {
       field: 'dueDate',
       headerName: 'Data de Vencimento',
-      minWidth: 200,
       type: 'date'
     },
     getDefaultTableActions({ table, route: '/expenses', onConfirmDeletion })

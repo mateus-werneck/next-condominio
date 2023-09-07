@@ -2,7 +2,7 @@
 import { useDevice } from '@Contexts/useDevice';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { IActiveLink } from '../types';
 
 interface INavLink {
@@ -16,12 +16,11 @@ export const NavLink = (props: INavLink) => {
   const { getMobile, getDesktop } = useResponsive(props);
   const { isMobileView } = useDevice();
 
-  const getNavLink = useCallback(
-    () => (isMobileView() ? getMobile() : getDesktop()),
-    [isMobileView, getDesktop, getMobile]
-  );
+  if (isMobileView()) {
+    return getMobile();
+  }
 
-  return getNavLink();
+  return getDesktop();
 };
 
 function useResponsive({
@@ -46,7 +45,7 @@ function useResponsive({
             setActiveLink((previousValue: IActiveLink) => {
               const isActive = !previousValue[name];
 
-              setNavStyle(
+              setNavStyle(() =>
                 isActive ? 'opactity-1 visible' : 'opactity-0 invisible'
               );
 

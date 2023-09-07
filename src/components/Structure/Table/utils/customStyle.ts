@@ -14,7 +14,7 @@ export const DataGridCustomStyles: SxProps<Theme> = {
     background: 'var(--light-gray) !important'
   },
   '& .MuiDataGrid-row': {
-    textIndent: '0.75rem',
+    marginLeft: '0.5rem',
     '&:nth-of-type(odd)': {
       background: 'var(--gray-50)'
     },
@@ -26,11 +26,21 @@ export const DataGridCustomStyles: SxProps<Theme> = {
     background: 'var(--light-gray) !important'
   },
   '& .MuiDataGrid-columnHeader': {
+    minWidth: '128px !important',
+    '@media (min-width: 1920px)': {
+      minWidth: '224px !important'
+    },
     '&:focus': {
       outline: 'none'
     }
   },
   '& .MuiDataGrid-virtualScroller': {
     minHeight: '50px'
+  },
+  '& .MuiDataGrid-cell': {
+    minWidth: '128px !important',
+    '@media (min-width: 1920px)': {
+      minWidth: '224px !important'
+    }
   }
 };

@@ -18,9 +18,11 @@ export function DeviceProvider({ children, isMobileDevice }: IDeviceProvider) {
   const [isMobile, setIsMobile] = useState<boolean>(isMobileDevice);
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      setIsMobile(window.innerWidth <= 640);
-    });
+    if (window) {
+      window.addEventListener('resize', () => {
+        setIsMobile(() => window.innerWidth <= 640);
+      });
+    }
   }, []);
 
   function isMobileView(): boolean {

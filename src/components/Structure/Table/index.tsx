@@ -30,9 +30,25 @@ interface ITableData {
 
 export default function StandardTable(props: ITableData) {
   const { CustomToolbar, handleSelection } = useCustomActions(props);
+  const { isMobileView } = useDevice();
+
+  function getColumnVisibility(): Record<string, boolean> {
+    const columnVisibility: Record<string, boolean> = {
+      __check__: false
+    };
+
+    if (!isMobileView()) return columnVisibility;
+
+    props.columns.forEach((column: GridColDef, index) => {
+      if (index && column.field != 'actions')
+        columnVisibility[column.field] = false;
+    });
+
+    return columnVisibility;
+  }
 
   return (
-    <div className="flex mt-4 items-center justify-center w-full h-full">
+    <div className="flex mt-4 items-center justify-center h-full max-w-max">
       <ThemeProvider theme={theme}>
         <DataGrid
           slotProps={{
@@ -51,9 +67,7 @@ export default function StandardTable(props: ITableData) {
               }
             },
             columns: {
-              columnVisibilityModel: {
-                __check__: false
-              }
+              columnVisibilityModel: getColumnVisibility()
             }
           }}
           pageSizeOptions={[5, 10, 25, 50, 100]}
