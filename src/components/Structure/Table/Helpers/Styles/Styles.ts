@@ -1,6 +1,6 @@
 import { SxProps, Theme } from '@mui/material';
 
-export const DataGridCustomStyles: SxProps<Theme> = {
+const Styles: SxProps<Theme> = {
   '& .MuiDataGrid-toolbarContainer': {
     'a, button': {
       color: 'var(--black)',
@@ -44,3 +44,5 @@ export const DataGridCustomStyles: SxProps<Theme> = {
     }
   }
 };
+
+export default Styles;

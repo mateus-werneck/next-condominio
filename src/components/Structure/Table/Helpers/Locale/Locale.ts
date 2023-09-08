@@ -1,7 +1,6 @@
-import { createTheme } from '@mui/material';
 import { GridLocaleText } from '@mui/x-data-grid';
 
-export const localeText = {
+export default {
   detailPanelToggle: 'Mostrar Detalhes',
   toolbarColumns: 'Colunas',
   toolbarDensity: 'Tamanho',
@@ -55,25 +54,3 @@ export const localeText = {
     `${visibleCount} de ${totalCount} linhas`,
   footerRowSelected: (count) => `Selecionado: ${count} linha(s)`
 } as Partial<GridLocaleText>;
-
-export const theme = createTheme({
-  components: {
-    MuiTablePagination: {
-      defaultProps: {
-        labelRowsPerPage: 'Linhas por página',
-        labelDisplayedRows: ({ from, to, count }) => `${from}-${to} de ${count}`
-      },
-      styleOverrides: {
-        root: {
-          color: 'black'
-        },
-        displayedRows: {
-          color: 'black'
-        },
-        toolbar: {
-          color: 'black'
-        }
-      }
-    }
-  }
-});
