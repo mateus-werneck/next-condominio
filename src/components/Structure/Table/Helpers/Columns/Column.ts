@@ -10,20 +10,16 @@ export function treatColumns(columns: GridColDef[], isEditable?: boolean) {
 }
 
 function appendColumnConfig(column: GridColDef): GridColDef {
-  const columnType: string = column.type ?? 'string';
-  const customConfig = getColumnConfig(columnType as IGridColumnTypes);
+  const columnType = (column.type ?? 'string') as IGridColumnTypes;
+  const columnTreatments = GridColumnsConfig[columnType];
 
-  const customColumn = {
+  const treatedColumn = {
     ...column,
-    ...customConfig
+    ...columnTreatments
   };
 
-  delete customColumn.type;
-  return customColumn;
-}
-
-function getColumnConfig(type: IGridColumnTypes) {
-  return GridColumnsConfig[type];
+  delete treatedColumn.type;
+  return treatedColumn;
 }
 
 function treatEditable(columns: GridColDef[]): GridColDef[] {
