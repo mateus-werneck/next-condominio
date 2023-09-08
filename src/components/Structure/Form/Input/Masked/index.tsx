@@ -1,4 +1,4 @@
-import { Masks } from '@Lib/Input/masks';
+import Masks from '@Lib/Masks/Masks';
 import CurrencyInput from 'react-currency-input-field';
 import { Controller } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';

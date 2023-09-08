@@ -1,4 +1,4 @@
-import { IMasks } from '@Lib/Input/masks';
+import { IMasks } from '@Lib/Masks/types';
 import { CSSProperties } from 'react';
 import { Control, FieldValues, UseFormRegister } from 'react-hook-form';
 

@@ -1,4 +1,4 @@
-const Masks = {
+export const Masks = {
   APARTMENT: '999',
   BRL: 'BRL',
   DATE: '99/99/9999',
