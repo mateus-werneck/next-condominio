@@ -1,18 +1,15 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
+import { getDefaultTableActions, getTableAddButton } from '@Lib/Table/Actions';
 import {
-  alertDeletion,
-  alertDeletionFailed,
-  alertEditSuccess,
-  onDeleteAction
-} from '@Lib/Alerts/customActions';
-import { clientConn } from '@Lib/Client/api';
-import { getDefaultTableActions } from '@Lib/Table/Actions';
+  IConfirmDeletionCallback,
+  IDefaultTableActions
+} from '@Lib/Table/types';
 import { GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
 import { useState } from 'react';
-import { getTableAddButton } from '../utils/customButtons';
+import { useTableActions } from './actions';
 
 interface ITableListResidents {
   rows: Resident[];
@@ -21,35 +18,11 @@ interface ITableListResidents {
 export default function TableListResidents({ rows }: ITableListResidents) {
   const table = 'TableListResidents';
   const [residents, setResidents] = useState<Resident[]>(rows);
-  const { onConfirmDeletion, onBatchDelete } = useTableActions({
-    setResidents
-  });
 
-  const columns: GridColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Nome',
-      minWidth: 300
-    },
-    {
-      field: 'apartment',
-      headerName: 'Apartamento',
-      minWidth: 300,
-      type: 'number'
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      minWidth: 300,
-      type: 'email'
-    },
-    {
-      field: 'phone',
-      headerName: 'Telefone',
-      minWidth: 300
-    },
-    getDefaultTableActions({ table, route: '/residents', onConfirmDeletion })
-  ];
+  const { onConfirmDeletion, onBatchDelete, onRowUpdate } =
+    useTableActions(setResidents);
+
+  const columns = getColumns(table, onConfirmDeletion);
 
   return (
     <StandardTable
@@ -58,43 +31,42 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       rows={residents}
       customToolbar={getTableAddButton('/residents/new')}
       onBatchDelete={onBatchDelete}
+      onRowUpdate={onRowUpdate}
     />
   );
 }
 
-function useTableActions({
-  setResidents
-}: {
-  setResidents: (value: (previousValue: any[]) => any[]) => void;
-}) {
-  const onConfirmDeletion = async (row: { id: string }) => {
-    await onDeleteAction({
-      info: { id: row.id, endpoint: 'residents' },
-      callback: setResidents
-    });
+function getColumns(
+  table: string,
+  onConfirmDeletion: IConfirmDeletionCallback
+) {
+  const tableActions: IDefaultTableActions = {
+    table,
+    route: '/residents',
+    onConfirmDeletion
   };
 
-  const onBatchDelete = async (selectedRows: string[]) => {
-    const onConfirmDeletion = async () => {
-      try {
-        await clientConn.delete(`/residents`, {
-          params: {
-            residents: selectedRows.join(',')
-          }
-        });
+  const columns: GridColDef[] = [
+    {
+      field: 'name',
+      headerName: 'Nome'
+    },
+    {
+      field: 'apartment',
+      headerName: 'Apartamento',
+      type: 'number'
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      type: 'email'
+    },
+    {
+      field: 'phone',
+      headerName: 'Telefone'
+    },
+    getDefaultTableActions(tableActions)
+  ];
 
-        setResidents((previousExpenses: Resident[]) =>
-          previousExpenses.filter(({ id }) => !selectedRows.includes(id))
-        );
-
-        alertEditSuccess();
-      } catch (error) {
-        alertDeletionFailed();
-      }
-    };
-
-    alertDeletion(onConfirmDeletion);
-  };
-
-  return { onConfirmDeletion, onBatchDelete };
+  return columns;
 }

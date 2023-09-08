@@ -1,9 +1,11 @@
+import { Alert, IAlert } from '@Components/Structure/Alert';
 import DefaultButton from '@Components/Structure/Button';
 import { useDevice } from '@Contexts/useDevice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from '@mui/material';
 import {
   DataGrid,
+  GridCellEditStopParams,
   GridColDef,
   GridRowSelectionModel,
   GridToolbarColumnsButton,
@@ -20,7 +22,11 @@ import { localeText, theme } from './utils/customTable';
 interface ITableData {
   name: string;
   columns: GridColDef[];
-  rows: object[];
+  rows: any[];
+  onRowUpdate?: (
+    newRow: GridCellEditStopParams,
+    oldRow: GridCellEditStopParams
+  ) => GridCellEditStopParams | Promise<GridCellEditStopParams>;
   rowsPerPage?: number;
   checkBoxSelection?: boolean;
   customToolbar?: JSX.Element[];
@@ -29,23 +35,12 @@ interface ITableData {
 }
 
 export default function StandardTable(props: ITableData) {
-  const { CustomToolbar, handleSelection } = useCustomActions(props);
-  const { isMobileView } = useDevice();
-
-  function getColumnVisibility(): Record<string, boolean> {
-    const columnVisibility: Record<string, boolean> = {
-      __check__: false
-    };
-
-    if (!isMobileView()) return columnVisibility;
-
-    props.columns.forEach((column: GridColDef, index) => {
-      if (index && column.field != 'actions')
-        columnVisibility[column.field] = false;
-    });
-
-    return columnVisibility;
-  }
+  const {
+    CustomToolbar,
+    handleSelection,
+    getColumnVisibility,
+    handleRowUpdate
+  } = useCustomActions(props);
 
   return (
     <div className="flex mt-4 items-center justify-center h-full max-w-max">
@@ -79,12 +74,9 @@ export default function StandardTable(props: ITableData) {
             toolbar: CustomToolbar
           }}
           onRowSelectionModelChange={handleSelection}
+          processRowUpdate={handleRowUpdate}
           checkboxSelection={props.checkBoxSelection ?? true}
-          loading={
-            props.loading !== undefined
-              ? props.loading
-              : props.rows === undefined
-          }
+          loading={props.loading ?? props.rows === undefined}
         />
       </ThemeProvider>
     </div>
@@ -176,8 +168,49 @@ function useCustomActions(props: ITableData) {
     return `${props.name}_MuiTableDeleteButton`;
   }
 
+  function getColumnVisibility(): Record<string, boolean> {
+    const columnVisibility: Record<string, boolean> = {
+      __check__: false
+    };
+
+    if (!isMobileView()) return columnVisibility;
+
+    props.columns.forEach((column: GridColDef, index) => {
+      if (index && column.field != 'actions')
+        columnVisibility[column.field] = false;
+    });
+
+    return columnVisibility;
+  }
+
+  async function handleRowUpdate(
+    newRow: GridCellEditStopParams,
+    oldRow: GridCellEditStopParams
+  ): Promise<GridCellEditStopParams> {
+    if (!props.onRowUpdate) return oldRow;
+
+    const alertParams: IAlert = {
+      title: 'Confirmar alterações.',
+      message: 'Deseja salvar as alterações?',
+      variant: 'warning',
+      allowEnterClick: false,
+      cancelButton: true,
+      callbackFunction: () =>
+        props.onRowUpdate && props.onRowUpdate(newRow, oldRow)
+    };
+
+    try {
+      const row = await Alert(alertParams);
+      return row ?? oldRow;
+    } catch (error) {
+      return oldRow;
+    }
+  }
+
   return {
     CustomToolbar,
-    handleSelection
+    handleSelection,
+    getColumnVisibility,
+    handleRowUpdate
   };
 }

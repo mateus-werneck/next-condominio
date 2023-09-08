@@ -1,4 +1,4 @@
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal, { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 
 export interface IAlert {
   title?: string;
@@ -6,10 +6,11 @@ export interface IAlert {
   variant: 'info' | 'success' | 'error' | 'warning' | 'question';
   cancelButton?: boolean;
   focusCancel?: boolean;
+  allowEnterClick?: boolean;
   allowOutsideClick?: boolean;
   allowEscapeKey?: boolean;
   timer?: number;
-  callbackFunction?: () => void | Promise<void>;
+  callbackFunction?: () => any | Promise<any>;
 }
 
 export function Alert(props: IAlert) {
@@ -21,6 +22,7 @@ export function Alert(props: IAlert) {
     cancelButtonColor: 'rgb(234 88 12)',
     showCancelButton: props.cancelButton === true,
     allowOutsideClick: props.allowOutsideClick === true,
+    allowEnterKey: props.allowEnterClick ?? true,
     allowEscapeKey: props.allowEscapeKey === true,
     focusCancel: props.focusCancel === true
   };
@@ -28,17 +30,21 @@ export function Alert(props: IAlert) {
   appendTitle(config, props.title);
   appendTimer(config, props.timer);
 
-  Swal.fire(config).then((value) => {
-    if (!props.callbackFunction) {
-      return;
-    }
-    if (
-      value.isConfirmed ||
-      (value.isDismissed && value.dismiss == Swal.DismissReason.timer)
-    ) {
-      props.callbackFunction();
-    }
-  });
+  return Swal.fire(config).then((value) => handleCallback(value, props));
+}
+
+function handleCallback(value: SweetAlertResult, props: IAlert) {
+  if (!props.callbackFunction) {
+    return;
+  }
+  if (isSwalConfirmed(value)) return props.callbackFunction();
+}
+
+function isSwalConfirmed(value: SweetAlertResult): boolean {
+  return (
+    value.isConfirmed ||
+    (value.isDismissed && value.dismiss == Swal.DismissReason.timer)
+  );
 }
 
 function appendTitle(config: SweetAlertOptions, title?: string) {

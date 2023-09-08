@@ -1,17 +1,14 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
+import { getDefaultTableActions, getTableAddButton } from '@Lib/Table/Actions';
 import {
-  alertDeletion,
-  alertDeletionFailed,
-  alertEditSuccess,
-  onDeleteAction
-} from '@Lib/Alerts/customActions';
-import { clientConn } from '@Lib/Client/api';
-import { getDefaultTableActions } from '@Lib/Table/Actions';
+  IConfirmDeletionCallback,
+  IDefaultTableActions
+} from '@Lib/Table/types';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
-import { getTableAddButton } from '../utils/customButtons';
+import { useTableActions } from './actions';
 
 interface ITableListExpenses {
   rows: Expense[];
@@ -26,7 +23,34 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const { onConfirmDeletion, onBatchDelete } = useTableActions({ setExpenses });
+  const { onConfirmDeletion, onBatchDelete, onRowUpdate } =
+    useTableActions(setExpenses);
+
+  const columns = getColumns(table, onConfirmDeletion);
+
+  return (
+    <StandardTable
+      name={table}
+      columns={columns}
+      rows={rows}
+      customToolbar={getTableAddButton('/expenses/new')}
+      loading={loading}
+      checkBoxSelection={true}
+      onBatchDelete={onBatchDelete}
+      onRowUpdate={onRowUpdate}
+    />
+  );
+}
+
+function getColumns(
+  table: string,
+  onConfirmDeletion: IConfirmDeletionCallback
+) {
+  const tableActions: IDefaultTableActions = {
+    table,
+    route: '/expenses',
+    onConfirmDeletion
+  };
 
   const columns: GridColDef[] = [
     {
@@ -48,55 +72,8 @@ export default function TableListExpenses({
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    getDefaultTableActions({ table, route: '/expenses', onConfirmDeletion })
+    getDefaultTableActions(tableActions)
   ];
 
-  return (
-    <StandardTable
-      name={table}
-      columns={columns}
-      rows={rows}
-      customToolbar={getTableAddButton('/expenses/new')}
-      loading={loading}
-      checkBoxSelection={true}
-      onBatchDelete={onBatchDelete}
-    />
-  );
-}
-
-function useTableActions({
-  setExpenses
-}: {
-  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void;
-}) {
-  const onConfirmDeletion = async (row: { id: string }) => {
-    await onDeleteAction({
-      info: { id: row.id, endpoint: 'expenses' },
-      callback: setExpenses
-    });
-  };
-
-  const onBatchDelete = async (selectedRows: string[]) => {
-    const onConfirmDeletion = async () => {
-      try {
-        await clientConn.delete(`/expenses`, {
-          params: {
-            expenseIds: selectedRows.join(',')
-          }
-        });
-
-        setExpenses((previousExpenses: Expense[]) =>
-          previousExpenses.filter(({ id }) => !selectedRows.includes(id))
-        );
-
-        alertEditSuccess();
-      } catch (error) {
-        alertDeletionFailed();
-      }
-    };
-
-    alertDeletion(onConfirmDeletion);
-  };
-
-  return { onConfirmDeletion, onBatchDelete };
+  return columns;
 }
