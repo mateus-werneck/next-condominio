@@ -2,11 +2,11 @@
 
 import StandardTable from '@Components/Structure/Table';
 import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
-import Add from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
 import {
   IConfirmDeletionCallback,
   IDefaultTableActions
 } from '@Components/Structure/Table/ActionsColumn/types';
+import Add from '@Components/Structure/Table/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useTableActions } from './actions';
