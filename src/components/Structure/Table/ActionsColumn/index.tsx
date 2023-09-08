@@ -4,7 +4,6 @@ import { IDefaultTableActions } from './types';
 
 export default function ActionsColumn({
   table,
-  route,
   onConfirmDeletion
 }: IDefaultTableActions) {
   return {
@@ -16,7 +15,7 @@ export default function ActionsColumn({
 
       return (
         <div className="flex gap-2" key={`${table}_Actions_${row.id}`}>
-          {Edit({ row, table, route })}
+          {Edit({ row, table })}
           {Delete({
             row,
             table,

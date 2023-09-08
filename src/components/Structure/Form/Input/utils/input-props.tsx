@@ -4,7 +4,6 @@ export function getInputProps<T extends IFormInput>(props: T) {
   return {
     className:
       'w-72 md:w-56 xl:w-96 h-8 text-xs rounded-md outline-none text-black indent-2 hover:border-sky-200 border-transparent border-2 focus:outline-none focus:ring-2 focus:ring-sky-200',
-    defaultValue: props.initialValue ?? '',
     placeholder: props.placeHolder ?? '',
     readOnly: props.readOnly ?? false,
     required: props.required ?? false,

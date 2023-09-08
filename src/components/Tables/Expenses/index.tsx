@@ -49,7 +49,6 @@ function getColumns(
 ) {
   const tableActions: IDefaultTableActions = {
     table,
-    route: '/expenses',
     onConfirmDeletion
   };
 

@@ -90,11 +90,11 @@ function useFormData({ resident }: IResidentForm) {
     name: ZodValidator.string(),
     apartment: ZodValidator.number(),
     email: z
-      .union([z.string().email(), z.string().length(0)])
+      .union([z.string().email('Email inválido'), z.string().length(0)])
       .optional()
       .transform((e) => (e === '' ? undefined : e)),
     phone: z
-      .union([z.string().min(15), z.string().length(0)])
+      .union([z.string().min(15, 'Telefone inválido'), z.string().length(0)])
       .optional()
       .transform((e) => (e === '' ? undefined : e))
   });

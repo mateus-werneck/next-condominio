@@ -8,7 +8,9 @@ export default function StandardInput(props: IFormInput) {
 function getInputHtml(props: IFormInput): JSX.Element {
   return (
     <input
-      {...props.register(props.name)}
+      {...props.register(props.name, {
+        setValueAs: (v) => v ?? props.initialValue ?? ''
+      })}
       type={props.type ? props.type : 'text'}
       {...getInputProps(props)}
     />
