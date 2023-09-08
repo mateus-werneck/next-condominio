@@ -2,23 +2,24 @@ import { GridColDef } from '@mui/x-data-grid';
 import { GridColumnsConfig, IGridColumnTypes } from './types';
 
 export function treatColumns(columns: GridColDef[], isEditable?: boolean) {
-  const treatedColumns = columns.map(appendColumnConfig);
+  const treatedColumns = columns.map(treatEachColumn);
 
   if (isEditable) return treatEditable(treatedColumns);
 
   return treatedColumns;
 }
 
-function appendColumnConfig(column: GridColDef): GridColDef {
+function treatEachColumn(column: GridColDef): GridColDef {
   const columnType = (column.type ?? 'string') as IGridColumnTypes;
   const columnTreatments = GridColumnsConfig[columnType];
+
+  delete column.type;
 
   const treatedColumn = {
     ...column,
     ...columnTreatments
   };
 
-  delete treatedColumn.type;
   return treatedColumn;
 }
 
