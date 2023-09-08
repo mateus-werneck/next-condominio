@@ -1,9 +1,9 @@
 import DefaultButton from '@Components/Structure/Button';
 import { alertDeletion } from '@Lib/Alerts/customActions';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ITableDeleteButton } from '../types';
+import { ITableDeleteButton } from '../../types';
 
-export default function getDeleteButton({
+export default function Delete({
   row: { id },
   table,
   onConfirmDeletion

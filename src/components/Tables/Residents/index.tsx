@@ -1,8 +1,8 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
-import ActionsColumn from '@Components/Structure/Table/ActionsColumn/ActionsColumn';
-import getAddButton from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
+import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
+import Add from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
 import {
   IConfirmDeletionCallback,
   IDefaultTableActions
@@ -30,7 +30,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       name={table}
       columns={columns}
       rows={residents}
-      customToolbar={getAddButton('/residents/new')}
+      customToolbar={Add('/residents/new')}
       onBatchDelete={onBatchDelete}
       onRowUpdate={onRowUpdate}
     />

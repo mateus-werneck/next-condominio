@@ -11,6 +11,7 @@ import { z } from 'zod';
 
 interface IResidentForm {
   resident: Resident;
+  alignment?: 'start' | 'center' | 'end';
 }
 
 interface IResidentSubmit {
@@ -46,6 +47,7 @@ export default function ResidentForm(props: IResidentForm) {
       <StandardForm
         inputs={inputs}
         validationSchema={validationSchema}
+        alignment={props.alignment ?? 'start'}
         onSubmit={onFormSubmit}
         submitButtonText="Salvar"
       />

@@ -10,6 +10,7 @@ export type ISubmitForm = (
 export interface IStandardForm {
   inputs: IStandardInput[];
   validationSchema: ZodType;
+  alignment?: 'start' | 'center' | 'end';
   onSubmit: ISubmitForm;
   submitButtonText?: string;
   mode?: Mode;

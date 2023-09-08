@@ -41,10 +41,15 @@ export default function StandardForm(props: IStandardForm) {
       resolve(props.onSubmit(data, formContext));
     });
   }
+
+  const alignment = props.alignment ?? 'center';
+
+  const containerStyle = `flex flex-col justify-center items-${alignment} self-${alignment} max-w-fit rounded-md bg-slate-100 p-4 mt-4 gap-8`;
+
   return (
-    <div className="flex flex-col justify-center items-center lg:self-start rounded-md bg-slate-100 p-4 mt-4 gap-8">
+    <div className={containerStyle}>
       <form
-        className="flex flex-col mt-4 gap-4 md:grid md:grid-cols-3 min-w-[256px]"
+        className="flex flex-col mt-4 gap-4 lg:grid lg:grid-cols-2 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}
       >
         {getFormInputs(props.inputs, register, control, errors)}

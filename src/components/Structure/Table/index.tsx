@@ -50,6 +50,7 @@ export default function StandardTable(props: ITableData) {
           columns={columns}
           rows={props.rows}
           localeText={Locale}
+          disableRowSelectionOnClick
           slots={{ toolbar: CustomToolbar }}
           onRowSelectionModelChange={handleSelection}
           processRowUpdate={handleRowUpdate}

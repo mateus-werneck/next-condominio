@@ -1,5 +1,5 @@
-import getDeleteButton from './Buttons/Delete';
-import getEditButton from './Buttons/Edit';
+import Delete from './Buttons/Delete';
+import Edit from './Buttons/Edit';
 import { IDefaultTableActions } from './types';
 
 export default function ActionsColumn({
@@ -16,8 +16,8 @@ export default function ActionsColumn({
 
       return (
         <div className="flex gap-2" key={`${table}_Actions_${row.id}`}>
-          {getEditButton({ row, table, route })}
-          {getDeleteButton({
+          {Edit({ row, table, route })}
+          {Delete({
             row,
             table,
             onConfirmDeletion: async () => await onConfirmDeletion(row)

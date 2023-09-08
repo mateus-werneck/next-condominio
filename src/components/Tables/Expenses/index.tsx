@@ -1,8 +1,8 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
-import ActionsColumn from '@Components/Structure/Table/ActionsColumn/ActionsColumn';
-import getAddButton from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
+import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
+import Add from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
 import {
   IConfirmDeletionCallback,
   IDefaultTableActions
@@ -34,7 +34,7 @@ export default function TableListExpenses({
       name={table}
       columns={columns}
       rows={rows}
-      customToolbar={getAddButton('/expenses/new')}
+      customToolbar={Add('/expenses/new')}
       loading={loading}
       checkBoxSelection={true}
       onBatchDelete={onBatchDelete}
