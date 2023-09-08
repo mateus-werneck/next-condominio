@@ -1,11 +1,12 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
-import { getDefaultTableActions, getTableAddButton } from '@Lib/Table/Actions';
+import ActionsColumn from '@Components/Structure/Table/ActionsColumn/ActionsColumn';
+import getAddButton from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
 import {
   IConfirmDeletionCallback,
   IDefaultTableActions
-} from '@Lib/Table/types';
+} from '@Components/Structure/Table/ActionsColumn/types';
 import { GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
 import { useState } from 'react';
@@ -29,7 +30,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
       name={table}
       columns={columns}
       rows={residents}
-      customToolbar={getTableAddButton('/residents/new')}
+      customToolbar={getAddButton('/residents/new')}
       onBatchDelete={onBatchDelete}
       onRowUpdate={onRowUpdate}
     />
@@ -65,7 +66,7 @@ function getColumns(
       field: 'phone',
       headerName: 'Telefone'
     },
-    getDefaultTableActions(tableActions)
+    ActionsColumn(tableActions)
   ];
 
   return columns;

@@ -10,7 +10,7 @@ export interface IAlert {
   allowOutsideClick?: boolean;
   allowEscapeKey?: boolean;
   timer?: number;
-  callbackFunction?: () => any | Promise<any>;
+  callbackFunction?: (params?: any) => any | Promise<any>;
 }
 
 export function Alert(props: IAlert) {

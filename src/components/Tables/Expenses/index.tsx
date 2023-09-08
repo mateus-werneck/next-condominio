@@ -1,11 +1,12 @@
 'use client';
 
 import StandardTable from '@Components/Structure/Table';
-import { getDefaultTableActions, getTableAddButton } from '@Lib/Table/Actions';
+import ActionsColumn from '@Components/Structure/Table/ActionsColumn/ActionsColumn';
+import getAddButton from '@Components/Structure/Table/ActionsColumn/Buttons/Add';
 import {
   IConfirmDeletionCallback,
   IDefaultTableActions
-} from '@Lib/Table/types';
+} from '@Components/Structure/Table/ActionsColumn/types';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useTableActions } from './actions';
@@ -33,7 +34,7 @@ export default function TableListExpenses({
       name={table}
       columns={columns}
       rows={rows}
-      customToolbar={getTableAddButton('/expenses/new')}
+      customToolbar={getAddButton('/expenses/new')}
       loading={loading}
       checkBoxSelection={true}
       onBatchDelete={onBatchDelete}
@@ -72,7 +73,7 @@ function getColumns(
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    getDefaultTableActions(tableActions)
+    ActionsColumn(tableActions)
   ];
 
   return columns;

@@ -1,4 +1,5 @@
 import { Alert, IAlert } from '@Components/Structure/Alert';
+import { IConfirmDeletionCallback } from '@Components/Structure/Table/ActionsColumn/types';
 
 interface IDeleteAction {
   info: IEntityInfo;
@@ -38,7 +39,7 @@ export function alertEditFailed() {
 }
 
 export function alertDeletion(
-  onConfirmFunction: () => void | Promise<void>
+  onConfirmFunction: IConfirmDeletionCallback
 ): void {
   Alert({
     title: 'Alerta',

@@ -1,4 +1,4 @@
-export const Masks = {
+const Masks = {
   APARTMENT: '999',
   BRL: 'BRL',
   DATE: '99/99/9999',
@@ -6,5 +6,4 @@ export const Masks = {
   PHONE: '(99) 99999-9999'
 };
 
-type MaskKeys = keyof typeof Masks;
-export type IMasks = (typeof Masks)[MaskKeys];
+export default Masks;

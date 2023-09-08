@@ -4,7 +4,7 @@ import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/Form/utils/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
-import { Masks } from '@Lib/Input/masks';
+import Masks from '@Lib/Masks/Masks';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { Resident } from '@prisma/client';
 import { z } from 'zod';
