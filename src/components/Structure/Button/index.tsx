@@ -18,7 +18,6 @@ interface IDefaultButton {
   route?: string;
   disable?: boolean;
   styles?: CSSProperties;
-  id?: string;
   children: React.ReactNode;
 }
 
@@ -30,7 +29,6 @@ export default function DefaultButton({
   route,
   disable,
   styles,
-  id,
   children
 }: IDefaultButton) {
   const { getCustomStyle } = useColor(color, styles);
@@ -40,7 +38,6 @@ export default function DefaultButton({
 
   return (
     <Button
-      id={id}
       className="flex gap-1 hover:brightness-95 transition-all duration-300 text-xs"
       disabled={disabled}
       type={buttonType}
