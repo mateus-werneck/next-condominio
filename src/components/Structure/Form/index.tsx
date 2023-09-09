@@ -42,7 +42,7 @@ export default function StandardForm(props: IStandardForm) {
     });
   }
 
-  const alignment = props.alignment ?? 'center';
+  const alignment = props.alignment ?? 'start';
 
   const containerStyle = `flex flex-col justify-center items-${alignment} self-${alignment} max-w-fit rounded-md bg-slate-100 p-4 mt-4 gap-8`;
 
