@@ -1,13 +1,14 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, RefObject, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 interface IModal {
   children: ReactNode;
   setShowModal: (value: (previousValue: boolean) => boolean) => void;
+  parentRef?: RefObject<any>;
 }
 
-export default function Modal({ children, setShowModal }: IModal) {
-  const ref = useResponsive(setShowModal);
+export default function Modal({ children, setShowModal, parentRef }: IModal) {
+  const ref = useResponsive(setShowModal, parentRef);
 
   const main = document.getElementById('main-root');
 
@@ -25,7 +26,8 @@ export default function Modal({ children, setShowModal }: IModal) {
 }
 
 function useResponsive(
-  setShowModal: (value: (previousValue: boolean) => boolean) => void
+  setShowModal: (value: (previousValue: boolean) => boolean) => void,
+  parentRef?: RefObject<any>
 ) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -42,8 +44,11 @@ function useResponsive(
     };
   });
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    if (!ref.current || ref.current.contains(e.target as Node)) return;
+  const handleOutsideClick = (e: any) => {
+    e.stopPropagation();
+    if (!ref.current || ref.current.contains(e.target)) return;
+    if (parentRef?.current && parentRef.current.contains(e.target)) return;
+
     setShowModal(() => false);
   };
 
