@@ -4,6 +4,7 @@ import { IDefaultTableActions } from './types';
 
 export default function ActionsColumn({
   table,
+  onEditRow,
   onConfirmDeletion
 }: IDefaultTableActions) {
   return {
@@ -15,10 +16,10 @@ export default function ActionsColumn({
 
       return (
         <div className="flex gap-2" key={`${table}_Actions_${row.id}`}>
-          {Edit({ row, table })}
+          {Edit({ row, table, onEditRow })}
           {Delete({
-            row,
             table,
+            row,
             onConfirmDeletion: async () => await onConfirmDeletion(row)
           })}
         </div>

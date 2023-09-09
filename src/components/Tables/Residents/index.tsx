@@ -4,7 +4,8 @@ import StandardTable from '@Components/Structure/Table';
 import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
 import {
   IConfirmDeletionCallback,
-  IDefaultTableActions
+  IDefaultTableActions,
+  IEditFormCallback
 } from '@Components/Structure/Table/ActionsColumn/types';
 import Add from '@Components/Structure/Table/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
@@ -20,10 +21,10 @@ export default function TableListResidents({ rows }: ITableListResidents) {
   const table = 'TableListResidents';
   const [residents, setResidents] = useState<Resident[]>(rows);
 
-  const { onConfirmDeletion, onBatchDelete, onRowUpdate } =
+  const { onEditRow, onConfirmDeletion, onBatchDelete, onRowUpdate } =
     useTableActions(setResidents);
 
-  const columns = getColumns(table, onConfirmDeletion);
+  const columns = getColumns(table, onEditRow, onConfirmDeletion);
 
   return (
     <StandardTable
@@ -39,10 +40,12 @@ export default function TableListResidents({ rows }: ITableListResidents) {
 
 function getColumns(
   table: string,
+  onEditRow: IEditFormCallback,
   onConfirmDeletion: IConfirmDeletionCallback
 ) {
   const tableActions: IDefaultTableActions = {
     table,
+    onEditRow,
     onConfirmDeletion
   };
 

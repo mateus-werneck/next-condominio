@@ -1,3 +1,4 @@
+import ResidentForm from '@Components/Forms/Resident/Edit';
 import {
   alertDeletion,
   alertDeletionFailed,
@@ -11,6 +12,10 @@ import { Resident } from '@prisma/client';
 type ISetResidents = (value: (previousValue: Resident[]) => Resident[]) => void;
 
 export function useTableActions(setResidents: ISetResidents) {
+  function onEditRow(row: { id: string }) {
+    return <ResidentForm resident={row as Resident} alignment="center" />;
+  }
+
   const onConfirmDeletion = async (row: { id: string }) => {
     await onDeleteAction({
       info: { id: row.id, endpoint: 'residents' },
@@ -48,6 +53,7 @@ export function useTableActions(setResidents: ISetResidents) {
   };
 
   return {
+    onEditRow,
     onConfirmDeletion,
     onBatchDelete,
     onRowUpdate
