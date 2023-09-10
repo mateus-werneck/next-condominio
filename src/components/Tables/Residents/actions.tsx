@@ -12,11 +12,11 @@ import { Resident } from '@prisma/client';
 type ISetResidents = (value: (previousValue: Resident[]) => Resident[]) => void;
 
 export function useTableActions(setResidents: ISetResidents) {
-  function onEditRow(row: { id: string }) {
-    return <ResidentForm resident={row as Resident} alignment="center" />;
+  function onEditRow(row: Resident) {
+    return <ResidentForm resident={row} alignment="center" />;
   }
 
-  const onConfirmDeletion = async (row: { id: string }) => {
+  const onConfirmDeletion = async (row: Resident) => {
     await onDeleteAction({
       info: { id: row.id, endpoint: 'residents' },
       callback: setResidents

@@ -2,11 +2,7 @@
 
 import StandardTable from '@Components/Structure/Table';
 import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
-import {
-  IConfirmDeletionCallback,
-  IDefaultTableActions,
-  IEditFormCallback
-} from '@Components/Structure/Table/ActionsColumn/types';
+import { IDefaultTableActions } from '@Components/Structure/Table/ActionsColumn/types';
 import Add from '@Components/Structure/Table/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
@@ -40,10 +36,10 @@ export default function TableListResidents({ rows }: ITableListResidents) {
 
 function getColumns(
   table: string,
-  onEditRow: IEditFormCallback,
-  onConfirmDeletion: IConfirmDeletionCallback
+  onEditRow: (row: Resident) => JSX.Element,
+  onConfirmDeletion: (row: Resident) => void | Promise<void>
 ) {
-  const tableActions: IDefaultTableActions = {
+  const tableActions: IDefaultTableActions<Resident> = {
     table,
     onEditRow,
     onConfirmDeletion
@@ -68,7 +64,7 @@ function getColumns(
       field: 'phone',
       headerName: 'Telefone'
     },
-    ActionsColumn(tableActions)
+    ActionsColumn<Resident>(tableActions)
   ];
 
   return columns;

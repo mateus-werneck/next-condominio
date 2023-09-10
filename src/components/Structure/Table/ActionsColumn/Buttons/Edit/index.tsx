@@ -2,13 +2,13 @@ import DefaultButton from '@Components/Structure/Button';
 import Modal from '@Components/Structure/Modal';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useRef, useState } from 'react';
-import { ITableEditButton } from '../../types';
+import { ITableEditButton, TableRecord } from '../../types';
 
-export default function Edit({
+export default function Edit<T extends TableRecord>({
   table,
   row,
   onEditRow
-}: ITableEditButton): JSX.Element {
+}: ITableEditButton<T>): JSX.Element {
   const [showModal, setShowModal] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 

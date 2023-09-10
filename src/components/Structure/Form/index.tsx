@@ -50,17 +50,24 @@ export default function StandardForm(props: IStandardForm) {
     <div className={containerStyle}>
       <form
         className="flex flex-col mt-4 gap-4 lg:grid lg:grid-cols-2 min-w-[256px]"
-        onSubmit={handleSubmit(onSubmitFunction, onSubmitFunction)}
+        onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs(props.inputs, register, control, errors)}
       </form>
-      {props.submitButtonText &&
-        getSubmitButton(
-          props.submitButtonText,
-          handleSubmit,
-          onSubmitFunction,
-          isSubmitting
-        )}
+      <div className="max-w-fit self-end">
+        <DefaultButton
+          type="submit"
+          color="secondary"
+          onClickFunction={handleSubmit(onSubmitFunction)}
+          disable={isSubmitting}
+        >
+          {!isSubmitting ? (
+            props.submitButtonText
+          ) : (
+            <CircularProgress color="info" size={16} />
+          )}
+        </DefaultButton>
+      </div>
     </div>
   );
 }
@@ -80,28 +87,4 @@ function getFormInputs(
 
     return getStandardInput(formInput, register, control, errors);
   });
-}
-
-function getSubmitButton(
-  submitButtonText: string,
-  handleSubmit: UseFormHandleSubmit<any>,
-  onSubmitFunction: (data: any) => void,
-  isSubmitting: boolean
-): JSX.Element {
-  return (
-    <div className="max-w-fit self-end">
-      <DefaultButton
-        type="submit"
-        color="secondary"
-        onClickFunction={handleSubmit(onSubmitFunction)}
-        disable={isSubmitting}
-      >
-        {!isSubmitting ? (
-          submitButtonText
-        ) : (
-          <CircularProgress color="info" size={16} />
-        )}
-      </DefaultButton>
-    </div>
-  );
 }

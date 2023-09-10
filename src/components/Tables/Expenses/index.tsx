@@ -2,10 +2,7 @@
 
 import StandardTable from '@Components/Structure/Table';
 import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
-import {
-  IConfirmDeletionCallback,
-  IDefaultTableActions
-} from '@Components/Structure/Table/ActionsColumn/types';
+import { IDefaultTableActions } from '@Components/Structure/Table/ActionsColumn/types';
 import Add from '@Components/Structure/Table/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
@@ -45,9 +42,9 @@ export default function TableListExpenses({
 
 function getColumns(
   table: string,
-  onConfirmDeletion: IConfirmDeletionCallback
+  onConfirmDeletion: (row: Expense) => void | Promise<void>
 ) {
-  const tableActions: IDefaultTableActions = {
+  const tableActions: IDefaultTableActions<Expense> = {
     table,
     onConfirmDeletion
   };
@@ -72,7 +69,7 @@ function getColumns(
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    ActionsColumn(tableActions)
+    ActionsColumn<Expense>(tableActions)
   ];
 
   return columns;

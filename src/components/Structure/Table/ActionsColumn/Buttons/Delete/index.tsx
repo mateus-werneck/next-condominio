@@ -1,13 +1,13 @@
 import DefaultButton from '@Components/Structure/Button';
 import { alertDeletion } from '@Lib/Alerts/customActions';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ITableDeleteButton } from '../../types';
+import { ITableDeleteButton, TableRecord } from '../../types';
 
-export default function Delete({
+export default function Delete<T extends TableRecord>({
   row: { id },
   table,
   onConfirmDeletion
-}: ITableDeleteButton): JSX.Element {
+}: ITableDeleteButton<T>): JSX.Element {
   return (
     <DefaultButton
       color="error"

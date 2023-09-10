@@ -19,15 +19,16 @@ function getInputMask(props: IStandardMasked): JSX.Element {
       control={props.control}
       defaultValue={props.initialValue ?? ''}
       rules={{ required: props.required ?? false }}
-      render={({ field: { value, onChange, ..._field } }) => (
+      render={({ field: { value, onChange, ref, ..._field } }) => (
         <ReactInputMask
+          {...getInputProps(props)}
+          {..._field}
           mask={mask}
           maskChar={props.maskChar ?? ''}
           alwaysShowMask={false}
           value={value}
           onChange={onChange}
-          {...getInputProps(props)}
-          {..._field}
+          autoFocus
         />
       )}
     />

@@ -1,12 +1,12 @@
 import Delete from './Buttons/Delete';
 import Edit from './Buttons/Edit';
-import { IDefaultTableActions } from './types';
+import { IDefaultTableActions, TableRecord } from './types';
 
-export default function ActionsColumn({
+export default function ActionsColumn<T extends TableRecord>({
   table,
   onEditRow,
   onConfirmDeletion
-}: IDefaultTableActions) {
+}: IDefaultTableActions<T>) {
   return {
     field: 'actions',
     headerName: 'Ações',
@@ -16,8 +16,8 @@ export default function ActionsColumn({
 
       return (
         <div className="flex gap-2" key={`${table}_Actions_${row.id}`}>
-          {Edit({ row, table, onEditRow })}
-          {Delete({
+          {onEditRow && Edit<T>({ row, table, onEditRow })}
+          {Delete<T>({
             table,
             row,
             onConfirmDeletion: async () => await onConfirmDeletion(row)

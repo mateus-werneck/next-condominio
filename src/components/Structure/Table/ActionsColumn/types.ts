@@ -1,26 +1,23 @@
-export interface ITableEditButton {
+export interface TableRecord {
+  id: string;
+}
+
+export interface ITableEditButton<T extends TableRecord> {
+  table: string;
+  row: T;
+  onEditRow: (row: T) => JSX.Element;
+}
+
+export interface ITableDeleteButton<T> {
   table: string;
   row: {
     id: string;
   };
-  onEditRow: IEditFormCallback;
+  onConfirmDeletion: (row: T) => void | Promise<void>;
 }
 
-export interface IEditFormCallback {
-  (row: { id: string }): JSX.Element;
-}
-export type IConfirmDeletionCallback = (row: { id: string }) => Promise<void>;
-
-export interface ITableDeleteButton {
+export interface IDefaultTableActions<T extends TableRecord> {
   table: string;
-  row: {
-    id: string;
-  };
-  onConfirmDeletion: IConfirmDeletionCallback;
-}
-
-export interface IDefaultTableActions {
-  table: string;
-  onEditRow: IEditFormCallback;
-  onConfirmDeletion: (row: { id: string }) => void | Promise<void>;
+  onEditRow?: (row: T) => JSX.Element;
+  onConfirmDeletion: (row: T) => void | Promise<void>;
 }
