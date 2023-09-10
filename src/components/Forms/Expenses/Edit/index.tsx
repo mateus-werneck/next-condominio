@@ -9,11 +9,12 @@ import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 
 interface IExpenseForm {
   expense: ExpenseDto;
-  expenseTypes: ExpenseType[];
+  expenseTypes?: ExpenseType[];
 }
 
 interface IExpenseSubmit {
@@ -24,7 +25,25 @@ interface IExpenseSubmit {
 }
 
 export default function ExpenseForm(props: IExpenseForm) {
-  const { inputs, validationSchema } = useFormData(props);
+  const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>(
+    props.expenseTypes ?? []
+  );
+  const { inputs, validationSchema } = useFormData({
+    expense: props.expense,
+    expenseTypes
+  });
+
+  const getExpenseTypes: () => Promise<void> = async (): Promise<void> => {
+    const response = await clientConn.get('/expenses/types');
+    const expenseTypes = (await response.data) as ExpenseType[];
+    setExpenseTypes(expenseTypes);
+  };
+
+  useEffect(() => {
+    if (!props.expenseTypes) {
+      getExpenseTypes();
+    }
+  });
 
   const onFormSubmit: ISubmitForm = async (
     submitData: IExpenseSubmit,

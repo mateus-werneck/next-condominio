@@ -21,10 +21,10 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const { onConfirmDeletion, onBatchDelete, onRowUpdate } =
+  const { onConfirmDeletion, onBatchDelete, onRowUpdate, onEditRow } =
     useTableActions(setExpenses);
 
-  const columns = getColumns(table, onConfirmDeletion);
+  const columns = getColumns(table, onEditRow, onConfirmDeletion);
 
   return (
     <TableData
@@ -42,10 +42,12 @@ export default function TableListExpenses({
 
 function getColumns(
   table: string,
+  onEditRow: (row: Expense) => JSX.Element,
   onConfirmDeletion: (row: Expense) => void | Promise<void>
 ) {
   const tableActions: IDefaultTableActions<Expense> = {
     table,
+    onEditRow,
     onConfirmDeletion
   };
 

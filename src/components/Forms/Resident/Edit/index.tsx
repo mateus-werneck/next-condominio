@@ -67,7 +67,7 @@ function useFormData({ resident }: IResidentForm) {
       label: 'Apartamento',
       type: 'number',
       mask: Masks.APARTMENT,
-      initialValue: resident.apartment
+      initialValue: String(resident.apartment)
     },
     {
       name: 'email',
