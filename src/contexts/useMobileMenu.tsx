@@ -10,6 +10,7 @@ interface IMobileMenuContext {
   isActiveLink: (name: string) => boolean;
   setCurrentLink: (name: string, enabled: boolean) => void;
   resetActiveLink: () => void;
+  hideMobileMenuSlowly: () => void;
 }
 
 interface IMobileMenuProvider {
@@ -44,6 +45,15 @@ export function MobileMenuProvider({ children }: IMobileMenuProvider) {
     setActiveLink((prev) => ({ ...prev, [name]: enabled }));
   }
 
+  function hideMobileMenuSlowly() {
+    setTimeout(() => {
+      setShowMobileMenu((previousValue: boolean) => {
+        return !previousValue;
+      });
+      resetActiveLink();
+    }, 800);
+  }
+
   return (
     <MobileMenuContext.Provider
       value={{
@@ -53,7 +63,8 @@ export function MobileMenuProvider({ children }: IMobileMenuProvider) {
         setActiveLink,
         isActiveLink,
         setCurrentLink,
-        resetActiveLink
+        resetActiveLink,
+        hideMobileMenuSlowly
       }}
     >
       {children}
