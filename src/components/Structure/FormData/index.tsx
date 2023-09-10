@@ -19,9 +19,9 @@ import {
   getSelectInput,
   getStandardInput
 } from './utils/form-inputs';
-import { IStandardForm } from './utils/types';
+import { IFormData } from './utils/types';
 
-export default function StandardForm(props: IStandardForm) {
+export default function FormData(props: IFormData) {
   type FormDataType = z.infer<typeof props.validationSchema>;
 
   const formContext = useForm<FormDataType>({

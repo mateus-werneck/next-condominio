@@ -7,7 +7,7 @@ export type ISubmitForm = (
   formContext: UseFormReturn<any>
 ) => void | Promise<void>;
 
-export interface IStandardForm {
+export interface IFormData {
   inputs: IStandardInput[];
   validationSchema: ZodType;
   alignment?: 'start' | 'center' | 'end';

@@ -1,20 +1,20 @@
 import { ThemeProvider } from '@mui/material';
 import { DataGrid, GridSlotsComponentsProps } from '@mui/x-data-grid';
 import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
-import useCustomActions from './Helpers/Actions/Actions';
 import { treatColumns } from './Helpers/Columns/Column';
 import Locale from './Helpers/Locale/Locale';
 import Styles from './Helpers/Styles/Styles';
 import Theme from './Helpers/Theme/Theme';
 import { ITableData } from './types';
+import ActionsTable from './Helpers/ActionsTable';
 
-export default function StandardTable(props: ITableData) {
+export default function TableData(props: ITableData) {
   const {
     CustomToolbar,
     handleSelection,
     getColumnVisibility,
     handleRowUpdate
-  } = useCustomActions(props);
+  } = ActionsTable(props);
 
   const initialState: GridInitialStateCommunity = {
     pagination: {

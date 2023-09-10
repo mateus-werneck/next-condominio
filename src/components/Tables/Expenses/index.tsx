@@ -1,9 +1,9 @@
 'use client';
 
-import StandardTable from '@Components/Structure/Table';
-import ActionsColumn from '@Components/Structure/Table/ActionsColumn';
-import { IDefaultTableActions } from '@Components/Structure/Table/ActionsColumn/types';
-import Add from '@Components/Structure/Table/Toolbar/Buttons/Add';
+import TableData from '@Components/Structure/TableData';
+import ActionsColumn from '@Components/Structure/TableData/FieldActions';
+import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
+import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { useTableActions } from './actions';
@@ -27,7 +27,7 @@ export default function TableListExpenses({
   const columns = getColumns(table, onConfirmDeletion);
 
   return (
-    <StandardTable
+    <TableData
       name={table}
       columns={columns}
       rows={rows}

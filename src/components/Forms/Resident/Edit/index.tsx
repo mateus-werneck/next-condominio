@@ -1,7 +1,7 @@
 'use client';
-import StandardForm from '@Components/Structure/Form';
-import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
-import { ISubmitForm } from '@Components/Structure/Form/utils/types';
+import IFormData from '@Components/Structure/FormData';
+import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
+import { ISubmitForm } from '@Components/Structure/FormData/utils/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
@@ -44,7 +44,7 @@ export default function ResidentForm(props: IResidentForm) {
 
   return (
     <>
-      <StandardForm
+      <IFormData
         inputs={inputs}
         validationSchema={validationSchema}
         alignment={props.alignment ?? 'start'}

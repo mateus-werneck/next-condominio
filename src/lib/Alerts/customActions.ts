@@ -1,5 +1,5 @@
 import { Alert, IAlert } from '@Components/Structure/Alert';
-import { IConfirmDeletionCallback } from '@Components/Structure/Table/ActionsColumn/types';
+import { IConfirmDeletionCallback } from '@Components/Structure/TableData/FieldActions/types';
 
 interface IDeleteAction {
   info: IEntityInfo;

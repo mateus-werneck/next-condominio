@@ -1,6 +1,6 @@
 'use client';
-import StandardForm from '@Components/Structure/Form';
-import { IStandardInput } from '@Components/Structure/Form/Input/utils/types';
+import IFormData from '@Components/Structure/FormData';
+import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
@@ -24,7 +24,7 @@ export default function ListExpensesForm({
 
   return (
     <>
-      <StandardForm
+      <IFormData
         inputs={inputs}
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}

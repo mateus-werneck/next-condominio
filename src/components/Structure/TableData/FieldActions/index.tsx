@@ -2,7 +2,7 @@ import Delete from './Buttons/Delete';
 import Edit from './Buttons/Edit';
 import { IDefaultTableActions, TableRecord } from './types';
 
-export default function ActionsColumn<T extends TableRecord>({
+export default function FieldActions<T extends TableRecord>({
   table,
   onEditRow,
   onConfirmDeletion

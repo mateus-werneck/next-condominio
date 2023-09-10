@@ -15,7 +15,7 @@ import { useCallback, useState } from 'react';
 import { ITableData } from '../../types';
 import Export from '../Export/Export';
 
-export default function useCustomActions(props: ITableData) {
+export default function ActionsTable(props: ITableData) {
   const { isMobileView } = useDevice();
   const customBarElements = getCustomBarElements();
   const [customToolbar, setCustomToolbar] =
