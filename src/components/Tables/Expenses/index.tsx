@@ -1,7 +1,7 @@
 'use client';
 
 import TableData from '@Components/Structure/TableData';
-import ActionsColumn from '@Components/Structure/TableData/FieldActions';
+import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
@@ -69,7 +69,7 @@ function getColumns(
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    ActionsColumn<Expense>(tableActions)
+    FieldActions<Expense>(tableActions)
   ];
 
   return columns;
