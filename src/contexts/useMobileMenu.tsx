@@ -8,7 +8,7 @@ interface IMobileMenuContext {
   activeLink: IActiveLink;
   setActiveLink: (value: (previousValue: IActiveLink) => IActiveLink) => void;
   isActiveLink: (name: string) => boolean;
-  setCurrentLink: (name: string, enabled: boolean) => void;
+  setCurrentLink: (name: string, enabled?: boolean) => void;
   resetActiveLink: () => void;
   hideMobileMenuSlowly: () => void;
 }
@@ -41,8 +41,8 @@ export function MobileMenuProvider({ children }: IMobileMenuProvider) {
     return activeLink[name];
   }
 
-  function setCurrentLink(name: string, enabled: boolean) {
-    setActiveLink((prev) => ({ ...prev, [name]: enabled }));
+  function setCurrentLink(name: string, enabled?: boolean) {
+    setActiveLink((prev) => ({ ...prev, [name]: enabled ?? !prev[name] }));
   }
 
   function hideMobileMenuSlowly() {

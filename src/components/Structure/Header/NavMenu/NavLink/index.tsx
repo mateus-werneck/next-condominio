@@ -3,8 +3,7 @@ import { useDevice } from '@Contexts/useDevice';
 import { useMobileMenu } from '@Contexts/useMobileMenu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { MouseEvent, ReactNode, useState } from 'react';
-import { IActiveLink } from '../types';
+import { MouseEvent, ReactNode } from 'react';
 
 interface INavLink {
   name: string;
@@ -24,28 +23,17 @@ export const NavLink = (props: INavLink) => {
 };
 
 function useResponsive({ name, children }: INavLink) {
-  const { setActiveLink, isActiveLink, setCurrentLink } = useMobileMenu();
+  const { isActiveLink, setCurrentLink } = useMobileMenu();
 
   function getMobile(): JSX.Element {
-    /* eslint-disable */
-    const [navStyle, setNavStyle] = useState<string>('opactity-0 invisible');
-
     const onMobileClick = (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-
-      setActiveLink((previousValue: IActiveLink) => {
-        const isActive = !previousValue[name];
-
-        setNavStyle(() =>
-          isActive ? 'opactity-1 visible' : 'opactity-0 invisible'
-        );
-
-        return {
-          ...previousValue,
-          [name]: isActive
-        };
-      });
+      setCurrentLink(name);
     };
+
+    const navStyles = `flex flex-col px-12 gap-8 text-slate-800 font-medium text-sm ${
+      isActiveLink(name) ? 'opactity-100 visible' : 'opactity-0 invisible'
+    }`;
 
     return (
       <>
@@ -70,18 +58,14 @@ function useResponsive({ name, children }: INavLink) {
             />
           </span>
         </button>
-        {isActiveLink(name) && (
-          <nav
-            className={`flex flex-col px-12 gap-8 text-slate-800 font-medium text-sm ${navStyle}`}
-          >
-            {children}
-          </nav>
-        )}
+        {isActiveLink(name) && <nav className={navStyles}>{children}</nav>}
       </>
     );
   }
 
   function getDesktop(): JSX.Element {
+    const navStyles =
+      'flex flex-col gap-4 p-6 absolute z-10 mt-8 w-1/5 origin-top-right rounded-md shadow-lg bg-white text-gray-700 text-md';
     return (
       <button
         className="flex flex-col gap-2"
@@ -101,7 +85,7 @@ function useResponsive({ name, children }: INavLink) {
           )}
         </span>
         <nav
-          className="flex flex-col gap-4 p-6 absolute z-10 mt-8 w-1/5 origin-top-right rounded-md shadow-lg bg-white text-gray-700 text-md"
+          className={navStyles}
           style={{
             opacity: isActiveLink(name) ? 1 : 0,
             visibility: isActiveLink(name) ? 'visible' : 'hidden',
