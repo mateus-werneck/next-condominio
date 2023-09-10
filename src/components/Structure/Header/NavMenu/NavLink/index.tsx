@@ -50,7 +50,7 @@ function useResponsive({ name, children }: INavLink) {
     return (
       <>
         <button
-          className="flex flex-col w-full text-lg min-h-[48px]"
+          className="flex flex-col w-full text-md text-slate-800 font-bold"
           style={{
             height: isActiveLink(name) ? 'auto' : '20px'
           }}
@@ -60,19 +60,19 @@ function useResponsive({ name, children }: INavLink) {
             {name}
 
             <KeyboardArrowDownIcon
-              fontSize="large"
+              fontSize="medium"
               style={{ display: isActiveLink(name) ? 'block' : 'none' }}
             />
 
             <KeyboardArrowRight
-              fontSize="large"
+              fontSize="medium"
               style={{ display: isActiveLink(name) ? 'none' : 'block' }}
             />
           </span>
         </button>
         {isActiveLink(name) && (
           <nav
-            className={`flex flex-col px-12 gap-8 text-white text-sm ${navStyle}`}
+            className={`flex flex-col px-12 gap-8 text-slate-800 font-medium text-sm ${navStyle}`}
           >
             {children}
           </nav>

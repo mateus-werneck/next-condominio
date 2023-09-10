@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 interface IDeviceContext {
+  isMobile: boolean;
   isMobileView: () => boolean;
 }
 
@@ -30,7 +31,7 @@ export function DeviceProvider({ children, isMobileDevice }: IDeviceProvider) {
   }
 
   return (
-    <DeviceContext.Provider value={{ isMobileView }}>
+    <DeviceContext.Provider value={{ isMobile, isMobileView }}>
       {children}
     </DeviceContext.Provider>
   );

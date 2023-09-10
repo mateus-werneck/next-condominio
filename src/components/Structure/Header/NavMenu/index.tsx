@@ -4,9 +4,9 @@ import { useMobileMenu } from '@Contexts/useMobileMenu';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
-import { getMenuDefault } from '../Utils/StandardMenu';
 import HomeButton from './HomeButton';
 import { NavLink } from './NavLink';
+import { getMenuDefault } from './utils/StandardMenu';
 
 export default function NavMenu() {
   const router = useRouter();
@@ -17,9 +17,9 @@ export default function NavMenu() {
 
   const navStyles =
     'w-11/12 flex flex-col absolute items-start self-center top-16 gap-12' +
-    ' z-10 py-8 px-2 rounded-2xl bg-black text-white transition-all delay-75' +
+    ' z-10 py-8 px-2 rounded-2xl bg-white text-white transition-all delay-75' +
     ' md:flex md:flex-row md:gap-12 md:items-center md:text-sm md:h-16 md:py-6 md:px-24' +
-    ' md:w-full md:rounded-none md:static md:opacity-100 md:visible'.concat(
+    ' md:w-full md:rounded-none md:static md:opacity-100 md:visible md:bg-black'.concat(
       showMobileMenu ? ' opacity-100 visible' : ' opacity-0 invisible'
     );
 
@@ -27,7 +27,7 @@ export default function NavMenu() {
 
   return (
     <nav className={navStyles}>
-      {<HomeButton styles={{ display: isMobileView() ? 'block' : 'none' }} />}
+      {<HomeButton styles={{ display: isMobileView() ? 'none' : 'block' }} />}
 
       {Menu.map((parent) => {
         return (
@@ -44,7 +44,7 @@ export default function NavMenu() {
                 <Link
                   key={child.name}
                   href={child.href}
-                  className="flex gap-4 items-start text-white w-96 hover:text-cyan-600 md:text-slate-800 md:w-full"
+                  className="flex gap-4 items-start text-slate-800 w-96 hover:text-cyan-600 md:w-full"
                   onClick={onChildClick}
                 >
                   {child.icon !== undefined && child.icon}
