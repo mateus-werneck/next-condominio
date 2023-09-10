@@ -36,7 +36,7 @@ function useResponsive({
     return (
       <>
         <button
-          className="flex flex-col w-full text-lg"
+          className="flex flex-col w-full text-lg min-h-[48px]"
           style={{
             height: isActiveLink() ? 'auto' : '20px'
           }}
@@ -58,11 +58,16 @@ function useResponsive({
         >
           <span className="flex px-10 items-center justify-between">
             {name}
-            {isActiveLink() ? (
-              <KeyboardArrowDownIcon />
-            ) : (
-              <KeyboardArrowRight />
-            )}
+
+            <KeyboardArrowDownIcon
+              fontSize="large"
+              style={{ display: isActiveLink() ? 'block' : 'none' }}
+            />
+
+            <KeyboardArrowRight
+              fontSize="large"
+              style={{ display: isActiveLink() ? 'none' : 'block' }}
+            />
           </span>
         </button>
         {isActiveLink() && (
