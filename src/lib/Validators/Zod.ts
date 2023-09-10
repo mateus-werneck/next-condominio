@@ -85,7 +85,10 @@ export class ZodValidator {
         required_error: 'Campo Obrigatário.',
         invalid_type_error: 'Valor informado inválido.'
       })
-      .refine((value) => !isNaN(Number(value)), 'Valor informado inválido')
+      .refine(
+        (value) => !isNaN(Number(value)),
+        'Valor informado não é um número válido.'
+      )
       .transform(Number);
   }
 }

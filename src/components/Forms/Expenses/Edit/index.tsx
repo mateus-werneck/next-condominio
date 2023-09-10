@@ -1,5 +1,5 @@
 'use client';
-import IFormData from '@Components/Structure/FormData';
+import FormData from '@Components/Structure/FormData';
 import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
 import { ISubmitForm } from '@Components/Structure/FormData/utils/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
@@ -50,7 +50,7 @@ export default function ExpenseForm(props: IExpenseForm) {
 
   return (
     <>
-      <IFormData
+      <FormData
         inputs={inputs}
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}

@@ -1,5 +1,5 @@
 'use client';
-import IFormData from '@Components/Structure/FormData';
+import FormData from '@Components/Structure/FormData';
 import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
@@ -24,7 +24,7 @@ export default function ListExpensesForm({
 
   return (
     <>
-      <IFormData
+      <FormData
         inputs={inputs}
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}
