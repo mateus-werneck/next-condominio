@@ -9,8 +9,7 @@ export const Mobile = () => {
 
   const onClick = () => {
     setShowMobileMenu((previousValue: boolean) => {
-      if (previousValue) resetActiveLink();
-
+      resetActiveLink();
       return !previousValue;
     });
   };

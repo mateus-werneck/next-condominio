@@ -11,8 +11,7 @@ export default function NavMenu() {
   const router = useRouter();
   const { isMobileView } = useDevice();
 
-  const { showMobileMenu, setShowMobileMenu, activeLink, setActiveLink } =
-    useMobileMenu();
+  const { showMobileMenu, setShowMobileMenu, setActiveLink } = useMobileMenu();
 
   return (
     <nav
@@ -27,12 +26,7 @@ export default function NavMenu() {
     >
       {!isMobileView() && getHomeButton()}
       {getMenuDefault().map((parent) => (
-        <NavLink
-          name={parent.name}
-          key={parent.name}
-          activeLink={activeLink}
-          setActiveLink={setActiveLink}
-        >
+        <NavLink name={parent.name} key={parent.name}>
           {parent.children.map((child) => (
             <Link
               key={child.name}
