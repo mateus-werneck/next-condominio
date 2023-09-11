@@ -41,6 +41,7 @@
     "react-hook-form": "^7.43.9",
     "react-hook-form-resolvers": "^0.0.1",
     "react-input-mask": "^2.0.4",
+    "react-query": "^3.39.3",
     "swagger-ui-react": "^5.4.2",
     "sweetalert2": "^11.7.23",
     "tailwindcss": "3.3.2",
