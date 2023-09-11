@@ -9,7 +9,7 @@ import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
-import { useEffect, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 interface IExpenseForm {
@@ -25,60 +25,29 @@ interface IExpenseSubmit {
 }
 
 export default function ExpenseForm(props: IExpenseForm) {
-  const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>(
-    props.expenseTypes ?? []
-  );
-  const { inputs, validationSchema } = useFormData({
+  const { data } = useQuery({
+    queryKey: ['expenseTypes'],
+    cacheTime: 60 * 60 * 24,
+    queryFn: () =>
+      props.expenseTypes ??
+      clientConn.get('/expenses/types').then((response) => response.data)
+  });
+
+  const { inputs, validationSchema, onFormSubmit } = useFormData({
     expense: props.expense,
-    expenseTypes
+    expenseTypes: data ?? []
   });
 
-  const getExpenseTypes: () => Promise<void> = async (): Promise<void> => {
-    const response = await clientConn.get('/expenses/types');
-    const expenseTypes = (await response.data) as ExpenseType[];
-    setExpenseTypes(expenseTypes);
-  };
-
-  useEffect(() => {
-    if (!expenseTypes.length) {
-      getExpenseTypes();
-    }
-  });
-
-  return useMemo(() => {
-    const onFormSubmit: ISubmitForm = async (
-      submitData: IExpenseSubmit,
-      { reset }
-    ) => {
-      const data: CreateExpense = {
-        name: submitData.name,
-        value: submitData.value,
-        dueDate: new Date(submitData.dueDate),
-        type: submitData.expenseType
-      };
-
-      try {
-        props.expense.id
-          ? await clientConn.put('expenses', { id: props.expense.id, ...data })
-          : await clientConn.post('expenses', data);
-        alertEditSuccess(props.expense.id ? undefined : reset);
-      } catch (error) {
-        alertEditFailed();
-        Promise.resolve();
-      }
-    };
-
-    return (
-      <>
-        <FormData
-          inputs={inputs}
-          validationSchema={validationSchema}
-          onSubmit={onFormSubmit}
-          submitButtonText="Salvar"
-        />
-      </>
-    );
-  }, [inputs, validationSchema, props.expense.id]);
+  return (
+    <>
+      <FormData
+        inputs={inputs}
+        validationSchema={validationSchema}
+        onSubmit={onFormSubmit}
+        submitButtonText="Salvar"
+      />
+    </>
+  );
 }
 
 function useFormData({ expense, expenseTypes }: IExpenseForm) {
@@ -120,5 +89,28 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
     dueDate: ZodValidator.ptBrDate(),
     expenseType: ZodValidator.select()
   });
-  return { inputs, validationSchema };
+
+  const onFormSubmit: ISubmitForm = async (
+    submitData: IExpenseSubmit,
+    { reset }
+  ) => {
+    const data: CreateExpense = {
+      name: submitData.name,
+      value: submitData.value,
+      dueDate: new Date(submitData.dueDate),
+      type: submitData.expenseType
+    };
+
+    try {
+      expense.id
+        ? await clientConn.put('expenses', { id: expense.id, ...data })
+        : await clientConn.post('expenses', data);
+      alertEditSuccess(expense.id ? undefined : reset);
+    } catch (error) {
+      alertEditFailed();
+      Promise.resolve();
+    }
+  };
+
+  return { inputs, validationSchema, onFormSubmit };
 }
