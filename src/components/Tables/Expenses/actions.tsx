@@ -20,7 +20,7 @@ export function useTableActions(setExpenses: ISetExpenses) {
           {
             id: row.id,
             name: row.name,
-            value: Number(row.value),
+            value: String(row.value),
             dueDate: String(row.dueDate),
             type: row.type
           } as ExpenseDto

@@ -9,7 +9,7 @@ import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
 
 interface IExpenseForm {
@@ -40,43 +40,45 @@ export default function ExpenseForm(props: IExpenseForm) {
   };
 
   useEffect(() => {
-    if (!props.expenseTypes) {
+    if (!expenseTypes.length) {
       getExpenseTypes();
     }
   });
 
-  const onFormSubmit: ISubmitForm = async (
-    submitData: IExpenseSubmit,
-    { reset }
-  ) => {
-    const data: CreateExpense = {
-      name: submitData.name,
-      value: submitData.value,
-      dueDate: new Date(submitData.dueDate),
-      type: submitData.expenseType
+  return useMemo(() => {
+    const onFormSubmit: ISubmitForm = async (
+      submitData: IExpenseSubmit,
+      { reset }
+    ) => {
+      const data: CreateExpense = {
+        name: submitData.name,
+        value: submitData.value,
+        dueDate: new Date(submitData.dueDate),
+        type: submitData.expenseType
+      };
+
+      try {
+        props.expense.id
+          ? await clientConn.put('expenses', { id: props.expense.id, ...data })
+          : await clientConn.post('expenses', data);
+        alertEditSuccess(props.expense.id ? undefined : reset);
+      } catch (error) {
+        alertEditFailed();
+        Promise.resolve();
+      }
     };
 
-    try {
-      props.expense.id
-        ? await clientConn.put('expenses', { id: props.expense.id, ...data })
-        : await clientConn.post('expenses', data);
-      alertEditSuccess(props.expense.id ? undefined : reset);
-    } catch (error) {
-      alertEditFailed();
-      Promise.resolve();
-    }
-  };
-
-  return (
-    <>
-      <FormData
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onFormSubmit}
-        submitButtonText="Salvar"
-      />
-    </>
-  );
+    return (
+      <>
+        <FormData
+          inputs={inputs}
+          validationSchema={validationSchema}
+          onSubmit={onFormSubmit}
+          submitButtonText="Salvar"
+        />
+      </>
+    );
+  }, [inputs, validationSchema, props.expense.id]);
 }
 
 function useFormData({ expense, expenseTypes }: IExpenseForm) {
