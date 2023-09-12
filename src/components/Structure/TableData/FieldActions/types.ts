@@ -5,7 +5,7 @@ export interface TableRecord {
 export interface ITableEditButton<T extends TableRecord> {
   table: string;
   row: T;
-  onEditRow: (row: T) => JSX.Element;
+  onEditRow: (row: T) => void;
 }
 
 export interface ITableDeleteButton<T> {
@@ -18,6 +18,6 @@ export interface ITableDeleteButton<T> {
 
 export interface IDefaultTableActions<T extends TableRecord> {
   table: string;
-  onEditRow?: (row: T) => JSX.Element;
+  onEditRow?: (row: T) => void;
   onConfirmDeletion: (row: T) => void | Promise<void>;
 }

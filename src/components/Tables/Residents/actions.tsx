@@ -10,10 +10,14 @@ import { GridCellEditStopParams } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
 
 type ISetResidents = (value: (previousValue: Resident[]) => Resident[]) => void;
+type ISetResident = (value: Resident) => void;
 
-export function useTableActions(setResidents: ISetResidents) {
+export function useTableActions(
+  setResidents: ISetResidents,
+  setEditRow: ISetResident
+) {
   function onEditRow(row: Resident) {
-    return <ResidentForm resident={row} alignment="center" />;
+    setEditRow(row);
   }
 
   const onConfirmDeletion = async (row: Resident) => {

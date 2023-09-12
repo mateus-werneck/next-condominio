@@ -6,8 +6,10 @@ import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActio
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTableActions } from './actions';
+import Modal from '@Components/Structure/Modal';
+import ResidentForm from '@Components/Forms/Resident/Edit';
 
 interface ITableListResidents {
   rows: Resident[];
@@ -16,27 +18,36 @@ interface ITableListResidents {
 export default function TableListResidents({ rows }: ITableListResidents) {
   const table = 'TableListResidents';
   const [residents, setResidents] = useState<Resident[]>(rows);
+  const [editRow, setEditRow] = useState<Resident | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const { onEditRow, onConfirmDeletion, onBatchDelete, onRowUpdate } =
-    useTableActions(setResidents);
+    useTableActions(setResidents, setEditRow);
 
   const columns = getColumns(table, onEditRow, onConfirmDeletion);
 
   return (
-    <TableData
-      name={table}
-      columns={columns}
-      rows={residents}
-      customToolbar={Add('/residents/new')}
-      onBatchDelete={onBatchDelete}
-      onRowUpdate={onRowUpdate}
-    />
+    <div ref={ref}>
+      {editRow && (
+        <Modal parentRef={ref} callback={() => setEditRow(null)}>
+          <ResidentForm resident={editRow} alignment="center" />
+        </Modal>
+      )}
+      <TableData
+        name={table}
+        columns={columns}
+        rows={residents}
+        customToolbar={Add('/residents/new')}
+        onBatchDelete={onBatchDelete}
+        onRowUpdate={onRowUpdate}
+      />
+    </div>
   );
 }
 
 function getColumns(
   table: string,
-  onEditRow: (row: Resident) => JSX.Element,
+  onEditRow: (row: Resident) => void,
   onConfirmDeletion: (row: Resident) => void | Promise<void>
 ) {
   const tableActions: IDefaultTableActions<Resident> = {

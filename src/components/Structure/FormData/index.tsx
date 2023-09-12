@@ -44,10 +44,10 @@ export default function FormData(props: IFormData) {
 
   const alignment = props.alignment ?? 'start';
 
-  const containerStyle = `flex flex-col justify-center items-${alignment} self-${alignment} max-w-fit rounded-md bg-slate-100 p-4 mt-4 gap-8`;
+  const containerStyle = `flex flex-col justify-center items-${alignment} self-${alignment} max-w-fit bg-slate-100 p-4 mt-4 gap-8`;
 
   return (
-    <div className={containerStyle}>
+    <div className={containerStyle} style={props.styles}>
       <form
         className="flex flex-col mt-4 gap-4 lg:grid lg:grid-cols-2 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction)}
