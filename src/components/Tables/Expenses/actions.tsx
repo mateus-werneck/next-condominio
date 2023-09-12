@@ -55,7 +55,7 @@ export function useTableActions(setExpenses: ISetExpenses) {
       }
     };
 
-    alertDeletion(onConfirmDeletion);
+    alertDeletion<Expense>(onConfirmDeletion);
   };
 
   const onRowUpdate = async (

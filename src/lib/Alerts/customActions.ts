@@ -1,18 +1,12 @@
 import { Alert, IAlert } from '@Components/Structure/Alert';
-import { IConfirmDeletionCallback } from '@Components/Structure/TableData/FieldActions/types';
 
 interface IDeleteAction {
   info: IEntityInfo;
-  callback: (value: (previousValue: any[]) => any[]) => void;
 }
 
 interface IEntityInfo {
   id: string;
   endpoint: string;
-}
-
-interface Entity {
-  id: string;
 }
 
 export function alertEditSuccess(
@@ -38,8 +32,8 @@ export function alertEditFailed() {
   });
 }
 
-export function alertDeletion(
-  onConfirmFunction: IConfirmDeletionCallback
+export function alertDeletion<T>(
+  onConfirmFunction: (row: T) => void | Promise<void>
 ): void {
   Alert({
     title: 'Alerta',
@@ -64,8 +58,7 @@ export function alertDeletionFailed(): void {
 }
 
 export async function onDeleteAction({
-  info: { id, endpoint },
-  callback
+  info: { id, endpoint }
 }: IDeleteAction) {
   try {
     await fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/${endpoint}/${id}`, {
@@ -75,10 +68,6 @@ export async function onDeleteAction({
     alertDeletionFailed();
     Promise.resolve();
   }
-
-  callback((previousValue: Entity[]) =>
-    previousValue.filter((expense) => expense.id != id)
-  );
 
   Alert({
     message: 'Alterações salvas com sucesso.',

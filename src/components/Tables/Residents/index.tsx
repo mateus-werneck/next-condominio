@@ -1,15 +1,16 @@
 'use client';
 
+import ResidentForm from '@Components/Forms/Resident/Edit';
+import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
-import { GridColDef } from '@mui/x-data-grid';
+import { useTableReducer } from '@Reducers/tableActions/reducer';
+import { ITableReducerAction } from '@Reducers/tableActions/types';
+import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
-import { useRef, useState } from 'react';
-import { useTableActions } from './actions';
-import Modal from '@Components/Structure/Modal';
-import ResidentForm from '@Components/Forms/Resident/Edit';
+import { Dispatch, useRef } from 'react';
 
 interface ITableListResidents {
   rows: Resident[];
@@ -17,43 +18,58 @@ interface ITableListResidents {
 
 export default function TableListResidents({ rows }: ITableListResidents) {
   const table = 'TableListResidents';
-  const [residents, setResidents] = useState<Resident[]>(rows);
-  const [editRow, setEditRow] = useState<Resident | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  const { onEditRow, onConfirmDeletion, onBatchDelete, onRowUpdate } =
-    useTableActions(setResidents, setEditRow);
+  const { state, dispatch } = useTableReducer<Resident>({
+    editRow: null,
+    rows
+  });
 
-  const columns = getColumns(table, onEditRow, onConfirmDeletion);
+  const getEditModal = () =>
+    state.editRow ? (
+      <Modal parentRef={ref} callback={() => dispatch({ type: 'cancelEdit' })}>
+        <ResidentForm resident={state.editRow} alignment="center" />
+      </Modal>
+    ) : (
+      <></>
+    );
 
   return (
     <div ref={ref}>
-      {editRow && (
-        <Modal parentRef={ref} callback={() => setEditRow(null)}>
-          <ResidentForm resident={editRow} alignment="center" />
-        </Modal>
-      )}
+      {getEditModal()}
       <TableData
         name={table}
-        columns={columns}
-        rows={residents}
+        columns={getColumns(table, dispatch)}
+        rows={state.rows}
         customToolbar={Add('/residents/new')}
-        onBatchDelete={onBatchDelete}
-        onRowUpdate={onRowUpdate}
+        onBatchDelete={(selectedRows: string[]) =>
+          dispatch({
+            type: 'batchDelete',
+            payload: { selectedRows, route: '/residents' }
+          })
+        }
+        onRowUpdate={(
+          newRow: GridCellEditStopParams,
+          oldRow: GridCellEditStopParams
+        ) => {
+          dispatch({
+            type: 'update',
+            payload: { newRow, oldRow, route: '/residents' }
+          });
+
+          return newRow;
+        }}
       />
     </div>
   );
 }
 
-function getColumns(
-  table: string,
-  onEditRow: (row: Resident) => void,
-  onConfirmDeletion: (row: Resident) => void | Promise<void>
-) {
-  const tableActions: IDefaultTableActions<Resident> = {
+function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
+  const rowActions: IDefaultTableActions<Resident> = {
     table,
-    onEditRow,
-    onConfirmDeletion
+    onEditRow: (row: Resident) => dispatch({ type: 'edit', payload: row }),
+    onConfirmDeletion: (row: Resident) =>
+      dispatch({ type: 'delete', payload: { row, route: '/residents' } })
   };
 
   const columns: GridColDef[] = [
@@ -75,7 +91,7 @@ function getColumns(
       field: 'phone',
       headerName: 'Telefone'
     },
-    FieldActions<Resident>(tableActions)
+    FieldActions<Resident>(rowActions)
   ];
 
   return columns;

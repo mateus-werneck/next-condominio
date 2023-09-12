@@ -29,7 +29,10 @@ export async function PUT(request: NextRequest) {
   return await safelyExecute(async (): Promise<Resident> => {
     const updateResident = await prisma.resident.update({
       where: { id: resident.id },
-      data: resident
+      data: {
+        ...resident,
+        apartment: Number(resident.apartment)
+      }
     });
     return updateResident;
   });

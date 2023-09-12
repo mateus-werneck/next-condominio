@@ -23,6 +23,7 @@
       "@Components/*": ["./src/components/*"],
       "@Contexts/*": ["./src/contexts/*"],
       "@Lib/*": ["./src/lib/*"],
+      "@Reducers/*": ["./src/reducers/*"],
       "@Types/*": ["./src/types/*"]
     }
   },
