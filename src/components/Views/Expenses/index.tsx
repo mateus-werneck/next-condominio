@@ -5,7 +5,6 @@ import { clientConn } from '@Lib/Client/api';
 import { MonthRange } from '@Lib/Treat/Date';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { Expense, ExpenseType } from '@prisma/client';
-import { useState } from 'react';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
 
 interface IViewExpenses {
@@ -26,7 +25,7 @@ export default function ViewExpenses({
   });
 
   async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
-    reducer.dispatch({ type: 'load' });
+    reducer.dispatch({ type: 'loading' });
 
     const params: IExpenseQueryParams = {
       ...filters,

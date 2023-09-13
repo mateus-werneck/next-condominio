@@ -81,10 +81,10 @@ export function useTableReducer<T extends Record<string, any>>(
         };
       case 'delete':
         onRowDelete(action.payload);
-        const newRows = state.rows.filter(
-          (row: T) => row.id != action.payload.id
-        );
-        return { ...state, rows: newRows };
+        return {
+          ...state,
+          rows: state.rows.filter((row: T) => row.id != action.payload.id)
+        };
       case 'batchDelete':
         onBatchDelete(action.payload);
         const keepRows = state.rows.filter(
@@ -99,7 +99,7 @@ export function useTableReducer<T extends Record<string, any>>(
           ...state,
           rows: action.payload
         };
-      case 'load':
+      case 'loading':
         return {
           ...state,
           loading: true
