@@ -43,6 +43,9 @@ export default function TableListExpenses({
             } as ExpenseDto
           }
           alignment="center"
+          formSubmitCallback={(payload: Expense) =>
+            dispatch({ type: 'updateRow', payload })
+          }
         />
       </Modal>
     ) : (

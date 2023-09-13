@@ -8,13 +8,14 @@ import Masks from '@Lib/Masks/Masks';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
-import { ExpenseType } from '@prisma/client';
+import { Expense, ExpenseType } from '@prisma/client';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 interface IExpenseForm {
   expense: ExpenseDto;
   expenseTypes?: ExpenseType[];
+  formSubmitCallback?: (value: Expense) => void;
   alignment?: 'start' | 'center' | 'end';
 }
 
@@ -52,7 +53,11 @@ export default function ExpenseForm(props: IExpenseForm) {
   );
 }
 
-function useFormData({ expense, expenseTypes }: IExpenseForm) {
+function useFormData({
+  expense,
+  expenseTypes,
+  formSubmitCallback
+}: IExpenseForm) {
   const inputs: IStandardInput[] = [
     {
       name: 'name',
@@ -104,10 +109,11 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
     };
 
     try {
-      expense.id
+      const response = expense.id
         ? await clientConn.put('expenses', { id: expense.id, ...data })
         : await clientConn.post('expenses', data);
       alertEditSuccess(expense.id ? undefined : reset);
+      formSubmitCallback && formSubmitCallback(response.data);
     } catch (error) {
       alertEditFailed();
       Promise.resolve();
