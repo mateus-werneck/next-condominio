@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ReactNode } from 'react';
 
 interface IResidentsLayout {
@@ -6,7 +7,12 @@ interface IResidentsLayout {
 export default async function ResidentsLayout({ children }: IResidentsLayout) {
   return (
     <div className="flex flex-col justify-between gap-4 p-4 max-w-full">
-      <h1 className="text-base font-bold text-black">Moradores</h1>
+      <Link
+        href="/residents"
+        className="text-base font-bold text-black hover:text-slate-600"
+      >
+        Moradores
+      </Link>
       {children}
     </div>
   );
