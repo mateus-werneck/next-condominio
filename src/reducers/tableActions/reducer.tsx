@@ -27,7 +27,13 @@ export function useTableReducer<T extends Record<string, any>>(
         alertDeletionFailed();
       }
     };
+
+    const keepRows = state.rows.filter((row: T) =>
+      selectedRows.includes(row.id)
+    );
+
     alertDeletion<T>(onConfirmDeletion);
+    dispatch({ type: 'setRows', payload: keepRows });
   };
 
   const onRowUpdate = async ({ newRow, oldRow, route }: IRowUpdate) => {
@@ -50,7 +56,11 @@ export function useTableReducer<T extends Record<string, any>>(
 
   const onRowDelete = async ({ row, route }: IRowDelete<T>) => {
     await onDeleteAction({
-      info: { id: row.id, endpoint: route }
+      info: { id: row.id, endpoint: route },
+      callbackFunction: () => {
+        const keepRows = state.rows.filter((r: T) => r.id != row.id);
+        dispatch({ type: 'setRows', payload: keepRows });
+      }
     });
   };
 
@@ -81,19 +91,10 @@ export function useTableReducer<T extends Record<string, any>>(
         };
       case 'delete':
         onRowDelete(action.payload);
-        return {
-          ...state,
-          rows: state.rows.filter((row: T) => row.id != action.payload.id)
-        };
+        return state;
       case 'batchDelete':
         onBatchDelete(action.payload);
-        const keepRows = state.rows.filter(
-          (row: T) => !action.payload.includes(row.id)
-        );
-        return {
-          ...state,
-          rows: keepRows
-        };
+        return state;
       case 'setRows':
         return {
           ...state,

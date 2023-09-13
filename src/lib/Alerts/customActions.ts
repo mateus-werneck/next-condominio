@@ -2,6 +2,7 @@ import { Alert, IAlert } from '@Components/Structure/Alert';
 
 interface IDeleteAction {
   info: IEntityInfo;
+  callbackFunction?: () => void;
 }
 
 interface IEntityInfo {
@@ -58,7 +59,8 @@ export function alertDeletionFailed(): void {
 }
 
 export async function onDeleteAction({
-  info: { id, endpoint }
+  info: { id, endpoint },
+  callbackFunction
 }: IDeleteAction) {
   try {
     await fetch(`${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/${endpoint}/${id}`, {
@@ -66,7 +68,7 @@ export async function onDeleteAction({
     });
   } catch (error) {
     alertDeletionFailed();
-    Promise.resolve();
+    return Promise.resolve();
   }
 
   Alert({
@@ -74,4 +76,6 @@ export async function onDeleteAction({
     variant: 'success',
     timer: 1500
   });
+
+  callbackFunction && callbackFunction();
 }
