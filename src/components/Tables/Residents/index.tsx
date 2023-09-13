@@ -27,7 +27,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
 
   const getEditModal = () =>
     state.editRow ? (
-      <Modal parentRef={ref} callback={() => dispatch({ type: 'cancelEdit' })}>
+      <Modal parentRef={ref} forceHide={() => dispatch({ type: 'cancelEdit' })}>
         <ResidentForm resident={state.editRow} alignment="center" />
       </Modal>
     ) : (

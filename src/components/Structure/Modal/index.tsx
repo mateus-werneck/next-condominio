@@ -3,13 +3,13 @@ import { createPortal } from 'react-dom';
 
 interface IModal {
   children: ReactNode;
-  callback?: () => void;
+  forceHide?: () => void;
   parentRef?: RefObject<any>;
 }
 
-export default function Modal({ children, callback, parentRef }: IModal) {
+export default function Modal({ children, forceHide, parentRef }: IModal) {
   const [showModal, setShowModal] = useState<boolean>(true);
-  const ref = useDynamic(setShowModal, callback, parentRef);
+  const ref = useDynamic(setShowModal, forceHide, parentRef);
 
   if (!showModal) return <></>;
 
@@ -30,7 +30,7 @@ export default function Modal({ children, callback, parentRef }: IModal) {
 
 function useDynamic(
   setShowModal: (value: boolean) => void,
-  callback?: () => void,
+  forceHide?: () => void,
   parentRef?: RefObject<any>
 ) {
   const ref = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ function useDynamic(
     e.stopPropagation();
     if (e.key === 'Escape') {
       setShowModal(false);
-      callback && callback();
+      forceHide && forceHide();
     }
   };
 
@@ -57,7 +57,7 @@ function useDynamic(
     if (parentRef?.current && parentRef.current.contains(e.target)) return;
 
     setShowModal(false);
-    callback && callback();
+    forceHide && forceHide();
   };
 
   useEffect(() => {

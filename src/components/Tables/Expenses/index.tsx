@@ -1,16 +1,16 @@
 'use client';
 
+import ExpenseForm from '@Components/Forms/Expenses/Edit';
+import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import { ITableReducerAction } from '@Reducers/tableActions/types';
+import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
 import { Dispatch, useRef } from 'react';
-import { ITableReducerAction } from '@Reducers/tableActions/types';
-import Modal from '@Components/Structure/Modal';
-import ExpenseForm from '@Components/Forms/Expenses/Edit';
-import { ExpenseDto } from '@Types/Expense/types';
 
 interface ITableListExpenses {
   reducer: {
@@ -31,7 +31,7 @@ export default function TableListExpenses({
 
   const getEditModal = () =>
     state.editRow ? (
-      <Modal parentRef={ref} callback={() => dispatch({ type: 'cancelEdit' })}>
+      <Modal parentRef={ref} forceHide={() => dispatch({ type: 'cancelEdit' })}>
         <ExpenseForm
           expense={
             {
