@@ -1,27 +1,37 @@
-import { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface IModal {
   children: ReactNode;
   forceHide?: () => void;
-  parentRef?: RefObject<any>;
 }
 
-export default function Modal({ children, forceHide, parentRef }: IModal) {
+export default function Modal({ children, forceHide }: IModal) {
   const [showModal, setShowModal] = useState<boolean>(true);
-  const ref = useDynamic(setShowModal, forceHide, parentRef);
+  const ref = useDynamic(setShowModal, forceHide);
 
   if (!showModal) return <></>;
 
-  const main = document.getElementById('main-root');
+  const main = document.getElementById('portal');
 
   if (!main) return <></>;
 
   const containerStyle =
-    'flex flex-col absolute self-center justify-between z-10 h-3/4 w-3/4 mt-4 lg:mt-12 overflow-auto';
+    'flex flex-col fixed left-0 top-0 z-50 w-screen h-screen overflow-auto backdrop-blur-lg bg-black/4 p-8';
 
   return createPortal(
     <div className={containerStyle} id="root-portal" ref={ref}>
+      {' '}
+      <button
+        className="text-white hover:brightness-75 bg-slate-500 rounded-xl w-8 h-8 self-center mt-4"
+        onClick={() => {
+          setShowModal(false);
+          forceHide && forceHide();
+        }}
+      >
+        <CloseIcon fontSize="small" />
+      </button>
       {children}
     </div>,
     main
@@ -30,8 +40,7 @@ export default function Modal({ children, forceHide, parentRef }: IModal) {
 
 function useDynamic(
   setShowModal: (value: boolean) => void,
-  forceHide?: () => void,
-  parentRef?: RefObject<any>
+  forceHide?: () => void
 ) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -48,22 +57,6 @@ function useDynamic(
     window.addEventListener('keydown', handleEscape);
     return () => {
       window.removeEventListener('keydown', handleEscape);
-    };
-  });
-
-  const handleOutsideClick = (e: any) => {
-    e.stopPropagation();
-    if (!ref.current || ref.current.contains(e.target)) return;
-    if (parentRef?.current && parentRef.current.contains(e.target)) return;
-
-    setShowModal(false);
-    forceHide && forceHide();
-  };
-
-  useEffect(() => {
-    window.addEventListener('click', handleOutsideClick, false);
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
     };
   });
 

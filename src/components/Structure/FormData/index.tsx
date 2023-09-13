@@ -3,7 +3,6 @@ import { CircularProgress } from '@mui/material';
 import {
   Control,
   FieldErrors,
-  UseFormHandleSubmit,
   UseFormRegister,
   useForm
 } from 'react-hook-form';
@@ -42,9 +41,10 @@ export default function FormData(props: IFormData) {
     });
   }
 
+  const mobileAlignment = props.alignment ?? 'center';
   const alignment = props.alignment ?? 'start';
 
-  const containerStyle = `flex flex-col justify-center items-${alignment} self-${alignment} max-w-fit bg-slate-100 p-4 mt-4 gap-8`;
+  const containerStyle = `flex flex-col justify-center items-${mobileAlignment} self-${mobileAlignment} md:items-${alignment} md:self-${alignment} max-w-fit bg-slate-100 p-4 mt-4 gap-8`;
 
   return (
     <div className={containerStyle} style={props.styles}>

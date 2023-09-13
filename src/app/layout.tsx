@@ -32,15 +32,16 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={franklin.className + ' bg-slate-200 text-slate-800'}>
-        <DeviceProvider isMobileDevice={Boolean(isMobileDevice)}>
-          <MobileMenuProvider>
+      <DeviceProvider isMobileDevice={Boolean(isMobileDevice)}>
+        <MobileMenuProvider>
+          <body className={franklin.className + ' bg-slate-200 text-slate-800'}>
+            <div id="portal" />
             <Header />
-          </MobileMenuProvider>
-          <Main>{children}</Main>
-          <Footer />
-        </DeviceProvider>
-      </body>
+            <Main>{children}</Main>
+            <Footer />
+          </body>
+        </MobileMenuProvider>
+      </DeviceProvider>
     </html>
   );
 }

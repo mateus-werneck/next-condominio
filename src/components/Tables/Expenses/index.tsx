@@ -31,7 +31,7 @@ export default function TableListExpenses({
 
   const getEditModal = () =>
     state.editRow ? (
-      <Modal parentRef={ref} forceHide={() => dispatch({ type: 'cancelEdit' })}>
+      <Modal forceHide={() => dispatch({ type: 'cancelEdit' })}>
         <ExpenseForm
           expense={
             {

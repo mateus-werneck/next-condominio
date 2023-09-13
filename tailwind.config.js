@@ -12,7 +12,9 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       },
-      opacity: '.04'
+      opacity: {
+        4: '0.04'
+      }
     }
   },
   plugins: [],
