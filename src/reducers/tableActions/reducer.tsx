@@ -94,6 +94,21 @@ export function useTableReducer<T extends Record<string, any>>(
           ...state,
           rows: keepRows
         };
+      case 'setRows':
+        return {
+          ...state,
+          rows: action.payload
+        };
+      case 'load':
+        return {
+          ...state,
+          loading: true
+        };
+      case 'loaded':
+        return {
+          ...state,
+          loading: false
+        };
       default:
         return state;
     }

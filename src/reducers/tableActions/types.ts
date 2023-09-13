@@ -3,6 +3,7 @@ import { GridCellEditStopParams } from '@mui/x-data-grid';
 export interface TableReducerInitialState<T> {
   editRow: T | null;
   rows: T[];
+  loading?: boolean;
 }
 
 export interface ITableReducerAction {

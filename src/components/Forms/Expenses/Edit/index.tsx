@@ -15,6 +15,7 @@ import { z } from 'zod';
 interface IExpenseForm {
   expense: ExpenseDto;
   expenseTypes?: ExpenseType[];
+  alignment?: 'start' | 'center' | 'end';
 }
 
 interface IExpenseSubmit {
@@ -45,6 +46,7 @@ export default function ExpenseForm(props: IExpenseForm) {
         validationSchema={validationSchema}
         onSubmit={onFormSubmit}
         submitButtonText="Salvar"
+        alignment={props.alignment}
       />
     </>
   );

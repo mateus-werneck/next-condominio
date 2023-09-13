@@ -3,6 +3,7 @@ import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
 import { MonthRange } from '@Lib/Treat/Date';
+import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { Expense, ExpenseType } from '@prisma/client';
 import { useState } from 'react';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
@@ -10,7 +11,7 @@ import { IExpenseQueryParams, IExpensesFilters } from './types';
 interface IViewExpenses {
   monthRange: MonthRange;
   expenseTypes: ExpenseType[];
-  rows: any[];
+  rows: Expense[];
 }
 
 export default function ViewExpenses({
@@ -18,11 +19,14 @@ export default function ViewExpenses({
   expenseTypes,
   rows
 }: IViewExpenses) {
-  const [expenses, setExpenses] = useState<Expense[]>(rows);
-  const [loading, setIsLoading] = useState<boolean>(false);
+  const reducer = useTableReducer<Expense>({
+    editRow: null,
+    rows,
+    loading: false
+  });
 
   async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
-    setIsLoading(true);
+    reducer.dispatch({ type: 'load' });
 
     const params: IExpenseQueryParams = {
       ...filters,
@@ -31,10 +35,11 @@ export default function ViewExpenses({
     };
 
     const response = await clientConn.get('expenses', { params });
-    const data = (await response?.data) ?? expenses;
+    const data = (await response?.data) ?? reducer.state.rows;
 
-    setExpenses(() => data as Expense[]);
-    setIsLoading(false);
+    reducer.dispatch({ type: 'setRows', payload: data as Expense[] });
+
+    reducer.dispatch({ type: 'loaded' });
   }
 
   return (
@@ -44,11 +49,7 @@ export default function ViewExpenses({
         expenseTypes={expenseTypes}
         onFormSubmit={onFormSubmit}
       />
-      <TableListExpenses
-        rows={expenses}
-        loading={loading}
-        setExpenses={setExpenses}
-      />
+      <TableListExpenses reducer={reducer} />
     </>
   );
 }

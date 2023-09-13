@@ -4,51 +4,89 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
-import { GridColDef } from '@mui/x-data-grid';
+import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
-import { useTableActions } from './actions';
+import { Dispatch, useRef } from 'react';
+import { ITableReducerAction } from '@Reducers/tableActions/types';
+import Modal from '@Components/Structure/Modal';
+import ExpenseForm from '@Components/Forms/Expenses/Edit';
+import { ExpenseDto } from '@Types/Expense/types';
 
 interface ITableListExpenses {
-  rows: Expense[];
-  setExpenses: (value: (previousValue: Expense[]) => Expense[]) => void;
-  loading: boolean;
+  reducer: {
+    state: {
+      editRow: Expense | null;
+      rows: Expense[];
+      loading?: boolean;
+    };
+    dispatch: Dispatch<ITableReducerAction>;
+  };
 }
 
 export default function TableListExpenses({
-  rows,
-  setExpenses,
-  loading
+  reducer: { state, dispatch }
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
+  const ref = useRef<HTMLDivElement>(null);
 
-  const { onConfirmDeletion, onBatchDelete, onRowUpdate, onEditRow } =
-    useTableActions(setExpenses);
-
-  const columns = getColumns(table, onEditRow, onConfirmDeletion);
+  const getEditModal = () =>
+    state.editRow ? (
+      <Modal parentRef={ref} callback={() => dispatch({ type: 'cancelEdit' })}>
+        <ExpenseForm
+          expense={
+            {
+              id: state.editRow.id,
+              name: state.editRow.name,
+              value: String(state.editRow.value),
+              dueDate: String(state.editRow.dueDate),
+              type: state.editRow.type
+            } as ExpenseDto
+          }
+          alignment="center"
+        />
+      </Modal>
+    ) : (
+      <></>
+    );
 
   return (
-    <TableData
-      name={table}
-      columns={columns}
-      rows={rows}
-      customToolbar={Add('/expenses/new')}
-      loading={loading}
-      checkBoxSelection={true}
-      onBatchDelete={onBatchDelete}
-      onRowUpdate={onRowUpdate}
-    />
+    <div ref={ref}>
+      {getEditModal()}
+      <TableData
+        name={table}
+        columns={getColumns(table, dispatch)}
+        rows={state.rows}
+        customToolbar={Add('/expenses/new')}
+        loading={state.loading}
+        checkBoxSelection={true}
+        onBatchDelete={(selectedRows: string[]) =>
+          dispatch({
+            type: 'batchDelete',
+            payload: { selectedRows, route: '/expenses' }
+          })
+        }
+        onRowUpdate={(
+          newRow: GridCellEditStopParams,
+          oldRow: GridCellEditStopParams
+        ) => {
+          dispatch({
+            type: 'update',
+            payload: { newRow, oldRow, route: '/expenses' }
+          });
+
+          return newRow;
+        }}
+      />
+    </div>
   );
 }
 
-function getColumns(
-  table: string,
-  onEditRow: (row: Expense) => JSX.Element,
-  onConfirmDeletion: (row: Expense) => void | Promise<void>
-) {
-  const tableActions: IDefaultTableActions<Expense> = {
+function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
+  const rowActions: IDefaultTableActions<Expense> = {
     table,
-    onEditRow,
-    onConfirmDeletion
+    onEditRow: (row: Expense) => dispatch({ type: 'edit', payload: row }),
+    onConfirmDeletion: (row: Expense) =>
+      dispatch({ type: 'delete', payload: { row, route: '/expenses' } })
   };
 
   const columns: GridColDef[] = [
@@ -71,7 +109,7 @@ function getColumns(
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    FieldActions<Expense>(tableActions)
+    FieldActions<Expense>(rowActions)
   ];
 
   return columns;
