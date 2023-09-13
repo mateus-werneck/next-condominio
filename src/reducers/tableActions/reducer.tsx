@@ -17,25 +17,6 @@ import {
 export function useTableReducer<T extends Record<string, any>>(
   initialState: TableReducerInitialState<T>
 ) {
-  const onBatchDelete = async ({ selectedRows, route }: IBatchDelete) => {
-    const onConfirmDeletion = async () => {
-      try {
-        const params = { residents: selectedRows.join(',') };
-        await clientConn.delete(route, { params });
-        alertEditSuccess();
-      } catch (error) {
-        alertDeletionFailed();
-      }
-    };
-
-    const keepRows = state.rows.filter((row: T) =>
-      selectedRows.includes(row.id)
-    );
-
-    alertDeletion<T>(onConfirmDeletion);
-    dispatch({ type: 'setRows', payload: keepRows });
-  };
-
   const onRowUpdate = async ({ newRow, oldRow, route }: IRowUpdate) => {
     let data = newRow;
 
@@ -54,12 +35,26 @@ export function useTableReducer<T extends Record<string, any>>(
     });
   };
 
+  const onBatchDelete = async ({ selectedRows, route }: IBatchDelete) => {
+    const onConfirmDeletion = async () => {
+      try {
+        const params = { ids: selectedRows.join(',') };
+        await clientConn.delete(route, { params });
+        alertEditSuccess();
+        dispatch({ type: 'removeRows', payload: selectedRows });
+      } catch (error) {
+        alertDeletionFailed();
+      }
+    };
+
+    alertDeletion<T>(onConfirmDeletion);
+  };
+
   const onRowDelete = async ({ row, route }: IRowDelete<T>) => {
     await onDeleteAction({
       info: { id: row.id, endpoint: route },
       callbackFunction: () => {
-        const keepRows = state.rows.filter((r: T) => r.id != row.id);
-        dispatch({ type: 'setRows', payload: keepRows });
+        dispatch({ type: 'removeRows', payload: [row.id] });
       }
     });
   };
@@ -99,6 +94,11 @@ export function useTableReducer<T extends Record<string, any>>(
         return {
           ...state,
           rows: action.payload
+        };
+      case 'removeRows':
+        return {
+          ...state,
+          rows: state.rows.filter((row) => !action.payload.includes(row.id))
         };
       case 'loading':
         return {

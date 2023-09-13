@@ -40,7 +40,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const residents: string | null = searchParams.get('residents');
+  const residents: string | null = searchParams.get('ids');
 
   if (!residents) return NextResponse.json({});
 

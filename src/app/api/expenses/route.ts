@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const expenseIds: string | null = searchParams.get('expenseIds');
+  const expenseIds: string | null = searchParams.get('ids');
 
   if (!expenseIds) return NextResponse.json({});
 
