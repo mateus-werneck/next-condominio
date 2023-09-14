@@ -24,24 +24,20 @@ export default function TableListResidents({ rows }: ITableListResidents) {
     rows
   });
 
-  const getEditModal = () =>
-    state.editRow ? (
-      <Modal>
+  return (
+    <>
+      <Modal
+        onClose={() => dispatch({ type: 'cancelEdit' })}
+        isVisible={state.editRow !== null && state.editRow !== undefined}
+      >
         <ResidentForm
-          resident={state.editRow}
+          resident={state.editRow ?? ({} as Resident)}
           alignment="center"
           formSubmitCallback={(payload: Resident) => {
             dispatch({ type: 'updateRow', payload });
           }}
         />
       </Modal>
-    ) : (
-      <></>
-    );
-
-  return (
-    <>
-      {getEditModal()}
       <TableData
         name={table}
         columns={getColumns(table, dispatch)}
