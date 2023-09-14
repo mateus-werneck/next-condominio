@@ -10,7 +10,7 @@ import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Expense } from '@prisma/client';
-import { Dispatch, useRef } from 'react';
+import { Dispatch } from 'react';
 
 interface ITableListExpenses {
   reducer: {
@@ -27,11 +27,10 @@ export default function TableListExpenses({
   reducer: { state, dispatch }
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
-  const ref = useRef<HTMLDivElement>(null);
 
   const getEditModal = () =>
     state.editRow ? (
-      <Modal forceHide={() => dispatch({ type: 'cancelEdit' })}>
+      <Modal onClose={() => dispatch({ type: 'cancelEdit' })}>
         <ExpenseForm
           expense={
             {
@@ -53,7 +52,7 @@ export default function TableListExpenses({
     );
 
   return (
-    <div ref={ref}>
+    <>
       {getEditModal()}
       <TableData
         name={table}
@@ -80,7 +79,7 @@ export default function TableListExpenses({
           return newRow;
         }}
       />
-    </div>
+    </>
   );
 }
 

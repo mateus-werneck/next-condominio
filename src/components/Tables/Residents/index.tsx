@@ -10,7 +10,7 @@ import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
-import { Dispatch, useRef } from 'react';
+import { Dispatch } from 'react';
 
 interface ITableListResidents {
   rows: Resident[];
@@ -18,7 +18,6 @@ interface ITableListResidents {
 
 export default function TableListResidents({ rows }: ITableListResidents) {
   const table = 'TableListResidents';
-  const ref = useRef<HTMLDivElement>(null);
 
   const { state, dispatch } = useTableReducer<Resident>({
     editRow: null,
@@ -27,13 +26,13 @@ export default function TableListResidents({ rows }: ITableListResidents) {
 
   const getEditModal = () =>
     state.editRow ? (
-      <Modal forceHide={() => dispatch({ type: 'cancelEdit' })}>
+      <Modal>
         <ResidentForm
           resident={state.editRow}
           alignment="center"
-          formSubmitCallback={(payload: Resident) =>
-            dispatch({ type: 'updateRow', payload })
-          }
+          formSubmitCallback={(payload: Resident) => {
+            dispatch({ type: 'updateRow', payload });
+          }}
         />
       </Modal>
     ) : (
@@ -41,7 +40,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
     );
 
   return (
-    <div ref={ref}>
+    <>
       {getEditModal()}
       <TableData
         name={table}
@@ -66,7 +65,7 @@ export default function TableListResidents({ rows }: ITableListResidents) {
           return newRow;
         }}
       />
-    </div>
+    </>
   );
 }
 
