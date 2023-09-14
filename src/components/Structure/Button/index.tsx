@@ -38,7 +38,7 @@ export default function DefaultButton({
 
   return (
     <Button
-      className="flex gap-1 hover:brightness-95 transition-all duration-300 text-xs h-6 md:h-full"
+      className="flex gap-1 hover:brightness-100 transition-all duration-300 text-[0.6rem] w-2 h-6"
       disabled={disabled}
       type={buttonType}
       variant={customVariant}

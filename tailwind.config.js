@@ -14,6 +14,9 @@ module.exports = {
       },
       opacity: {
         4: '0.04'
+      },
+      screens: {
+        hd: '480px'
       }
     }
   },

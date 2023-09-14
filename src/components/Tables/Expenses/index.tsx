@@ -15,8 +15,8 @@ import { Dispatch } from 'react';
 interface ITableListExpenses {
   reducer: {
     state: {
-      editRow: Expense | null;
-      rows: Expense[];
+      editRow: ExpenseDto | null;
+      rows: ExpenseDto[];
       loading?: boolean;
     };
     dispatch: Dispatch<ITableReducerAction>;
@@ -35,17 +35,7 @@ export default function TableListExpenses({
         isVisible={state.editRow !== null && state.editRow !== undefined}
       >
         <ExpenseForm
-          expense={
-            state.editRow
-              ? ({
-                  id: state.editRow.id,
-                  name: state.editRow.name,
-                  value: String(state.editRow.value),
-                  dueDate: String(state.editRow.dueDate),
-                  type: state.editRow.type
-                } as ExpenseDto)
-              : ({} as ExpenseDto)
-          }
+          expense={state.editRow as ExpenseDto}
           alignment="center"
           formSubmitCallback={(payload: Expense) =>
             dispatch({ type: 'updateRow', payload })
@@ -82,10 +72,10 @@ export default function TableListExpenses({
 }
 
 function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
-  const rowActions: IDefaultTableActions<Expense> = {
+  const rowActions: IDefaultTableActions<ExpenseDto> = {
     table,
-    onEditRow: (row: Expense) => dispatch({ type: 'edit', payload: row }),
-    onConfirmDeletion: (row: Expense) =>
+    onEditRow: (row: ExpenseDto) => dispatch({ type: 'edit', payload: row }),
+    onConfirmDeletion: (row: ExpenseDto) =>
       dispatch({ type: 'delete', payload: { row, route: '/expenses' } })
   };
 
@@ -109,7 +99,7 @@ function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
       headerName: 'Data de Vencimento',
       type: 'date'
     },
-    FieldActions<Expense>(rowActions)
+    FieldActions<ExpenseDto>(rowActions)
   ];
 
   return columns;

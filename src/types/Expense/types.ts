@@ -8,7 +8,7 @@ export type CreateExpense = {
 };
 
 export interface ExpenseDto {
-  id?: string;
+  id: string;
   name: string;
   value: string;
   dueDate: string;
