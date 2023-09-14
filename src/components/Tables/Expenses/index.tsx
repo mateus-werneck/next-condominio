@@ -28,18 +28,23 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const getEditModal = () =>
-    state.editRow ? (
-      <Modal onClose={() => dispatch({ type: 'cancelEdit' })}>
+  return (
+    <>
+      <Modal
+        onClose={() => dispatch({ type: 'cancelEdit' })}
+        isVisible={state.editRow !== null && state.editRow !== undefined}
+      >
         <ExpenseForm
           expense={
-            {
-              id: state.editRow.id,
-              name: state.editRow.name,
-              value: String(state.editRow.value),
-              dueDate: String(state.editRow.dueDate),
-              type: state.editRow.type
-            } as ExpenseDto
+            state.editRow
+              ? ({
+                  id: state.editRow.id,
+                  name: state.editRow.name,
+                  value: String(state.editRow.value),
+                  dueDate: String(state.editRow.dueDate),
+                  type: state.editRow.type
+                } as ExpenseDto)
+              : ({} as ExpenseDto)
           }
           alignment="center"
           formSubmitCallback={(payload: Expense) =>
@@ -47,13 +52,6 @@ export default function TableListExpenses({
           }
         />
       </Modal>
-    ) : (
-      <></>
-    );
-
-  return (
-    <>
-      {getEditModal()}
       <TableData
         name={table}
         columns={getColumns(table, dispatch)}
