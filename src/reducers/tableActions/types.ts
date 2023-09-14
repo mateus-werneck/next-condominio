@@ -7,7 +7,17 @@ export interface TableReducerInitialState<T> {
 }
 
 export interface ITableReducerAction {
-  type: string;
+  type:
+    | 'edit'
+    | 'cancelEdit'
+    | 'update'
+    | 'updateRow'
+    | 'delete'
+    | 'batchDelete'
+    | 'setRows'
+    | 'removeRows'
+    | 'loading'
+    | 'loaded';
   payload?: any;
 }
 

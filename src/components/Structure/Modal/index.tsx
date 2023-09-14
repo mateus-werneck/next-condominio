@@ -1,3 +1,4 @@
+'use client';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -10,6 +11,17 @@ interface IModal {
 
 export default function Modal({ children, onClose, isVisible }: IModal) {
   const [showModal, setShowModal] = useState<boolean>(true);
+  const [portal, setPortal] = useState<HTMLElement | null>(null);
+
+  useEffect(
+    () => setShowModal((previousValue: boolean) => isVisible ?? previousValue),
+    [isVisible]
+  );
+
+  useEffect(() => {
+    const portal = document.getElementById('portal');
+    portal && setPortal(portal);
+  }, []);
 
   const handleEscape = (e: KeyboardEvent) => {
     e.stopImmediatePropagation();
@@ -29,13 +41,6 @@ export default function Modal({ children, onClose, isVisible }: IModal) {
       window.removeEventListener('keydown', handleEscape);
     };
   });
-
-  useEffect(
-    () => setShowModal((previousValue: boolean) => isVisible ?? previousValue),
-    [isVisible]
-  );
-
-  const portal = document.getElementById('portal');
 
   if (!portal) return <></>;
 
