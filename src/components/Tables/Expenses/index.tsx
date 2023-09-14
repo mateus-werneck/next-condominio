@@ -6,6 +6,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
@@ -59,9 +60,20 @@ export default function TableListExpenses({
           newRow: GridCellEditStopParams,
           oldRow: GridCellEditStopParams
         ) => {
+          const expense = newRow as unknown as ExpenseDto;
           dispatch({
             type: 'update',
-            payload: { newRow, oldRow, route: '/expenses' }
+            payload: {
+              newRow: {
+                id: newRow.id,
+                name: expense.name,
+                type: expense.type,
+                dueDate: expense.dueDate,
+                value: MoneyUtil.toFloat(newRow.value)
+              },
+              oldRow,
+              route: '/expenses'
+            }
           });
 
           return newRow;

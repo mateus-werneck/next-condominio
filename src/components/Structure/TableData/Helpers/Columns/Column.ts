@@ -25,6 +25,9 @@ function treatEachColumn(column: GridColDef): GridColDef {
 
 function treatEditable(columns: GridColDef[]): GridColDef[] {
   return columns.map((column) => {
-    return { ...column, editable: column.field !== 'actions' };
+    return {
+      ...column,
+      editable: column.editable ?? column.field !== 'actions'
+    };
   });
 }

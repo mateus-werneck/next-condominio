@@ -7,7 +7,9 @@ export default function Add(route: string): JSX.Element[] {
       route={route}
       variant="text"
       key={route}
-      styles={{ marginLeft: '-8px' }}
+      styles={{
+        marginLeft: '1rem'
+      }}
     >
       <AddIcon fontSize="small" />
       Adicionar

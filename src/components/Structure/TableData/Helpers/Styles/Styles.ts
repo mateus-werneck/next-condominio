@@ -26,7 +26,7 @@ const Styles: SxProps<Theme> = {
     background: 'var(--light-gray) !important'
   },
   '& .MuiDataGrid-columnHeader': {
-    minWidth: '128px !important',
+    minWidth: '172px !important',
     '@media (min-width: 1920px)': {
       minWidth: '224px !important'
     },
@@ -38,7 +38,7 @@ const Styles: SxProps<Theme> = {
     minHeight: '50px'
   },
   '& .MuiDataGrid-cell': {
-    minWidth: '128px !important',
+    minWidth: '172px !important',
     '@media (min-width: 1920px)': {
       minWidth: '224px !important'
     }

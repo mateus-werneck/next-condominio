@@ -11,5 +11,6 @@ export const columnSelect: Partial<GridColDef> = {
   valueGetter: (
     params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
   ) => params.value?.label ?? '',
+  editable: false,
   filterOperators: getGridStringOperators()
 };

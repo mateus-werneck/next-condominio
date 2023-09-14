@@ -45,14 +45,20 @@ export default function Modal({ children, onClose, isVisible }: IModal) {
   if (!portal) return <></>;
 
   const containerStyle =
-    'flex flex-col fixed left-0 top-0 z-50 w-screen h-screen overflow-auto backdrop-blur-lg bg-black/4 p-8 transition delay-1000 duration-300 ease-in-out' +
+    'flex flex-col fixed left-0 top-0 z-50 w-screen h-screen overflow-auto backdrop-blur-lg bg-black/4 p-8' +
     ` ${showModal ? 'visible' : 'invisible'}`;
 
   return createPortal(
-    <div className={containerStyle}>
+    <div
+      className={containerStyle}
+      style={{
+        transition: 'scale(1)',
+        animation: 'fadeIn .5s cubic'
+      }}
+    >
       {' '}
       <button
-        className="text-white hover:brightness-75 bg-slate-500 rounded-xl w-8 h-8 self-center mt-4 delay"
+        className="text-white hover:brightness-75 bg-slate-500 rounded-xl w-8 h-8 self-center mt-4"
         onClick={() => {
           setShowModal(false);
           onClose && onClose();

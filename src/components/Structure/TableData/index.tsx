@@ -38,7 +38,7 @@ export default function TableData(props: ITableData) {
   const columns = treatColumns(props.columns, props.onRowUpdate !== undefined);
 
   return (
-    <div className="flex mt-4 items-center justify-center h-full max-w-max">
+    <div className="flex mt-4 items-center justify-center h-full">
       <ThemeProvider theme={Theme}>
         <DataGrid
           slotProps={slotProps}
