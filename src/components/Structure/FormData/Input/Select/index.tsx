@@ -1,7 +1,7 @@
 import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, SxProps, TextField, Theme } from '@mui/material';
 import { Controller } from 'react-hook-form';
-import { IStandardSelect } from '../utils/types';
+import { IStandardSelect } from './types';
 
 export default function StandardSelect(props: IStandardSelect) {
   const customStyles: SxProps<Theme> = {

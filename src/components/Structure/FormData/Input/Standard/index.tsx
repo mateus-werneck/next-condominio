@@ -1,17 +1,17 @@
-import { getInputProps, getLabel } from '../utils/input-props';
-import { IFormInput } from '../utils/types';
+import { IStandardInput } from './types';
 
-export default function StandardInput(props: IFormInput) {
-  return getLabel(getInputHtml(props), props.label);
-}
-
-function getInputHtml(props: IFormInput): JSX.Element {
+export default function StandardInput({
+  register,
+  type,
+  initialValue,
+  ...props
+}: IStandardInput) {
   return (
     <input
-      {...props.register(props.name)}
-      defaultValue={props.initialValue}
-      type={props.type ? props.type : 'text'}
-      {...getInputProps(props)}
+      {...register(props.name)}
+      {...props}
+      defaultValue={initialValue}
+      type={type ? type : 'text'}
     />
   );
 }
