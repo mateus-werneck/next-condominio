@@ -5,7 +5,7 @@ export interface TableRecord {
 export interface ITableEditButton<T extends TableRecord> {
   table: string;
   row: T;
-  onEditRow: (row: T) => void;
+  onEditRow?: (row: T) => void;
 }
 
 export interface ITableDeleteButton<T> {

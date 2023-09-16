@@ -81,17 +81,15 @@ export default function ActionsTable(props: ITableData) {
     return (
       <Button
         key={getDeleteButtonKey()}
-        variant="text"
-        styles={{ color: 'var(--gray-700)' }}
+        className="px-0 py-0 bg-transperent"
         onClickFunction={() =>
           props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }
       >
-        <DeleteIcon
-          style={{ maxWidth: '16px', maxHeight: '16px' }}
-          color="error"
-        />
-        Remover
+        <div className="flex gap-1">
+          <DeleteIcon fontSize="small" color="error" />
+          <span>REMOVER</span>
+        </div>
       </Button>
     );
   }

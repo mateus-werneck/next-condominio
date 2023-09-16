@@ -44,7 +44,11 @@ export default function FormData(props: IFormData) {
         {getFormInputs({ inputs: props.inputs, register, control, errors })}
       </form>
       <div className="max-w-fit self-end">
-        <Button type="submit" disable={isSubmitting}>
+        <Button
+          type="submit"
+          disable={isSubmitting}
+          className="bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
+        >
           {!isSubmitting ? (
             props.submitButtonText
           ) : (
