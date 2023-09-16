@@ -5,7 +5,7 @@ export default function Button(props: IButton) {
 
   return (
     <button
-      className={`${className} flex gap-1 px-4 py-1 text-small md:text-sm rounded-md hover:transition-all duration-500 delay-100`}
+      className={`${className} flex gap-1 text-small md:text-sm rounded-md hover:transition-all duration-500 delay-100`}
       disabled={props.disable ?? false}
       type={props.type ?? 'button'}
       onClick={props.onClickFunction}

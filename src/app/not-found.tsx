@@ -18,9 +18,8 @@ export default function Custom404() {
           <h2 className="text-6xl">Página não encontrada</h2>
         </div>
         <Button
-          className="text-[48px] width-[80%] height-[150px] rounded-xl"
+          className="text-[48px] width-[80%] height-[150px] rounded-xl bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
           route="/"
-          variant="contained"
         >
           Voltar ao Início
         </Button>
@@ -34,7 +33,10 @@ export default function Custom404() {
         <ErrorIcon fontSize="large" className="self-center" />
         <h2 className="text-bold">Página não encontrada</h2>
       </div>
-      <Button route="/" variant="contained">
+      <Button
+        route="/"
+        className="px-4 py-1 bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
+      >
         Voltar ao Início
       </Button>
     </div>

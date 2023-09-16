@@ -81,13 +81,13 @@ export default function ActionsTable(props: ITableData) {
     return (
       <Button
         key={getDeleteButtonKey()}
-        className="px-0 py-0 bg-transperent"
+        className="bg-transperent hover:bg-light-blue/4"
         onClickFunction={() =>
           props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }
       >
         <div className="flex gap-1">
-          <DeleteIcon fontSize="small" color="error" />
+          <DeleteIcon fontSize="small" />
           <span>REMOVER</span>
         </div>
       </Button>

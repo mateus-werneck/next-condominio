@@ -1,4 +1,4 @@
-import { ISelectOption } from '@Components/Structure/FormData/Input/utils/types';
+import { ISelectOption } from '@Components/Structure/FormData/Input/Select/types';
 import { IFilter } from '@Lib/Treat/Request';
 
 interface IExpenseType extends ISelectOption {

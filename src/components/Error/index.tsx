@@ -17,10 +17,16 @@ export default function ErrorPage() {
         <h2>Oops!</h2>
         <p>Alguma coisa deu errado.</p>
       </div>
-      <Button route={path ?? '/'} variant="contained">
+      <Button
+        route={path ?? '/'}
+        className="px-4 py-1 bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
+      >
         <RefreshIcon fontSize="small" />
       </Button>
-      <Button route="/" variant="contained">
+      <Button
+        route="/"
+        className="px-4 py-1 bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
+      >
         Voltar ao Início
       </Button>
     </div>

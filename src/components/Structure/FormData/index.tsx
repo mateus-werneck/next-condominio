@@ -47,7 +47,7 @@ export default function FormData(props: IFormData) {
         <Button
           type="submit"
           disable={isSubmitting}
-          className="bg-black text-white hover:bg-gray-500 hover:text-black hover:font-bold"
+          className="bg-black text-white px-4 py-1 hover:bg-gray-500 hover:text-black hover:font-bold"
         >
           {!isSubmitting ? (
             props.submitButtonText

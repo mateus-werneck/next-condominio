@@ -6,7 +6,7 @@ export default function Add(route: string): JSX.Element[] {
     <Button
       route={route}
       key={route}
-      className="px-0 py-0 bg-transperent text-black hover:bg-blue"
+      className="bg-transperent text-black hover:bg-light-blue/4"
     >
       <div className="flex gap-1">
         <AddIcon fontSize="small" />

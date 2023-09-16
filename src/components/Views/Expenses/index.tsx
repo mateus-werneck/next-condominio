@@ -4,13 +4,14 @@ import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
 import { MonthRange } from '@Lib/Treat/Date';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
+import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
 
 interface IViewExpenses {
   monthRange: MonthRange;
   expenseTypes: ExpenseType[];
-  rows: Expense[];
+  rows: ExpenseDto[];
 }
 
 export default function ViewExpenses({
@@ -18,7 +19,7 @@ export default function ViewExpenses({
   expenseTypes,
   rows
 }: IViewExpenses) {
-  const reducer = useTableReducer<Expense>({
+  const reducer = useTableReducer<ExpenseDto>({
     editRow: null,
     rows,
     loading: false
