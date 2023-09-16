@@ -1,6 +1,6 @@
 'use client';
 
-import DefaultButton from '@Components/Structure/Button';
+import Button from '@Components/Structure/Button';
 import ErrorIcon from '@mui/icons-material/Error';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { usePathname } from 'next/navigation';
@@ -17,12 +17,12 @@ export default function ErrorPage() {
         <h2>Oops!</h2>
         <p>Alguma coisa deu errado.</p>
       </div>
-      <DefaultButton route={path ?? '/'} variant="contained" color="secondary">
+      <Button route={path ?? '/'} variant="contained">
         <RefreshIcon fontSize="small" />
-      </DefaultButton>
-      <DefaultButton route="/" variant="contained" color="secondary">
+      </Button>
+      <Button route="/" variant="contained">
         Voltar ao Início
-      </DefaultButton>
+      </Button>
     </div>
   );
 }

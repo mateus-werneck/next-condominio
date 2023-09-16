@@ -1,5 +1,5 @@
 import { Alert, IAlert } from '@Components/Structure/Alert';
-import DefaultButton from '@Components/Structure/Button';
+import Button from '@Components/Structure/Button';
 import { useDevice } from '@Contexts/useDevice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
@@ -79,7 +79,7 @@ export default function ActionsTable(props: ITableData) {
 
   function getDeleteButton(currentSelectedRows: string[]) {
     return (
-      <DefaultButton
+      <Button
         key={getDeleteButtonKey()}
         variant="text"
         styles={{ color: 'var(--gray-700)' }}
@@ -92,7 +92,7 @@ export default function ActionsTable(props: ITableData) {
           color="error"
         />
         Remover
-      </DefaultButton>
+      </Button>
     );
   }
 

@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CircularProgress } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import DefaultButton from '../Button';
+import Button from '../Button';
 import { IFormData } from './types';
 import { getFormInputs } from './utils/form-inputs';
 
@@ -44,13 +44,13 @@ export default function FormData(props: IFormData) {
         {getFormInputs({ inputs: props.inputs, register, control, errors })}
       </form>
       <div className="max-w-fit self-end">
-        <DefaultButton type="submit" color="secondary" disable={isSubmitting}>
+        <Button type="submit" disable={isSubmitting}>
           {!isSubmitting ? (
             props.submitButtonText
           ) : (
             <CircularProgress color="info" size={16} />
           )}
-        </DefaultButton>
+        </Button>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 'use client';
 import FormData from '@Components/Structure/FormData';
-import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
-import { ISubmitForm } from '@Components/Structure/FormData/utils/types';
+import { IFormInput, ISubmitForm } from '@Components/Structure/FormData/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
@@ -58,7 +57,7 @@ export default function ResidentForm(props: IResidentForm) {
 }
 
 function useFormData({ resident }: IResidentForm) {
-  const inputs: IStandardInput[] = [
+  const inputs: IFormInput[] = [
     {
       name: 'name',
       label: 'Nome',

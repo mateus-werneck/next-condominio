@@ -1,5 +1,5 @@
 'use client';
-import DefaultButton from '@Components/Structure/Button';
+import Button from '@Components/Structure/Button';
 import { useDevice } from '@Contexts/useDevice';
 import ErrorIcon from '@mui/icons-material/Error';
 
@@ -17,19 +17,13 @@ export default function Custom404() {
           />
           <h2 className="text-6xl">Página não encontrada</h2>
         </div>
-        <DefaultButton
-          styles={{
-            fontSize: '48px',
-            width: '80%',
-            height: 150,
-            borderRadius: '1rem'
-          }}
+        <Button
+          className="text-[48px] width-[80%] height-[150px] rounded-xl"
           route="/"
           variant="contained"
-          color="secondary"
         >
           Voltar ao Início
-        </DefaultButton>
+        </Button>
       </div>
     );
   }
@@ -40,9 +34,9 @@ export default function Custom404() {
         <ErrorIcon fontSize="large" className="self-center" />
         <h2 className="text-bold">Página não encontrada</h2>
       </div>
-      <DefaultButton route="/" variant="contained" color="secondary">
+      <Button route="/" variant="contained">
         Voltar ao Início
-      </DefaultButton>
+      </Button>
     </div>
   );
 }

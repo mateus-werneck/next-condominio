@@ -2,7 +2,6 @@ import { SxProps, Theme } from '@mui/material';
 
 const Styles: SxProps<Theme> = {
   '& .MuiDataGrid-toolbarContainer': {
-    marginBottom: '1.5rem',
     'a, button': {
       color: 'var(--black)',
       fontSize: '0.7rem',

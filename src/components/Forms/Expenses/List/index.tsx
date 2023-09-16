@@ -1,6 +1,6 @@
 'use client';
 import FormData from '@Components/Structure/FormData';
-import { IStandardInput } from '@Components/Structure/FormData/Input/utils/types';
+import { IFormInput } from '@Components/Structure/FormData/types';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
@@ -40,7 +40,7 @@ function useFormData({
   monthRange: { startAt, endAt },
   expenseTypes
 }: IFormData) {
-  const inputs: IStandardInput[] = [
+  const inputs: IFormInput[] = [
     {
       name: 'startAt',
       label: 'Data Inicial',

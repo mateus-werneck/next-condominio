@@ -1,79 +1,47 @@
-'use client';
+import { CSSProperties, useCallback } from 'react';
+import { IButton } from './types';
 
-import { Button } from '@mui/material';
-import { CSSProperties } from 'react';
+export default function Button(props: IButton) {
+  /*eslint-disable react-hooks/exhaustive-deps*/
+  const getStyle = useCallback(() => {
+    const { color, variant, style } = props;
 
-interface IDefaultButton {
-  onClickFunction?: () => void;
-  variant?: 'text' | 'contained' | 'outlined';
-  color?:
-    | 'success'
-    | 'inherit'
-    | 'primary'
-    | 'secondary'
-    | 'error'
-    | 'info'
-    | 'warning';
-  type?: 'button' | 'submit' | 'reset';
-  route?: string;
-  disable?: boolean;
-  styles?: CSSProperties;
-  children: React.ReactNode;
-}
+    let background: string = color ?? 'black';
+    let fontColor = 'white';
 
-export default function DefaultButton({
-  onClickFunction,
-  variant,
-  color,
-  type,
-  route,
-  disable,
-  styles,
-  children
-}: IDefaultButton) {
-  const { getCustomStyle } = useColor(color, styles);
-  const customVariant = variant ? variant : 'contained';
-  const disabled = disable !== undefined ? disable : false;
-  const buttonType = type !== undefined ? type : 'button';
+    if (variant && variant !== 'contained') {
+      background = 'transperent';
+      fontColor = 'black';
+    }
 
-  return (
-    <Button
-      className="flex gap-1 hover:brightness-100 transition-all duration-300 text-[0.6rem] w-2 h-6"
-      disabled={disabled}
-      type={buttonType}
-      variant={customVariant}
-      href={route}
-      onClick={onClickFunction}
-      style={getCustomStyle()}
-    >
-      {children}
-    </Button>
-  );
-}
+    const outline = variant === 'outlined' ? 'solid 1px' : 'none';
 
-function useColor(color?: string, styles?: CSSProperties) {
-  function getCustomStyle() {
-    const customStyle = styles ? styles : {};
-
-    if (color === undefined) return customStyle;
+    const styles = style ?? {};
 
     return {
-      ...customStyle,
-      background: getColor()
-    };
-  }
-  function getColor() {
-    const primary = 'var(--blue)';
+      ...styles,
+      background: `var(--${background})`,
+      color: `var(--${fontColor})`,
+      outline,
+      outlineColor: `var(--${color ?? 'black'})`
+    } as CSSProperties;
+  }, [props.color, props.variant]);
 
-    if (color === 'success') return 'var(--green)';
-    if (color === 'primary') return primary;
-    if (color === 'secondary') return 'black';
-    if (color === 'error') return 'var(--red)';
-    if (color === 'info') return 'var(--blue)';
-    if (color === 'warning') return 'var(--yellow)';
-
-    return primary;
-  }
-
-  return { getCustomStyle };
+  return (
+    <button
+      className={`flex gap-1 px-4 py-1 text-small rounded-md hover:brightness-100 transition-all duration-300 ${
+        props.className ?? ''
+      }`}
+      style={getStyle()}
+      disabled={props.disable ?? false}
+      type={props.type ?? 'button'}
+      onClick={props.onClickFunction}
+    >
+      {!props.route ? (
+        props.children
+      ) : (
+        <a href={props.route}>{props.children}</a>
+      )}
+    </button>
+  );
 }

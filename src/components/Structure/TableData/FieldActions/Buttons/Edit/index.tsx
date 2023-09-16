@@ -1,5 +1,5 @@
-import DefaultButton from '@Components/Structure/Button';
-import Modal from '@Components/Structure/Modal';
+import Button from '@Components/Structure/Button';
+import { Colors } from '@Lib/Treat/Colors';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ITableEditButton, TableRecord } from '../../types';
 
@@ -10,13 +10,13 @@ export default function Edit<T extends TableRecord>({
 }: ITableEditButton<T>): JSX.Element {
   return (
     <>
-      <DefaultButton
+      <Button
         key={`${table}_Edit_${row.id}`}
-        color="primary"
+        color={Colors.info}
         onClickFunction={() => onEditRow(row)}
       >
         <VisibilityIcon fontSize="small" key={`${table}_Edit_${row.id}`} />
-      </DefaultButton>
+      </Button>
     </>
   );
 }
