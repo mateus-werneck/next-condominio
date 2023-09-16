@@ -10,17 +10,13 @@ export default function Delete<T extends TableRecord>({
 }: ITableDeleteButton<T>): JSX.Element {
   return (
     <Button
-      className="bg-transperent hover:text-gray-500 hover:border-solid hover:border-[1px] hover:border-gray-500"
+      className="bg-transperent hover:text-red"
       key={`${table}_Delete_${id}`}
       onClickFunction={() =>
         alertDeletion(async (row: T) => await onConfirmDeletion(row))
       }
     >
-      <DeleteIcon
-        fontSize="small"
-        key={`${table}_Delete_${id}`}
-        color="error"
-      />
+      <DeleteIcon fontSize="medium" key={`${table}_Delete_${id}`} />
     </Button>
   );
 }

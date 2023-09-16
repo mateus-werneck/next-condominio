@@ -34,6 +34,7 @@ export default function StandardCurrencyInput({
       value={ref.current?.value ?? MoneyUtil.toBRL(initialValue ?? 0)}
       onChange={handleChange}
       ref={ref}
+      autoFocus
     />
   );
 }

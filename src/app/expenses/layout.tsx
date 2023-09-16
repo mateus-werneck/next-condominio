@@ -10,7 +10,7 @@ export default async function ExpensesLayout({ children }: IExpensesLayout) {
       <div className="flex flex-col justify-between gap-8 pt-4 pb-4 max-w-full">
         <Link
           href="/expenses"
-          className="text-base self-center hd:self-start font-bold text-black hover:text-slate-600"
+          className="text-base self-center md:self-start font-bold text-black hover:text-slate-600"
         >
           Despesas Gerais
         </Link>

@@ -12,7 +12,7 @@ export default function Error({ name, errors }: IError) {
 
   return (
     <span
-      className="indent-2 text-xs text-red-600/100 mb-4 mt-[0.3rem]"
+      className="indent-2 text-xs text-red mb-4 mt-[0.3rem]"
       key={name + '-warning'}
     >
       {String(errors[name]?.message)}

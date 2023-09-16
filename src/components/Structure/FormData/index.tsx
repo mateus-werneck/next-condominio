@@ -32,7 +32,7 @@ export default function FormData(props: IFormData) {
   return (
     <div
       className={
-        `flex flex-col justify-center items-center hd:items-${alignment} self-center hd:self-${alignment}` +
+        `flex flex-col justify-center items-center md:items-${alignment} self-center md:self-${alignment}` +
         ' max-w-fit bg-slate-100 p-4 mt-4 mb-4 gap-8'
       }
       style={props.styles}
@@ -48,6 +48,7 @@ export default function FormData(props: IFormData) {
           type="submit"
           disable={isSubmitting}
           className="bg-black text-white px-4 py-1 hover:bg-gray-500 hover:text-black hover:font-bold"
+          onClickFunction={handleSubmit(onSubmitFunction)}
         >
           {!isSubmitting ? (
             props.submitButtonText
