@@ -18,6 +18,19 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
 
   const route = `${path}/edit?id=${id}`;
 
+  const notifyClipboard = () => {
+    toast('Copiado para a área de trabalho.', {
+      position: 'bottom-center',
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      hideProgressBar: true,
+      autoClose: 2000
+    });
+    setShowCheckIcon(true);
+    setTimeout(() => setShowCheckIcon(false), 1200);
+  };
+
   return (
     <>
       <div className="pt-4" />
@@ -36,17 +49,20 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
                   e.preventDefault();
                   const url =
                     String(process.env.NEXT_PUBLIC_SYSTEM_URL) + route;
-                  navigator.clipboard.writeText(url);
-                  toast('Copiado para a área de trabalho.', {
-                    position: 'bottom-center',
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    hideProgressBar: true,
-                    autoClose: 2000,
-                    type: 'success'
-                  });
-                  setShowCheckIcon(true);
-                  setTimeout(() => setShowCheckIcon(false), 1200);
+                  try {
+                    navigator.clipboard.writeText(url);
+                    notifyClipboard();
+                  } catch (error) {
+                    toast('Falha ao copiar para área de trabalho.', {
+                      position: 'bottom-center',
+                      closeButton: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      hideProgressBar: true,
+                      autoClose: 2000,
+                      type: 'error'
+                    });
+                  }
                 }}
               >
                 {!showCheckIcon ? (
