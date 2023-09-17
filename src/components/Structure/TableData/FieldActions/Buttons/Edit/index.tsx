@@ -13,7 +13,7 @@ export default function Edit<T extends TableRecord>({
     <>
       <Button
         key={`${table}_Edit_${row.id}`}
-        className="bg-transperent hover:text-blue hover:bg-gray-400"
+        className="bg-transperent hover:text-blue hover:bg-gray-300"
         onClickFunction={() => onEditRow(row)}
       >
         <VisibilityIcon fontSize="medium" key={`${table}_Edit_${row.id}`} />
