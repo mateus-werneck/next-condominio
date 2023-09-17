@@ -1,6 +1,6 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
-import { CreateExpense } from '@Types/Expense/types';
+import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { Expense, Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const conditions = getConditions(searchParams);
   const expenses = await prisma.expense.findMany(conditions);
 
-  return NextResponse.json(expenses);
+  return NextResponse.json(expenses as ExpenseDto[]);
 }
 export async function POST(request: NextRequest) {
   const data = await request.json();

@@ -1,11 +1,11 @@
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { appendQueryParams } from '@Lib/Treat/Request';
 import { ExpenseDto } from '@Types/Expense/types';
-import { Expense, ExpenseType } from '@prisma/client';
+import { ExpenseType } from '@prisma/client';
 
 export const fetchExpenses = async (
   monthRange: MonthRange
-): Promise<Expense[]> => {
+): Promise<ExpenseDto[]> => {
   const url = appendQueryParams(`${process.env.SYSTEM_URL}/api/expenses`, {
     startAt: DateUtil.fromDateToIsoString(monthRange.startAt),
     endAt: DateUtil.fromDateToIsoString(monthRange.endAt)

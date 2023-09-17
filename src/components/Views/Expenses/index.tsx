@@ -2,7 +2,7 @@
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
-import { MonthRange } from '@Lib/Treat/Date';
+import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
@@ -21,7 +21,10 @@ export default function ViewExpenses({
 }: IViewExpenses) {
   const reducer = useTableReducer<ExpenseDto>({
     editRow: null,
-    rows,
+    rows: rows.map((row) => ({
+      ...row,
+      dueDate: DateUtil.fromDateToPtBrString(new Date(row.dueDate))
+    })),
     loading: false
   });
 

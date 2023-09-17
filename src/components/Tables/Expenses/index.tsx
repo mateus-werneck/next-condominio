@@ -7,6 +7,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -42,7 +43,14 @@ export default function TableListExpenses({
           hashTag={`${state.editRow?.name} - ${state.editRow?.dueDate}`}
         >
           <ExpenseForm
-            expense={state.editRow as ExpenseDto}
+            expense={
+              {
+                ...state.editRow,
+                dueDate: state.editRow?.dueDate
+                  ? DateUtil.fromPtBrStringToIsoString(state.editRow?.dueDate)
+                  : ''
+              } as ExpenseDto
+            }
             alignment="center"
             formSubmitCallback={(payload: Expense) =>
               dispatch({ type: 'updateRow', payload })
@@ -115,8 +123,7 @@ function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
     },
     {
       field: 'dueDate',
-      headerName: 'Data de Vencimento',
-      type: 'date'
+      headerName: 'Data de Vencimento'
     },
     FieldActions<ExpenseDto>(rowActions)
   ];

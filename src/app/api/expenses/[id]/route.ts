@@ -1,5 +1,6 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
+import { ExpenseDto } from '@Types/Expense/types';
 import { Expense } from '@prisma/client';
 
 import { NextRequest } from 'next/server';
@@ -19,7 +20,7 @@ export async function GET(
       include: { expenseType: true },
       where: { id }
     });
-    return expense;
+    return expense as ExpenseDto;
   });
 }
 
