@@ -1,6 +1,7 @@
 'use client';
 
 import ExpenseForm from '@Components/Forms/Expenses/Edit';
+import FormCard from '@Components/Structure/Card/Form/FormCard';
 import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
@@ -35,13 +36,19 @@ export default function TableListExpenses({
         onClose={() => dispatch({ type: 'cancelEdit' })}
         isVisible={state.editRow !== null && state.editRow !== undefined}
       >
-        <ExpenseForm
-          expense={state.editRow as ExpenseDto}
-          alignment="center"
-          formSubmitCallback={(payload: Expense) =>
-            dispatch({ type: 'updateRow', payload })
-          }
-        />
+        <FormCard
+          title="Despesa"
+          id={state.editRow?.id ?? ''}
+          hashTag={`${state.editRow?.name} - ${state.editRow?.dueDate}`}
+        >
+          <ExpenseForm
+            expense={state.editRow as ExpenseDto}
+            alignment="center"
+            formSubmitCallback={(payload: Expense) =>
+              dispatch({ type: 'updateRow', payload })
+            }
+          />
+        </FormCard>
       </Modal>
       <TableData
         name={table}

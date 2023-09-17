@@ -1,6 +1,7 @@
 'use client';
 
 import ResidentForm from '@Components/Forms/Resident/Edit';
+import FormCard from '@Components/Structure/Card/Form/FormCard';
 import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
@@ -30,13 +31,19 @@ export default function TableListResidents({ rows }: ITableListResidents) {
         onClose={() => dispatch({ type: 'cancelEdit' })}
         isVisible={state.editRow !== null && state.editRow !== undefined}
       >
-        <ResidentForm
-          resident={state.editRow ?? ({} as Resident)}
-          alignment="center"
-          formSubmitCallback={(payload: Resident) => {
-            dispatch({ type: 'updateRow', payload });
-          }}
-        />
+        <FormCard
+          title="Apartamento"
+          id={state.editRow?.id ?? ''}
+          hashTag={state.editRow?.apartment}
+        >
+          <ResidentForm
+            resident={state.editRow ?? ({} as Resident)}
+            alignment="center"
+            formSubmitCallback={(payload: Resident) => {
+              dispatch({ type: 'updateRow', payload });
+            }}
+          />
+        </FormCard>
       </Modal>
       <TableData
         name={table}

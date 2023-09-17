@@ -5,4 +5,6 @@ export interface IButton {
   className?: string;
   children: React.ReactNode;
   onClickFunction?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
