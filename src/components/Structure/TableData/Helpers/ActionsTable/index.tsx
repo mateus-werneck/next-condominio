@@ -79,8 +79,8 @@ export default function ActionsTable(props: ITableData) {
         }
       >
         <div className="flex gap-1">
-          <DeleteIcon fontSize="small" />
-          <span>REMOVER</span>
+          <DeleteIcon className="font-bold w-6 h-6 pt-1 sm:pb-1 sm:pt-0" />
+          <span className="font-medium sm:font-normal">REMOVER</span>
         </div>
       </Button>
     );

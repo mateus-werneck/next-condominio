@@ -1,12 +1,12 @@
 import { ThemeProvider } from '@mui/material';
 import { DataGrid, GridSlotsComponentsProps } from '@mui/x-data-grid';
 import { GridInitialStateCommunity } from '@mui/x-data-grid/models/gridStateCommunity';
+import ActionsTable from './Helpers/ActionsTable';
 import { treatColumns } from './Helpers/Columns/Column';
 import Locale from './Helpers/Locale/Locale';
 import Styles from './Helpers/Styles/Styles';
 import Theme from './Helpers/Theme/Theme';
 import { ITableData } from './types';
-import ActionsTable from './Helpers/ActionsTable';
 
 export default function TableData(props: ITableData) {
   const {
@@ -43,7 +43,7 @@ export default function TableData(props: ITableData) {
         <DataGrid
           slotProps={slotProps}
           sx={Styles}
-          className="text-xs sm:text-base"
+          className="text-lg sm:text-base"
           initialState={initialState}
           pageSizeOptions={[5, 10, 25, 50, 100]}
           key={props.name}

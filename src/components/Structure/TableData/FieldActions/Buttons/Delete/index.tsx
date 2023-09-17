@@ -14,7 +14,10 @@ export default function Delete<T extends TableRecord>({
       key={`${table}_Delete_${id}`}
       onClickFunction={() => alertDeletion(onConfirmDeletion)}
     >
-      <DeleteIcon fontSize="medium" key={`${table}_Delete_${id}`} />
+      <DeleteIcon
+        className="w-10 h-10 md:w-6 md:h-6"
+        key={`${table}_Delete_${id}`}
+      />
     </Button>
   );
 }
