@@ -63,10 +63,13 @@ function getSelectInput(
   control: Control<any, any>,
   errors: FieldErrors<any>
 ) {
+  const props = getFormInputProps(formInput);
+  delete props.type;
+
   return (
     <div className="flex flex-col" key={formInput.name + '-div'}>
       <StandardSelect
-        {...(getFormInputProps(formInput) as IStandardSelect)}
+        {...(props as IStandardSelect)}
         control={control}
         key={formInput.name}
       />
@@ -80,11 +83,13 @@ function getMaskedInput(
   control: Control<any, any>,
   errors: FieldErrors<any>
 ) {
+  const props = getFormInputProps(formInput);
+  delete props.type;
   return (
     <Label label={formInput.label} key={formInput.name}>
       <div className="flex flex-col" key={formInput.name + '-div'}>
         <StandardMaskedInput
-          {...getFormInputProps(formInput)}
+          {...props}
           control={control}
           key={formInput.name}
         />
@@ -113,14 +118,18 @@ function getCurrencyInput(
   );
 }
 
-function getFormInputProps(props: IFormInput): IDefaultFormInputProps {
+function getFormInputProps({
+  placeHolder,
+  styles,
+  ...props
+}: IFormInput): IDefaultFormInputProps {
   return {
     ...props,
     className:
       'w-72 md:w-56 xl:w-96 h-8 text-xs rounded-md outline-none text-black indent-2 hover:border-sky-200 border-transparent border-2 focus:outline-none focus:ring-2 focus:ring-sky-200',
-    placeholder: props.placeHolder ?? '',
+    placeholder: placeHolder ?? '',
     readOnly: props.readOnly ?? false,
     required: props.required ?? false,
-    style: props.styles ?? {}
+    style: styles ?? {}
   };
 }

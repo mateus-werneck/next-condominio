@@ -8,7 +8,10 @@ export interface ISelectOption {
 }
 
 export interface IStandardSelect
-  extends Omit<IDefaultFormInputProps, 'register' | 'mask' | 'maskChar'> {
+  extends Omit<
+    IDefaultFormInputProps,
+    'type' | 'register' | 'mask' | 'maskChar'
+  > {
   name: string;
   options: ISelectOption[];
   multiSelect?: boolean;
@@ -16,5 +19,4 @@ export interface IStandardSelect
   multi?: boolean;
   label?: string;
   initialValue?: any;
-  hasErrors: boolean;
 }
