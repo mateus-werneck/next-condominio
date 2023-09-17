@@ -33,7 +33,7 @@ export function getFormInputs({
     }
 
     if (formInput.mask && formInput.mask == Masks.BRL) {
-      return getCurrencyInput(formInput, register, errors);
+      return getCurrencyInput(formInput, control, errors);
     }
 
     return getMaskedInput(formInput, control, errors);
@@ -97,7 +97,7 @@ function getMaskedInput(
 
 function getCurrencyInput(
   formInput: IFormInput,
-  register: UseFormRegister<any>,
+  control: Control<any, any>,
   errors: FieldErrors<any>
 ) {
   return (
@@ -105,7 +105,7 @@ function getCurrencyInput(
       <div className="flex flex-col" key={formInput.name + '-div'}>
         <StandardCurrencyInput
           {...getFormInputProps(formInput)}
-          register={register}
+          control={control}
           key={formInput.name}
         />
         <Error name={formInput.name} errors={errors} />

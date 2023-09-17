@@ -32,7 +32,7 @@ export default function FormData(props: IFormData) {
   return (
     <div
       className={
-        `flex flex-col justify-center items-center md:items-${alignment} self-center md:self-${alignment}` +
+        `flex flex-col md:items-${alignment} self-center md:self-${alignment}` +
         ' max-w-fit bg-slate-100 p-4 mt-4 mb-4 gap-8'
       }
       style={props.styles}
@@ -42,21 +42,21 @@ export default function FormData(props: IFormData) {
         onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs({ inputs: props.inputs, register, control, errors })}
+        <div className="p-8 min-w-full col-span-2" />
+        <div className="min-w-full col-span-2">
+          <Button
+            type="submit"
+            disable={isSubmitting}
+            className="bg-black text-white px-4 py-1 hover:bg-gray-500 hover:text-black hover:font-bold"
+          >
+            {!isSubmitting ? (
+              props.submitButtonText
+            ) : (
+              <CircularProgress color="info" size={16} />
+            )}
+          </Button>
+        </div>
       </form>
-      <div className="max-w-fit self-end">
-        <Button
-          type="submit"
-          disable={isSubmitting}
-          className="bg-black text-white px-4 py-1 hover:bg-gray-500 hover:text-black hover:font-bold"
-          onClickFunction={handleSubmit(onSubmitFunction)}
-        >
-          {!isSubmitting ? (
-            props.submitButtonText
-          ) : (
-            <CircularProgress color="info" size={16} />
-          )}
-        </Button>
-      </div>
     </div>
   );
 }

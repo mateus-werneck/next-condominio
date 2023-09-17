@@ -1,9 +1,10 @@
 import { MoneyUtil } from '@Lib/Treat/Money';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { IStandardCurrency } from './types';
 
 export default function StandardCurrencyInput({
-  register,
+  control,
   initialValue,
   ...props
 }: IStandardCurrency) {
@@ -12,29 +13,39 @@ export default function StandardCurrencyInput({
 
   const handleChange = () => {
     if (!ref.current) return;
-    const numbers = ref.current.value.replace(/\D/g, '');
-    const amount = Number(numbers) / 100;
+    const amount = MoneyUtil.toFloat(ref.current.value);
     setAmount(amount);
 
-    ref.current.value = amount.toLocaleString('pt-BR', {
+    const value = amount.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
     });
+
+    ref.current.value = value;
   };
 
   useEffect(() => handleChange(), [amount]);
 
   return (
-    <input
-      {...register(props.name)}
-      className={props.className}
-      style={props.style}
-      readOnly={props.readOnly}
-      placeholder={props.placeholder}
-      value={ref.current?.value ?? MoneyUtil.toBRL(initialValue ?? 0)}
-      onChange={handleChange}
-      ref={ref}
-      autoFocus
+    <Controller
+      name={props.name}
+      control={control}
+      rules={{ required: props.required ?? false }}
+      render={({ field }) => (
+        <input
+          {...field}
+          className={props.className}
+          style={props.style}
+          readOnly={props.readOnly}
+          placeholder={props.placeholder}
+          value={ref.current?.value ?? MoneyUtil.toBRL(initialValue ?? 0)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            handleChange();
+            field.onChange(e);
+          }}
+          ref={ref}
+        />
+      )}
     />
   );
 }

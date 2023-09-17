@@ -68,7 +68,8 @@ function useFormData({
       label: 'Valor',
       type: 'number',
       initialValue: expense.value,
-      mask: Masks.BRL
+      mask: Masks.BRL,
+      required: false
     },
     {
       name: 'dueDate',
@@ -88,7 +89,6 @@ function useFormData({
     }
   ];
 
-  /* eslint-disable camelcase */
   const validationSchema = z.object({
     name: ZodValidator.string(),
     value: ZodValidator.brl(),
