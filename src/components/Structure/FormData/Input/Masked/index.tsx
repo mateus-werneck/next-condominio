@@ -8,6 +8,7 @@ export default function StandardMaskedInput({
   initialValue,
   required,
   mask,
+  maskChar,
   ...props
 }: IStandardMasked) {
   return (
@@ -17,7 +18,12 @@ export default function StandardMaskedInput({
       defaultValue={initialValue ?? ''}
       rules={{ required: required ?? false }}
       render={({ field }) => (
-        <ReactInputMask {...field} {...props} mask={mask ?? ''} />
+        <ReactInputMask
+          {...field}
+          {...props}
+          mask={mask ?? ''}
+          maskChar={maskChar ?? ''}
+        />
       )}
     />
   );
