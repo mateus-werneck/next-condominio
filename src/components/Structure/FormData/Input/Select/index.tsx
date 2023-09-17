@@ -46,7 +46,7 @@ export default function StandardSelect(props: IStandardSelect) {
           value={_field.value || []}
           defaultValue={props.initialValue}
           loading={props.options === undefined}
-          multiple={props.multiSelect === undefined ? false : props.multiSelect}
+          multiple={props.multiSelect ?? false}
           onChange={(_, data) => onChange(data)}
           autoHighlight
           readOnly={props.readOnly === undefined ? false : props.readOnly}
