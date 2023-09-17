@@ -42,7 +42,7 @@ export default function StandardSelect(props: IStandardSelect) {
       render={({ field: { onChange, ..._field } }) => (
         <Autocomplete
           sx={customStyles}
-          className="sm:max-w-[228px] xl:max-w-sm"
+          className="sm:max-w-[228px] xl:max-w-sm py-2"
           value={_field.value || []}
           defaultValue={props.initialValue}
           loading={props.options === undefined}
