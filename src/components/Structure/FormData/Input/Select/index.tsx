@@ -52,7 +52,7 @@ export default function StandardSelect(props: IStandardSelect) {
           readOnly={props.readOnly === undefined ? false : props.readOnly}
           options={ObjectUtil.sort(props.options, 'label') || []}
           fullWidth
-          isOptionEqualToValue={(option, value) => option.id == value.id}
+          isOptionEqualToValue={(option, value) => option?.id ?? '' == value.id}
           getOptionLabel={(option) => (option.label ? option.label : '')}
           renderOption={(props, option) => {
             return (

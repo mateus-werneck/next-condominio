@@ -46,7 +46,6 @@ export function useTableReducer<T extends Record<string, any>>(
         alertDeletionFailed();
       }
     };
-
     alertDeletion<T>(onConfirmDeletion);
   };
 

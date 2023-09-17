@@ -40,41 +40,33 @@ export default function ActionsTable(props: ITableData) {
   }
 
   const handleSelection = (newSelection: GridRowSelectionModel) => {
-    if (!shouldHandleSelection()) return;
+    if (!props.onBatchDelete) return;
 
     const currentSelectedRows = newSelection.map((row) => String(row));
 
-    if (newSelection.length) {
-      showDeleteButton(currentSelectedRows);
-    } else {
-      hideDeleteButton();
-    }
+    if (!newSelection.length) return hideDeleteButton();
+
+    showDeleteButton(currentSelectedRows);
   };
-
-  function shouldHandleSelection(): boolean {
-    return props.onBatchDelete !== undefined;
-  }
-
-  function showDeleteButton(currentSelectedRows: string[]): void {
-    if (isDeleteButtonVisible()) return;
-
-    const deleteButton = getDeleteButton(currentSelectedRows);
-
-    setCustomToolbar(
-      (previousValue: JSX.Element[]) =>
-        [...previousValue, deleteButton] as JSX.Element[]
-    );
-  }
-
-  function isDeleteButtonVisible(): boolean {
-    const deleteButton = customToolbar.find(
-      (element) => element.key === getDeleteButtonKey()
-    );
-    return deleteButton !== undefined;
-  }
 
   function hideDeleteButton(): void {
     setCustomToolbar(customBarElements);
+  }
+
+  function showDeleteButton(currentSelectedRows: string[]): void {
+    const deleteButton = getDeleteButton(currentSelectedRows);
+
+    setCustomToolbar((previousValue: JSX.Element[]) => {
+      const previousButton = customToolbar.find(
+        (element) => element.key === getDeleteButtonKey()
+      );
+
+      const customToolBar = previousValue.filter((element) =>
+        previousButton ? element.key != previousButton.key : true
+      );
+
+      return [...customToolBar, deleteButton] as JSX.Element[];
+    });
   }
 
   function getDeleteButton(currentSelectedRows: string[]) {
