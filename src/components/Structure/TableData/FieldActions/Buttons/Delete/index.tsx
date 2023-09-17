@@ -12,9 +12,7 @@ export default function Delete<T extends TableRecord>({
     <Button
       className="bg-transperent hover:text-red"
       key={`${table}_Delete_${id}`}
-      onClickFunction={() =>
-        alertDeletion(async (row: T) => await onConfirmDeletion(row))
-      }
+      onClickFunction={() => alertDeletion(onConfirmDeletion)}
     >
       <DeleteIcon fontSize="medium" key={`${table}_Delete_${id}`} />
     </Button>

@@ -30,6 +30,7 @@ export default function StandardCurrencyInput({
     <Controller
       name={props.name}
       control={control}
+      defaultValue={MoneyUtil.toBRL(initialValue ?? 0)}
       rules={{ required: props.required ?? false }}
       render={({ field }) => (
         <input
@@ -38,7 +39,6 @@ export default function StandardCurrencyInput({
           style={props.style}
           readOnly={props.readOnly}
           placeholder={props.placeholder}
-          value={ref.current?.value ?? MoneyUtil.toBRL(initialValue ?? 0)}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             handleChange();
             field.onChange(e);

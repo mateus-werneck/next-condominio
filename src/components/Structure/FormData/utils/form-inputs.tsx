@@ -4,7 +4,6 @@ import StandardCurrencyInput from '../Input/Currency';
 import Error from '../Input/Error';
 import Label from '../Input/Label';
 import StandardMaskedInput from '../Input/Masked';
-import { IStandardMasked } from '../Input/Masked/types';
 import StandardSelect from '../Input/Select';
 import { IStandardSelect } from '../Input/Select/types';
 import StandardInput from '../Input/Standard';
@@ -85,7 +84,7 @@ function getMaskedInput(
     <Label label={formInput.label} key={formInput.name}>
       <div className="flex flex-col" key={formInput.name + '-div'}>
         <StandardMaskedInput
-          {...(getFormInputProps(formInput) as IStandardMasked)}
+          {...getFormInputProps(formInput)}
           control={control}
           key={formInput.name}
         />

@@ -50,7 +50,8 @@ export interface IFormInput {
   multiSelect?: boolean;
 }
 
-export interface IDefaultFormInputProps extends Omit<IFormInput, 'styles'> {
+export interface IDefaultFormInputProps
+  extends Omit<IFormInput, 'styles' | 'placeHolder'> {
   className: string;
   placeholder: string;
   readOnly: boolean;

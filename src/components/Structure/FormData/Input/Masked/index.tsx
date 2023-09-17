@@ -3,26 +3,21 @@ import ReactInputMask from 'react-input-mask';
 import { IStandardMasked } from './types';
 
 export default function StandardMaskedInput({
+  name,
   control,
   initialValue,
   required,
-  placeHolder,
+  mask,
   ...props
 }: IStandardMasked) {
   return (
     <Controller
-      name={props.name}
+      name={name}
       control={control}
       defaultValue={initialValue ?? ''}
       rules={{ required: required ?? false }}
       render={({ field }) => (
-        <ReactInputMask
-          {...field}
-          {...props}
-          mask={props.mask ?? ''}
-          maskChar={props.maskChar ?? ''}
-          placeholder={placeHolder ?? ''}
-        />
+        <ReactInputMask {...field} {...props} mask={mask ?? ''} />
       )}
     />
   );

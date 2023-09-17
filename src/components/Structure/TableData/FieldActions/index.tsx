@@ -17,7 +17,11 @@ export default function FieldActions<T extends TableRecord>({
       return (
         <div className="flex gap-4" key={`${table}_Actions_${row.id}`}>
           {Edit<T>({ row, table, onEditRow })}
-          {Delete<T>({ row, table, onConfirmDeletion })}
+          {Delete<T>({
+            row,
+            table,
+            onConfirmDeletion: async () => await onConfirmDeletion(row)
+          })}
         </div>
       );
     }

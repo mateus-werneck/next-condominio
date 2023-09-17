@@ -66,7 +66,6 @@ function useFormData({ resident }: IResidentForm) {
     {
       name: 'apartment',
       label: 'Apartamento',
-      type: 'number',
       mask: Masks.APARTMENT,
       initialValue: String(resident.apartment)
     },
@@ -86,7 +85,6 @@ function useFormData({ resident }: IResidentForm) {
     }
   ];
 
-  /* eslint-disable camelcase */
   const validationSchema = z.object({
     name: ZodValidator.string(),
     apartment: ZodValidator.number(),
