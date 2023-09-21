@@ -1,6 +1,5 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
-import { ExpenseDto } from '@Types/Expense/types';
 import { Expense } from '@prisma/client';
 
 import { NextRequest } from 'next/server';
@@ -17,10 +16,9 @@ export async function GET(
 ) {
   return await safelyExecute(async (): Promise<Expense> => {
     const expense: Expense = await prisma.expense.findFirstOrThrow({
-      include: { expenseType: true },
       where: { id }
     });
-    return expense as ExpenseDto;
+    return expense as Expense;
   });
 }
 

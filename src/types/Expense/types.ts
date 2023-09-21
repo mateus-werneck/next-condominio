@@ -1,4 +1,4 @@
-import { Expense, ExpenseType } from '@prisma/client';
+import { Expense } from '@prisma/client';
 
 export type CreateExpense = {
   name: string;
@@ -9,5 +9,4 @@ export type CreateExpense = {
 
 export interface ExpenseDto extends Omit<Expense, 'dueDate'> {
   dueDate: string;
-  expenseType: ExpenseType;
 }
