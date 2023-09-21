@@ -32,6 +32,10 @@ export default function StandardSelect(props: IStandardSelect) {
   };
 
   useEffect(() => {
+    if (!props.initialValue) {
+      return;
+    }
+
     const initialValue = props.options?.find(
       (option) => option.id === props.initialValue
     );

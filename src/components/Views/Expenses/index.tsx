@@ -37,7 +37,7 @@ export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
           const params: IExpenseQueryParams = {
             ...filters,
             name: String(filters.name),
-            expenseTypes: filters.expenseTypes.join(',')
+            expenseTypes: filters.expenseTypes?.join(',') ?? ''
           };
 
           const response = await clientConn.get('expenses', { params });
