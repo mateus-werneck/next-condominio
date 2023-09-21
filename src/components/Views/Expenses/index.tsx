@@ -2,7 +2,7 @@
 import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
-import { MonthRange } from '@Lib/Treat/Date';
+import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
@@ -14,22 +14,23 @@ interface IViewExpenses {
   rows: ExpenseDto[];
 }
 
-export default function ViewExpenses({
-  monthRange,
-  expenseTypes,
-  rows
-}: IViewExpenses) {
-  const reducer = useTableReducer<ExpenseDto>({
+export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
+  const initialState = {
     editRow: null,
-    rows,
+    rows: rows.map((row) => ({
+      ...row,
+      dueDate: DateUtil.toLocalePtBr(row.dueDate)
+    })),
     loading: false
-  });
+  };
+
+  const reducer = useTableReducer<ExpenseDto>(initialState);
 
   return (
     <>
       <ListExpensesForm
-        monthRange={monthRange}
-        expenseTypes={expenseTypes}
+        monthRange={props.monthRange}
+        expenseTypes={props.expenseTypes}
         onFormSubmit={async (filters: IExpensesFilters): Promise<void> => {
           reducer.dispatch({ type: 'loading' });
 
@@ -47,7 +48,7 @@ export default function ViewExpenses({
           reducer.dispatch({ type: 'loaded' });
         }}
       />
-      <TableListExpenses reducer={reducer} expenseTypes={expenseTypes} />
+      <TableListExpenses reducer={reducer} expenseTypes={props.expenseTypes} />
     </>
   );
 }
