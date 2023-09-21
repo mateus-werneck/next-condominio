@@ -1,5 +1,10 @@
 import Masks from '@Lib/Masks/Masks';
-import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue
+} from 'react-hook-form';
 import StandardCurrencyInput from '../Input/Currency';
 import Error from '../Input/Error';
 import Label from '../Input/Label';
@@ -13,6 +18,7 @@ interface IFormInputProps {
   inputs: IFormInput[];
   register: UseFormRegister<any>;
   control: Control<any, any>;
+  setValue: UseFormSetValue<any>;
   errors: FieldErrors<any>;
 }
 
@@ -20,11 +26,12 @@ export function getFormInputs({
   inputs,
   register,
   control,
+  setValue,
   errors
 }: IFormInputProps): JSX.Element[] {
   return inputs.map((formInput: IFormInput) => {
     if (formInput.type == 'select') {
-      return getSelectInput(formInput, control, errors);
+      return getSelectInput(formInput, control, setValue, errors);
     }
 
     if (!formInput.mask) {
@@ -61,6 +68,7 @@ function getStandardInput(
 function getSelectInput(
   formInput: IFormInput,
   control: Control<any, any>,
+  setValue: UseFormSetValue<any>,
   errors: FieldErrors<any>
 ) {
   const props = getFormInputProps(formInput);
@@ -70,6 +78,7 @@ function getSelectInput(
     <div className="flex flex-col" key={formInput.name + '-div'}>
       <StandardSelect
         {...(props as IStandardSelect)}
+        setValue={setValue}
         control={control}
         key={formInput.name}
       />

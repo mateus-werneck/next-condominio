@@ -7,6 +7,7 @@ export type CreateExpense = {
   type: string;
 };
 
-export interface ExpenseDto extends Expense {
+export interface ExpenseDto extends Omit<Expense, 'dueDate'> {
+  dueDate: string;
   expenseType: ExpenseType;
 }

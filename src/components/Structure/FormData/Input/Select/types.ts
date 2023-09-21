@@ -1,4 +1,4 @@
-import { Control } from 'react-hook-form';
+import { Control, UseFormSetValue } from 'react-hook-form';
 import { IDefaultFormInputProps } from '../../types';
 
 export interface ISelectOption {
@@ -16,6 +16,7 @@ export interface IStandardSelect
   options: ISelectOption[];
   multiSelect?: boolean;
   control: Control<any, any>;
+  setValue: UseFormSetValue<any>;
   multi?: boolean;
   label?: string;
   initialValue?: any;

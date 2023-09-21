@@ -1,5 +1,6 @@
 import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, SxProps, TextField, Theme } from '@mui/material';
+import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { IStandardSelect } from './types';
 
@@ -30,21 +31,26 @@ export default function StandardSelect(props: IStandardSelect) {
     }
   };
 
+  useEffect(() => {
+    const initialValue = props.options?.find(
+      (option) => option.id === props.initialValue
+    );
+    props.setValue(props.name, initialValue);
+  }, [props.options]);
+
   return (
     <Controller
       control={props.control}
       name={props.name}
       key={props.name}
-      defaultValue={props.initialValue ?? ''}
       rules={{
-        required: props.required === undefined ? false : props.required
+        required: props.required ?? false
       }}
       render={({ field: { onChange, ..._field } }) => (
         <Autocomplete
           sx={customStyles}
           className="sm:max-w-[228px] xl:max-w-sm py-2"
           value={_field.value || []}
-          defaultValue={props.initialValue}
           loading={props.options === undefined}
           multiple={props.multiSelect ?? false}
           onChange={(_, data) => onChange(data)}

@@ -33,7 +33,7 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const hashTag = `${state.editRow?.name} - ${
+  const modalHashTag = `${state.editRow?.name} - ${
     state.editRow?.dueDate
       ? DateUtil.fromDateToPtBrString(new Date(state.editRow?.dueDate))
       : ''
@@ -48,7 +48,7 @@ export default function TableListExpenses({
         <FormCard
           title="Despesa"
           id={state.editRow?.id ?? ''}
-          hashTag={hashTag}
+          hashTag={modalHashTag}
         >
           <ExpenseForm
             expense={state.editRow ?? ({} as ExpenseDto)}

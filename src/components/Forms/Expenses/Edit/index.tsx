@@ -85,7 +85,7 @@ function useFormData({
       label: 'Tipo',
       type: 'select',
       options: expenseTypes,
-      initialValue: expense.expenseType
+      initialValue: expense.type
     }
   ];
 

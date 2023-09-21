@@ -1,6 +1,7 @@
 import {
   alertDeletion,
   alertDeletionFailed,
+  alertEditFailed,
   alertEditSuccess,
   onDeleteAction
 } from '@Lib/Alerts/customActions';
@@ -26,6 +27,7 @@ export function useTableReducer<T extends Record<string, any>>(
 
       if (response.status == 200) alertEditSuccess();
     } catch (error) {
+      alertEditFailed();
       data = oldRow;
     }
 

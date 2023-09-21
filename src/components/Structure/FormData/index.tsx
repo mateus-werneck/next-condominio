@@ -18,6 +18,7 @@ export default function FormData(props: IFormData) {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isSubmitting }
   } = formContext;
 
@@ -41,7 +42,13 @@ export default function FormData(props: IFormData) {
         className="flex flex-col mt-4 gap-4 lg:grid lg:grid-cols-2 min-w-[256px]"
         onSubmit={handleSubmit(onSubmitFunction)}
       >
-        {getFormInputs({ inputs: props.inputs, register, control, errors })}
+        {getFormInputs({
+          inputs: props.inputs,
+          register,
+          control,
+          setValue,
+          errors
+        })}
         <div className="p-8 min-w-full col-span-2" />
         <div className="min-w-full col-span-2">
           <Button
