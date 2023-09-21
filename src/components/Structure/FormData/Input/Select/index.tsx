@@ -59,7 +59,7 @@ export default function StandardSelect(props: IStandardSelect) {
           multiple={props.multiSelect ?? false}
           onChange={(_, data) => onChange(data)}
           autoHighlight
-          readOnly={props.readOnly === undefined ? false : props.readOnly}
+          readOnly={props.readOnly ?? false}
           options={ObjectUtil.sort(props.options, 'label') || []}
           fullWidth
           isOptionEqualToValue={(option, value) => option?.id ?? '' == value.id}
