@@ -7,6 +7,7 @@ import {
 } from '@mui/x-data-grid';
 
 export const columnDate: Partial<GridColDef> = {
+  type: 'date',
   valueGetter: (
     params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
   ) => {
