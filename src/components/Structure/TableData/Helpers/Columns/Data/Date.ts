@@ -8,6 +8,7 @@ import {
 } from '@mui/x-data-grid';
 
 export const columnDate: Partial<GridColDef> = {
+  type: 'date',
   valueFormatter: (params: GridValueFormatterParams<any>) => {
     const date = new Date(params.value).toISOString();
     const offset = DateUtil.BRTOffset(date);

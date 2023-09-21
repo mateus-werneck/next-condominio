@@ -31,6 +31,12 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
+  const hashTag = `${state.editRow?.name} - ${
+    state.editRow?.dueDate
+      ? DateUtil.fromDateToPtBrString(new Date(state.editRow?.dueDate))
+      : ''
+  }`;
+
   return (
     <>
       <Modal
@@ -40,17 +46,10 @@ export default function TableListExpenses({
         <FormCard
           title="Despesa"
           id={state.editRow?.id ?? ''}
-          hashTag={`${state.editRow?.name} - ${state.editRow?.dueDate}`}
+          hashTag={hashTag}
         >
           <ExpenseForm
-            expense={
-              {
-                ...state.editRow,
-                dueDate: state.editRow?.dueDate
-                  ? DateUtil.fromPtBrStringToIsoString(state.editRow?.dueDate)
-                  : ''
-              } as ExpenseDto
-            }
+            expense={state.editRow ?? ({} as ExpenseDto)}
             alignment="center"
             formSubmitCallback={(payload: Expense) =>
               dispatch({ type: 'updateRow', payload })
@@ -123,7 +122,8 @@ function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
     },
     {
       field: 'dueDate',
-      headerName: 'Data de Vencimento'
+      headerName: 'Data de Vencimento',
+      type: 'date'
     },
     FieldActions<ExpenseDto>(rowActions)
   ];
