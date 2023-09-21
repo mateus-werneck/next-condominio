@@ -25,31 +25,29 @@ export default function ViewExpenses({
     loading: false
   });
 
-  async function onFormSubmit(filters: IExpensesFilters): Promise<void> {
-    reducer.dispatch({ type: 'loading' });
-
-    const params: IExpenseQueryParams = {
-      ...filters,
-      name: String(filters.name),
-      expenseTypes: filters.expenseTypes.join(',')
-    };
-
-    const response = await clientConn.get('expenses', { params });
-    const data = (await response?.data) ?? reducer.state.rows;
-
-    reducer.dispatch({ type: 'setRows', payload: data as Expense[] });
-
-    reducer.dispatch({ type: 'loaded' });
-  }
-
   return (
     <>
       <ListExpensesForm
         monthRange={monthRange}
         expenseTypes={expenseTypes}
-        onFormSubmit={onFormSubmit}
+        onFormSubmit={async (filters: IExpensesFilters): Promise<void> => {
+          reducer.dispatch({ type: 'loading' });
+
+          const params: IExpenseQueryParams = {
+            ...filters,
+            name: String(filters.name),
+            expenseTypes: filters.expenseTypes.join(',')
+          };
+
+          const response = await clientConn.get('expenses', { params });
+          const data = (await response?.data) ?? reducer.state.rows;
+
+          reducer.dispatch({ type: 'setRows', payload: data as Expense[] });
+
+          reducer.dispatch({ type: 'loaded' });
+        }}
       />
-      <TableListExpenses reducer={reducer} />
+      <TableListExpenses reducer={reducer} expenseTypes={expenseTypes} />
     </>
   );
 }

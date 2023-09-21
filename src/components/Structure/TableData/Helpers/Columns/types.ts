@@ -11,5 +11,5 @@ export const GridColumnsConfig = {
   number: columnNumber,
   money: columnMoney,
   date: columnDate,
-  select: columnSelect
+  singleSelect: columnSelect
 } as const;

@@ -1,16 +1,12 @@
-import {
-  GridColDef,
-  GridTreeNodeWithRender,
-  GridValueFormatterParams,
-  GridValueGetterParams,
-  getGridStringOperators
-} from '@mui/x-data-grid';
+import { GridColDef, getGridSingleSelectOperators } from '@mui/x-data-grid';
 
 export const columnSelect: Partial<GridColDef> = {
   type: 'singleSelect',
-  valueFormatter: (params: GridValueFormatterParams) => params.value.label,
-  valueGetter: (
-    params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
-  ) => params.value?.label ?? '',
-  filterOperators: getGridStringOperators()
+  getOptionLabel(value: any) {
+    return value.label;
+  },
+  getOptionValue(value: any) {
+    return value.id;
+  },
+  filterOperators: getGridSingleSelectOperators()
 };

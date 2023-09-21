@@ -12,7 +12,7 @@ import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
-import { Expense } from '@prisma/client';
+import { Expense, ExpenseType } from '@prisma/client';
 import { Dispatch } from 'react';
 
 interface ITableListExpenses {
@@ -24,10 +24,12 @@ interface ITableListExpenses {
     };
     dispatch: Dispatch<ITableReducerAction>;
   };
+  expenseTypes: ExpenseType[];
 }
 
 export default function TableListExpenses({
-  reducer: { state, dispatch }
+  reducer: { state, dispatch },
+  expenseTypes
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
@@ -59,7 +61,7 @@ export default function TableListExpenses({
       </Modal>
       <TableData
         name={table}
-        columns={getColumns(table, dispatch)}
+        columns={getColumns(table, dispatch, expenseTypes)}
         rows={state.rows}
         customToolbar={Add('/expenses/new')}
         loading={state.loading}
@@ -83,7 +85,7 @@ export default function TableListExpenses({
                 name: expense.name,
                 type: expense.type,
                 dueDate: expense.dueDate,
-                value: MoneyUtil.toFloat(newRow.value)
+                value: MoneyUtil.toFloat(String(newRow.value))
               },
               oldRow,
               route: '/expenses'
@@ -97,7 +99,11 @@ export default function TableListExpenses({
   );
 }
 
-function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
+function getColumns(
+  table: string,
+  dispatch: Dispatch<ITableReducerAction>,
+  expenseTypes: ExpenseType[]
+) {
   const rowActions: IDefaultTableActions<ExpenseDto> = {
     table,
     onEditRow: (row: ExpenseDto) => dispatch({ type: 'edit', payload: row }),
@@ -116,9 +122,12 @@ function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
       type: 'money'
     },
     {
-      field: 'expenseType',
+      field: 'type',
+      valueFormatter: (params) =>
+        expenseTypes.find((e) => e.id === params.value)?.label ?? '',
       headerName: 'Tipo',
-      type: 'select'
+      type: 'singleSelect',
+      valueOptions: expenseTypes
     },
     {
       field: 'dueDate',

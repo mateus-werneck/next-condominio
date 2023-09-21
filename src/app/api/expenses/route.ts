@@ -29,8 +29,10 @@ export async function PUT(request: NextRequest) {
   return await safelyExecute(async (): Promise<Expense> => {
     const updatedExpense = await prisma.expense.update({
       where: { id: expense.id },
-      data: expense
+      data: expense,
+      include: { expenseType: true }
     });
+
     return updatedExpense;
   });
 }

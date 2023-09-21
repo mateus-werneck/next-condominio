@@ -35,6 +35,8 @@ export default function TableData(props: ITableData) {
     }
   };
 
+  // console.log(props.rows);
+
   const columns = treatColumns(props.columns, props.onRowUpdate !== undefined);
 
   return (
