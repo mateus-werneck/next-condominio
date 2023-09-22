@@ -36,6 +36,10 @@ export default function StandardSelect(props: IStandardSelect) {
       return;
     }
 
+    if (props.multiSelect) {
+      return;
+    }
+
     const initialValue = props.options?.find(
       (option) => option.id === props.initialValue
     );
@@ -50,11 +54,12 @@ export default function StandardSelect(props: IStandardSelect) {
       rules={{
         required: props.required ?? false
       }}
-      render={({ field: { onChange, ..._field } }) => (
+      render={({ field: { onChange, value, ..._field } }) => (
         <Autocomplete
+          {..._field}
           sx={customStyles}
           className="sm:max-w-[228px] xl:max-w-sm py-2"
-          value={_field.value || []}
+          value={value || []}
           loading={props.options === undefined}
           multiple={props.multiSelect ?? false}
           onChange={(_, data) => onChange(data)}
@@ -62,7 +67,7 @@ export default function StandardSelect(props: IStandardSelect) {
           readOnly={props.readOnly ?? false}
           options={ObjectUtil.sort(props.options, 'label') || []}
           fullWidth
-          isOptionEqualToValue={(option, value) => option?.id ?? '' == value.id}
+          // isOptionEqualToValue={(option, value) => option?.id ?? '' == value.id}
           getOptionLabel={(option) => (option.label ? option.label : '')}
           renderOption={(props, option) => {
             return (

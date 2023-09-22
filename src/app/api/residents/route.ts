@@ -5,7 +5,7 @@ import { Resident } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
-  let data = await prisma.resident.findMany();
+  let data = await prisma.resident.findMany({ orderBy: { apartment: 'asc' } });
 
   if (!data) data = [] as Resident[];
 

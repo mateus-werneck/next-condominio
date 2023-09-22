@@ -66,7 +66,8 @@ function useFormData({
       label: 'Tipo',
       type: 'select',
       multiSelect: true,
-      options: expenseTypes
+      options: expenseTypes,
+      initialValue: []
     }
   ];
   /* eslint-disable camelcase */

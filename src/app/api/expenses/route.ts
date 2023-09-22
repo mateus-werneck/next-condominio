@@ -8,7 +8,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const conditions = getConditions(searchParams);
-  const expenses = await prisma.expense.findMany(conditions);
+  const expenses = await prisma.expense.findMany({
+    ...conditions,
+    orderBy: [{ dueDate: 'asc' }, { name: 'asc' }]
+  });
 
   return NextResponse.json(expenses as Expense[]);
 }
