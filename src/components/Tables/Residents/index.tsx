@@ -7,6 +7,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
@@ -49,7 +50,13 @@ export default function TableListResidents({ rows }: ITableListResidents) {
         name={table}
         columns={getColumns(table, dispatch)}
         rows={state.rows}
-        customToolbar={Add('/residents/new')}
+        customToolbar={[
+          Add('/residents/new'),
+          Reload(() => {
+            dispatch({ type: 'loading' });
+            dispatch({ type: 'reload', payload: { route: '/residents' } });
+          })
+        ]}
         onBatchDelete={(selectedRows: string[]) =>
           dispatch({
             type: 'batchDelete',

@@ -17,7 +17,8 @@ export interface ITableReducerAction {
     | 'setRows'
     | 'removeRows'
     | 'loading'
-    | 'loaded';
+    | 'loaded'
+    | 'reload';
   payload?: any;
 }
 
@@ -34,5 +35,9 @@ export interface IRowUpdate {
 
 export interface IRowDelete<T> {
   row: T;
+  route: string;
+}
+
+export interface IReloadTable {
   route: string;
 }

@@ -7,6 +7,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
@@ -64,7 +65,13 @@ export default function TableListExpenses({
         name={table}
         columns={getColumns(table, dispatch, expenseTypes)}
         rows={state.rows}
-        customToolbar={Add('/expenses/new')}
+        customToolbar={[
+          Add('/expenses/new'),
+          Reload(() => {
+            dispatch({ type: 'loading' });
+            dispatch({ type: 'reload', payload: { route: '/expenses' } });
+          })
+        ]}
         loading={state.loading}
         checkBoxSelection={true}
         onBatchDelete={(selectedRows: string[]) =>

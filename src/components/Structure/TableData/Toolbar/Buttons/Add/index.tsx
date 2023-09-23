@@ -1,8 +1,8 @@
 import Button from '@Components/Structure/Button';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function Add(route: string): JSX.Element[] {
-  return [
+export default function Add(route: string): JSX.Element {
+  return (
     <Button
       route={route}
       key={route}
@@ -13,5 +13,5 @@ export default function Add(route: string): JSX.Element[] {
         <span className="font-medium sm:font-normal">ADICIONAR</span>
       </div>
     </Button>
-  ];
+  );
 }

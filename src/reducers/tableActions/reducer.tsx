@@ -9,6 +9,7 @@ import { clientConn } from '@Lib/Client/api';
 import { useReducer } from 'react';
 import {
   IBatchDelete,
+  IReloadTable,
   IRowDelete,
   IRowUpdate,
   ITableReducerAction,
@@ -58,6 +59,15 @@ export function useTableReducer<T extends Record<string, any>>(
         dispatch({ type: 'removeRows', payload: [row.id] });
       }
     });
+  };
+
+  const onTableReload = ({ route }: IReloadTable) => {
+    clientConn
+      .get(route)
+      .then((response) => {
+        dispatch({ type: 'setRows', payload: response.data ?? state.rows });
+      })
+      .finally(() => dispatch({ type: 'loaded' }));
   };
 
   function tableReducer(
@@ -111,6 +121,9 @@ export function useTableReducer<T extends Record<string, any>>(
           ...state,
           loading: false
         };
+      case 'reload':
+        onTableReload(action.payload);
+        return state;
       default:
         return state;
     }
