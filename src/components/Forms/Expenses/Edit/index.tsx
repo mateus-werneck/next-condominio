@@ -56,7 +56,6 @@ function useFormData({
   expenseTypes,
   formSubmitCallback
 }: IExpenseForm) {
-  console.log(expense);
   const inputs: IFormInput[] = [
     {
       name: 'name',

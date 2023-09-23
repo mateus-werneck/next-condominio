@@ -60,13 +60,21 @@ export class DateUtil {
       value = new Date(value);
     }
 
+    if (!(value instanceof Date)) {
+      return 'Invalid Date';
+    }
+
+    if (value.toString() === 'Invalid Date') {
+      return 'Invalid Date';
+    }
+
     return value.toLocaleDateString('pt-br', {
       timeZone: 'UTC'
     });
   }
 
   public static toDateObject(value: any): Date {
-    if (!value) return new Date();
+    if (!value) return new Date('Invalid Date');
 
     if (value instanceof Date) return value;
 
@@ -94,9 +102,15 @@ export class DateUtil {
       value = new Date(value);
     }
 
-    const isoDate = value.toISOString();
+    if (!(value instanceof Date)) {
+      return 'Invalid Date';
+    }
 
-    return isoDate.split('T')[0];
+    if (value.toString() === 'Invalid Date') {
+      return 'Invalid Date';
+    }
+
+    return value.toISOString().split('T')[0];
   }
 
   public static GMTOffset(value: string): Date {
