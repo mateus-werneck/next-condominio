@@ -6,6 +6,7 @@ import {
   onDeleteAction
 } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
+import { useRouter } from 'next/navigation';
 import { useReducer } from 'react';
 import {
   IBatchDelete,
@@ -19,6 +20,8 @@ import {
 export function useTableReducer<T extends Record<string, any>>(
   initialState: TableReducerInitialState<T>
 ) {
+  const router = useRouter();
+
   const onRowUpdate = async ({ newRow, oldRow, route }: IRowUpdate) => {
     let data = newRow;
 
@@ -62,6 +65,8 @@ export function useTableReducer<T extends Record<string, any>>(
   };
 
   const onTableReload = ({ route }: IReloadTable) => {
+    router.push(route);
+
     clientConn
       .get(route)
       .then((response) => {

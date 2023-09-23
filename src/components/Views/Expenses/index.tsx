@@ -3,9 +3,11 @@ import ListExpensesForm from '@Components/Forms/Expenses/List';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
+import { appendQueryParams } from '@Lib/Treat/Request';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
+import { usePathname, useRouter } from 'next/navigation';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
 
 interface IViewExpenses {
@@ -26,6 +28,9 @@ export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
 
   const reducer = useTableReducer<ExpenseDto>(initialState);
 
+  const router = useRouter();
+  const path = usePathname();
+
   return (
     <>
       <ListExpensesForm
@@ -39,6 +44,11 @@ export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
             name: String(filters.name),
             expenseTypes: filters.expenseTypes?.join(',') ?? ''
           };
+
+          const url = process.env.NEXT_PUBLIC_SYSTEM_URL as string;
+          const newUrl = appendQueryParams(url + path, params);
+
+          router.push(newUrl.replace(url, ''));
 
           const response = await clientConn.get('expenses', { params });
           const data = (await response?.data) ?? reducer.state.rows;
