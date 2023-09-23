@@ -62,7 +62,7 @@ module.exports = {
       }
     },
     boxShadow: {
-      button: '0 0.5em 0.5em -0.4em black'
+      button: '0 0.5em 0.5em -0.4em rgba(100 116 139)'
     }
   },
   plugins: [],

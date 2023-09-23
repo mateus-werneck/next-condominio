@@ -58,7 +58,7 @@ export default function Modal({ children, onClose, isVisible }: IModal) {
     >
       {' '}
       <button
-        className="text-white hover:brightness-75 bg-slate-500 rounded-xl w-8 h-8 self-center mt-4"
+        className="text-white bg-slate-700 rounded-xl w-8 h-8 self-center mt-4 hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500"
         onClick={() => {
           setShowModal(false);
           onClose && onClose();

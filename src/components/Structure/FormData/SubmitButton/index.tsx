@@ -14,19 +14,26 @@ export default function SubmitButton({
   isSubmitting,
   label
 }: ISubmitButton) {
-  const submitText = useMemo(() => {
-    if (isSubmitting) return <CircularProgress color="info" size={16} />;
-    return label;
-  }, [isSubmitting, label]);
-
   if (isBlocked) {
     return (
       <Button
         type="submit"
         disable={true}
-        className="bg-gray-500 text-black px-4 py-1 font-bold"
+        className="bg-slate-300 text-slate-400 px-4 py-1"
       >
-        <BlockIcon fontSize="small" />
+        {label}
+      </Button>
+    );
+  }
+
+  if (isSubmitting) {
+    return (
+      <Button
+        type="submit"
+        disable={true}
+        className="bg-slate-700 text-black px-4 py-1"
+      >
+        <CircularProgress color="inherit" size={16} />
       </Button>
     );
   }
@@ -35,9 +42,9 @@ export default function SubmitButton({
     <Button
       type="submit"
       disable={isSubmitting}
-      className="bg-slate-700 text-white px-4 py-1 hover:shadow-button hover:bg-gradient-to-r from-slate-700 to-slate-500"
+      className="bg-slate-700 text-white px-4 py-1 hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500"
     >
-      {submitText}
+      {label}
     </Button>
   );
 }
