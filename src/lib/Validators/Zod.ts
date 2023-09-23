@@ -34,10 +34,10 @@ export class ZodValidator {
       })
       .refine(
         (value: string) =>
-          DateUtil.fromPtBrStringToDate(value).toString() !== 'Invalid Date',
+          DateUtil.toDateObject(value).toString() !== 'Invalid Date',
         'Data informada inválida.'
       )
-      .transform(DateUtil.fromPtBrStringToIsoString);
+      .transform(DateUtil.toISOString);
   }
 
   public static select() {

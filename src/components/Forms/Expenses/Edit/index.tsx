@@ -4,7 +4,6 @@ import { IFormInput, ISubmitForm } from '@Components/Structure/FormData/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
-import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
@@ -57,6 +56,7 @@ function useFormData({
   expenseTypes,
   formSubmitCallback
 }: IExpenseForm) {
+  console.log(expense);
   const inputs: IFormInput[] = [
     {
       name: 'name',
@@ -77,8 +77,6 @@ function useFormData({
       mask: Masks.DATE,
       placeHolder: 'DD/MM/YYYY',
       initialValue: expense.dueDate
-        ? DateUtil.toLocalePtBr(expense.dueDate)
-        : expense.dueDate
     },
     {
       name: 'expenseType',

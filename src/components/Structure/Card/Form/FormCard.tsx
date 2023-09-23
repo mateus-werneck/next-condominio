@@ -1,3 +1,4 @@
+'use client';
 import Button from '@Components/Structure/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LinkIcon from '@mui/icons-material/Link';
@@ -14,6 +15,7 @@ interface IFormCard {
 }
 export default function FormCard({ id, hashTag, title, children }: IFormCard) {
   const [showCheckIcon, setShowCheckIcon] = useState<boolean>(false);
+
   const path = usePathname();
 
   const route = `${path}/edit?id=${id}`;

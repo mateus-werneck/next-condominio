@@ -8,25 +8,25 @@ import { Mobile } from './NavMenu/Mobile';
 export const Header = () => {
   const ref = useRef<HTMLDivElement>(null);
   const { isMobileView } = useDevice();
-  // const { setShowMobileMenu, resetActiveLink } = useMobileMenu();
+  const { setShowMobileMenu, resetActiveLink } = useMobileMenu();
 
-  // const handleOutsideClick = (e: any) => {
-  //   e.stopImmediatePropagation();
-  //   e.stopPropagation();
+  const handleOutsideClick = (e: any) => {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
 
-  //   if (!ref.current) return;
-  //   if (ref.current?.contains(e.target)) return;
+    if (!ref.current) return;
+    if (ref.current?.contains(e.target)) return;
 
-  //   setShowMobileMenu(() => false);
-  //   resetActiveLink();
-  // };
+    setShowMobileMenu(() => false);
+    resetActiveLink();
+  };
 
-  // useEffect(() => {
-  //   window.addEventListener('click', handleOutsideClick);
-  //   return () => {
-  //     document.removeEventListener('click', handleOutsideClick);
-  //   };
-  // });
+  useEffect(() => {
+    window.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  });
 
   return (
     <div

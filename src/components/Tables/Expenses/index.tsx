@@ -7,6 +7,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -32,7 +33,9 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const modalHashTag = `${state.editRow?.name} - ${state.editRow?.dueDate}`;
+  const modalHashTag = `${state.editRow?.name} - ${DateUtil.toLocalePtBr(
+    state.editRow?.dueDate
+  )}`;
 
   return (
     <>
@@ -46,7 +49,10 @@ export default function TableListExpenses({
           hashTag={modalHashTag}
         >
           <ExpenseForm
-            expense={state.editRow ?? ({} as ExpenseDto)}
+            expense={{
+              ...(state.editRow ?? ({} as ExpenseDto)),
+              dueDate: DateUtil.toLocalePtBr(state.editRow?.dueDate)
+            }}
             alignment="center"
             formSubmitCallback={(payload: Expense) =>
               dispatch({ type: 'updateRow', payload })
@@ -79,7 +85,7 @@ export default function TableListExpenses({
                 id: newRow.id,
                 name: expense.name,
                 type: expense.type,
-                dueDate: expense.dueDate,
+                dueDate: DateUtil.toDateObject(expense.dueDate),
                 value: MoneyUtil.toFloat(String(newRow.value))
               },
               oldRow,

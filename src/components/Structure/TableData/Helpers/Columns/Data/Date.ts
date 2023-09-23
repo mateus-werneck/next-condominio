@@ -11,7 +11,10 @@ export const columnDate: Partial<GridColDef> = {
   valueGetter: (
     params: GridValueGetterParams<any, any, GridTreeNodeWithRender>
   ) => {
-    const date = DateUtil.fromPtBrStringToIsoString(params.value);
+    const date =
+      typeof params.value === 'string'
+        ? DateUtil.toISOString(params.value)
+        : params.value;
     return DateUtil.GMTOffset(date);
   },
   filterOperators: getGridDateOperators()

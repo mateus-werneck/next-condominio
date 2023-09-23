@@ -44,14 +44,14 @@ function useFormData({
     {
       name: 'startAt',
       label: 'Data Inicial',
-      initialValue: DateUtil.fromDateToIsoString(startAt),
+      initialValue: DateUtil.toISOString(startAt),
       required: true,
       type: 'date' as const
     },
     {
       name: 'endAt',
       label: 'Data Final',
-      initialValue: DateUtil.fromDateToIsoString(endAt),
+      initialValue: DateUtil.toISOString(endAt),
       required: true,
       type: 'date' as const
     },
