@@ -67,6 +67,13 @@ export default function StandardSelect(props: IStandardSelect) {
           readOnly={props.readOnly ?? false}
           options={ObjectUtil.sort(props.options, 'label') || []}
           fullWidth
+          // isOptionEqualToValue={(option, value) => {
+          //   if (!props.multiSelect) {
+          //     return option?.id ?? '' === value.id;
+          //   }
+
+          //   console.log(value);
+          // }}
           getOptionLabel={(option) => (option.label ? option.label : '')}
           renderOption={(props, option) => {
             return (

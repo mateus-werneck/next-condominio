@@ -13,7 +13,7 @@ import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
-import { Expense, ExpenseType } from '@prisma/client';
+import { ExpenseType } from '@prisma/client';
 import { Dispatch } from 'react';
 
 interface ITableListExpenses {
@@ -55,7 +55,7 @@ export default function TableListExpenses({
               dueDate: DateUtil.toLocalePtBr(state.editRow?.dueDate)
             }}
             alignment="center"
-            formSubmitCallback={(payload: Expense) =>
+            formSubmitCallback={(payload: ExpenseDto) =>
               dispatch({ type: 'updateRow', payload })
             }
           />

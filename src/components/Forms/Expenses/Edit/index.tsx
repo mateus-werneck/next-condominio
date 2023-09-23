@@ -6,14 +6,14 @@ import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
-import { Expense, ExpenseType } from '@prisma/client';
+import { ExpenseType } from '@prisma/client';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 interface IExpenseForm {
   expense: ExpenseDto;
   expenseTypes?: ExpenseType[];
-  formSubmitCallback?: (value: Expense) => void;
+  formSubmitCallback?: (value: ExpenseDto) => void;
   alignment?: 'start' | 'center' | 'end';
 }
 
@@ -35,7 +35,8 @@ export default function ExpenseForm(props: IExpenseForm) {
 
   const { inputs, validationSchema, onFormSubmit } = useFormData({
     expense: props.expense,
-    expenseTypes: data ?? []
+    expenseTypes: data ?? [],
+    formSubmitCallback: props.formSubmitCallback
   });
 
   return (
@@ -108,8 +109,9 @@ function useFormData({
       const response = expense.id
         ? await clientConn.put('expenses', { id: expense.id, ...data })
         : await clientConn.post('expenses', data);
+
+      formSubmitCallback && formSubmitCallback(response.data as ExpenseDto);
       alertEditSuccess(expense.id ? undefined : reset);
-      formSubmitCallback && formSubmitCallback(response.data);
     } catch (error) {
       alertEditFailed();
       Promise.resolve();
