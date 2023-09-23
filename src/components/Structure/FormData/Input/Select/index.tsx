@@ -52,7 +52,8 @@ export default function StandardSelect(props: IStandardSelect) {
       name={props.name}
       key={props.name}
       rules={{
-        required: props.required ?? false
+        required: props.required ?? false,
+        validate: props.initialValue
       }}
       render={({ field: { onChange, value, ..._field } }) => (
         <Autocomplete

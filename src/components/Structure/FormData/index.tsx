@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CircularProgress } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Button from '../Button';
+import SubmitButton from './SubmitButton';
 import { IFormData } from './types';
 import { getFormInputs } from './utils/form-inputs';
 
@@ -11,7 +10,7 @@ export default function FormData(props: IFormData) {
 
   const formContext = useForm<FormDataType>({
     resolver: zodResolver(props.validationSchema),
-    mode: props.mode ?? 'onChange'
+    mode: props.zodValidationMode ?? 'onChange'
   });
 
   const {
@@ -19,7 +18,7 @@ export default function FormData(props: IFormData) {
     handleSubmit,
     control,
     setValue,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, isValid }
   } = formContext;
 
   function onSubmitFunction(data: any) {
@@ -51,17 +50,11 @@ export default function FormData(props: IFormData) {
         })}
         <div className="p-8 min-w-full col-span-2" />
         <div className="min-w-full col-span-2">
-          <Button
-            type="submit"
-            disable={isSubmitting}
-            className="bg-black text-white px-4 py-1 hover:bg-gray-500 hover:text-black hover:font-bold"
-          >
-            {!isSubmitting ? (
-              props.submitButtonText
-            ) : (
-              <CircularProgress color="info" size={16} />
-            )}
-          </Button>
+          <SubmitButton
+            isBlocked={!isValid}
+            isSubmitting={isSubmitting}
+            label={props.submitButtonText}
+          />
         </div>
       </form>
     </div>

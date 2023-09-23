@@ -60,6 +60,9 @@ module.exports = {
         'purple-150': '#926cb8',
         'purple-200': '#824575'
       }
+    },
+    boxShadow: {
+      button: '0 0.5em 0.5em -0.4em black'
     }
   },
   plugins: [],
