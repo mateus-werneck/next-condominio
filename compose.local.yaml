@@ -1,0 +1,25 @@
+networks:
+  condominium-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.55.0/16
+
+services:
+  condominium-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+      args:
+        DATABASE_URL: postgresql://next:e486143f6fea732c97f03864232c02c1@192.168.18.15:9001/condominium?schema=public&connect_timeout=60
+    restart: always
+    container_name: condominium-dashboard
+    networks:
+      condominium-network:
+        ipv4_address: 172.18.55.12
+    ports:
+      - 9015:9015
+    volumes:
+      - .:/app
+      - /app/node_modules

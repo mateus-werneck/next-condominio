@@ -1,0 +1,26 @@
+FROM node:18-alpine
+
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+COPY . .
+
+RUN pnpm install --frozen-lockfile
+
+RUN rm .env.development .env.production
+
+RUN mv .env.local .env
+
+ARG DATABASE_URL
+
+ENV DATABASE_URL=${DATABASE_URL}
+
+RUN pnpm prisma generate
+
+RUN pnpm prisma migrate dev
+
+RUN pnpm prisma db seed
+
+CMD ["npm", "run", "dev"]

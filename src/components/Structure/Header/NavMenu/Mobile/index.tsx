@@ -16,7 +16,7 @@ export const Mobile = () => {
 
   return (
     <div className="flex items-center justify-center py-8 bg-black">
-      <HomeButton />
+      <HomeButton onClickFunction={() => setShowMobileMenu(() => false)} />
       <button onClick={onClick} className="absolute right-4">
         <MenuIcon
           style={{

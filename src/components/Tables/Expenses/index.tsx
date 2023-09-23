@@ -7,7 +7,6 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
-import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -33,11 +32,7 @@ export default function TableListExpenses({
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
 
-  const modalHashTag = `${state.editRow?.name} - ${
-    state.editRow?.dueDate
-      ? DateUtil.fromDateToPtBrString(new Date(state.editRow?.dueDate))
-      : ''
-  }`;
+  const modalHashTag = `${state.editRow?.name} - ${state.editRow?.dueDate}`;
 
   return (
     <>
