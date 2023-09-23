@@ -11,14 +11,13 @@ export default function StandardSelect(props: IStandardSelect) {
       return;
     }
 
-    if (props.multiSelect) {
-      return;
-    }
+    const initialValue = props.multiSelect
+      ? props.initialValue
+      : props.options?.find((option) => option.id === props.initialValue);
 
-    const initialValue = props.options?.find(
-      (option) => option.id === props.initialValue
-    );
-    props.setValue(props.name, initialValue);
+    props.setValue(props.name, initialValue, {
+      shouldValidate: true
+    });
   }, [props.options]);
 
   return (
