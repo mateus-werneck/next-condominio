@@ -18,6 +18,7 @@ export async function GET(
     const expense: Expense = await prisma.expense.findFirstOrThrow({
       where: { id }
     });
+
     return expense as Expense;
   });
 }

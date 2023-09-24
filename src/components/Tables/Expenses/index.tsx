@@ -66,7 +66,7 @@ export default function TableListExpenses({
         columns={getColumns(table, dispatch, expenseTypes)}
         rows={state.rows}
         customToolbar={[
-          Add('/expenses/new'),
+          Add('/expenses?id=new'),
           Reload(() => {
             dispatch({ type: 'loading' });
             dispatch({ type: 'reload', payload: { route: '/expenses' } });

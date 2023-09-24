@@ -8,11 +8,13 @@ export async function safelyExecute(callback: () => Promise<any>) {
   } catch (error) {
     const status = error instanceof PrismaClientKnownRequestError ? 404 : 500;
     const message =
-      process.env.NODE_ENV == 'development'
+      process.env.NODE_ENV != 'production'
         ? error.message
         : error instanceof PrismaClientKnownRequestError
         ? 'Record not found'
         : 'Internal Server Error';
+
+    if (process.env.NODE_ENV != 'production') console.debug(error);
 
     return NextResponse.json({ message }, { status });
   }

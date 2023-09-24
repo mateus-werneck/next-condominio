@@ -25,7 +25,9 @@ export const fetchExpense = async (id: string): Promise<ExpenseDto> => {
     next: { revalidate: 0 }
   });
 
-  return await response.json();
+  const expense = await response.json();
+
+  return expense;
 };
 
 export const fetchTypes = async (): Promise<ExpenseType[]> => {
