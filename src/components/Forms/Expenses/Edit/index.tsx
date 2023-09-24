@@ -4,6 +4,7 @@ import { IFormInput, ISubmitForm } from '@Components/Structure/FormData/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
+import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
@@ -66,17 +67,15 @@ function useFormData({
     {
       name: 'value',
       label: 'Valor',
-      type: 'number',
       initialValue: expense.value,
-      mask: Masks.BRL,
-      required: false
+      mask: Masks.BRL
     },
     {
       name: 'dueDate',
       label: 'Data de Vencimento',
       mask: Masks.DATE,
       placeHolder: 'DD/MM/YYYY',
-      initialValue: expense.dueDate
+      initialValue: DateUtil.toLocalePtBr(expense.dueDate)
     },
     {
       name: 'expenseType',

@@ -18,11 +18,12 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
 
   const path = usePathname();
 
-  const route = `${path}/edit?id=${id}`;
+  const route = `${path}?id=${id}`;
 
   const notifyClipboard = () => {
     toast('Copiado para a área de trabalho.', {
       position: 'bottom-center',
+      type: 'success',
       closeButton: false,
       closeOnClick: true,
       pauseOnHover: true,
