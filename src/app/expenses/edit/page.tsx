@@ -2,6 +2,7 @@ import ExpenseForm from '@Components/Forms/Expenses/Edit';
 import { DateUtil } from '@Lib/Treat/Date';
 import { isValidUUID } from '@Lib/Treat/String';
 import { ExpenseDto } from '@Types/Expense/types';
+import { notFound } from 'next/navigation';
 import { fetchExpense, fetchTypes } from '../utils/requests';
 
 interface IEditExpense {
@@ -15,6 +16,10 @@ export default async function EditExpense({ searchParams }: IEditExpense) {
 
   if (isValidUUID(searchParams.id)) {
     expense = await fetchExpense(searchParams.id);
+  }
+
+  if (!expense.id && searchParams.id != 'new') {
+    notFound();
   }
 
   const expenseTypes = await fetchTypes();

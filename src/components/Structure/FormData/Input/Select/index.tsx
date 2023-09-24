@@ -2,8 +2,8 @@ import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
-import { IStandardSelect } from './types';
 import { AutoCompleteStyles } from './styles';
+import { IStandardSelect } from './types';
 
 export default function StandardSelect(props: IStandardSelect) {
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function StandardSelect(props: IStandardSelect) {
             className="sm:max-w-[228px] xl:max-w-sm py-2"
             loading={props.options === undefined}
             value={field.value || []}
+            onChange={(_, data) => field.onChange(data)}
             multiple={props.multiSelect ?? false}
             autoHighlight
             readOnly={props.readOnly ?? false}
