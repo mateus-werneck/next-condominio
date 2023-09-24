@@ -1,3 +1,5 @@
+'use client';
+
 import ResidentForm from '@Components/Forms/Resident/Edit';
 import FormCard from '@Components/Structure/Card/Form/FormCard';
 import Modal from '@Components/Structure/Modal';
