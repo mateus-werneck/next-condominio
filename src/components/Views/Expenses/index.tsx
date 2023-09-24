@@ -60,9 +60,19 @@ export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
               dueDate: DateUtil.toLocalePtBr(reducer.state.editRow?.dueDate)
             }}
             alignment="center"
-            formSubmitCallback={(payload: ExpenseDto) =>
-              reducer.dispatch({ type: 'updateRow', payload })
-            }
+            formSubmitCallback={(payload: ExpenseDto, type: string) => {
+              switch (type) {
+                case 'create':
+                  reducer.dispatch({
+                    type: 'reload',
+                    payload: { route: '/expenses' }
+                  });
+                case 'update':
+                  reducer.dispatch({ type: 'updateRow', payload });
+                default:
+                  return;
+              }
+            }}
           />
         </FormCard>
       </Modal>

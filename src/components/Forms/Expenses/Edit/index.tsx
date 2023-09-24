@@ -14,7 +14,7 @@ import { z } from 'zod';
 interface IExpenseForm {
   expense: ExpenseDto;
   expenseTypes?: ExpenseType[];
-  formSubmitCallback?: (value: ExpenseDto) => void;
+  formSubmitCallback?: (value: ExpenseDto, type: 'create' | 'update') => void;
   alignment?: 'start' | 'center' | 'end';
 }
 
@@ -109,7 +109,11 @@ function useFormData({
         ? await clientConn.put('expenses', { id: expense.id, ...data })
         : await clientConn.post('expenses', data);
 
-      formSubmitCallback && formSubmitCallback(response.data as ExpenseDto);
+      formSubmitCallback &&
+        formSubmitCallback(
+          response.data as ExpenseDto,
+          expense.id ? 'update' : 'create'
+        );
       alertEditSuccess(expense.id ? undefined : reset);
     } catch (error) {
       alertEditFailed();
