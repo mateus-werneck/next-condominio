@@ -28,7 +28,7 @@ export default async function EditExpense({ params }: IEditExpense) {
     <div className="flex flex-col gap-1 mt-4">
       <h2 className="font-bold text-slate-700 text-sm">
         {params.id == 'new'
-          ? 'Nova Despesa'
+          ? 'Adicionar Despesa'
           : `Despesa #${expense.name} - ${DateUtil.toLocalePtBr(
               expense.dueDate
             )}`}

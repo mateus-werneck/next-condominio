@@ -35,7 +35,7 @@ export default function ViewResidents({ editRow, rows }: IViewResidents) {
         isVisible={reducer.state.editRow !== null}
       >
         <FormCard
-          title={reducer.state.editRow?.id ? 'Morador' : 'Novo morador'}
+          title={reducer.state.editRow?.id ? 'Apartamento' : 'Novo morador'}
           id={reducer.state.editRow?.id ?? 'new'}
           hashTag={
             reducer.state.editRow?.id &&
