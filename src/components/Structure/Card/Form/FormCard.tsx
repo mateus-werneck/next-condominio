@@ -17,7 +17,7 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
   const [showCheckIcon, setShowCheckIcon] = useState<boolean>(false);
 
   const path = usePathname();
-  const route = `${path}/edit?id=${id}`;
+  const route = `${path}/edit/${id}`;
 
   const notifyClipboard = () => {
     toast('Copiado para a área de trabalho.', {

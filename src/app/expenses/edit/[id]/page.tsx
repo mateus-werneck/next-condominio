@@ -3,22 +3,22 @@ import { DateUtil } from '@Lib/Treat/Date';
 import { isValidUUID } from '@Lib/Treat/String';
 import { ExpenseDto } from '@Types/Expense/types';
 import { notFound } from 'next/navigation';
-import { fetchExpense, fetchTypes } from '../utils/requests';
+import { fetchExpense, fetchTypes } from '../../utils/requests';
 
 interface IEditExpense {
-  searchParams: {
+  params: {
     id: string;
   };
 }
 
-export default async function EditExpense({ searchParams }: IEditExpense) {
+export default async function EditExpense({ params }: IEditExpense) {
   let expense = {} as ExpenseDto;
 
-  if (isValidUUID(searchParams.id)) {
-    expense = await fetchExpense(searchParams.id);
+  if (isValidUUID(params.id)) {
+    expense = await fetchExpense(params.id);
   }
 
-  if (!expense.id && searchParams.id != 'new') {
+  if (!expense.id && params.id != 'new') {
     notFound();
   }
 
@@ -27,7 +27,7 @@ export default async function EditExpense({ searchParams }: IEditExpense) {
   return (
     <div className="flex flex-col gap-1 mt-4">
       <h2 className="font-bold text-slate-700 text-sm">
-        {searchParams.id == 'new'
+        {params.id == 'new'
           ? 'Nova Despesa'
           : `Despesa #${expense.name} - ${DateUtil.toLocalePtBr(
               expense.dueDate
