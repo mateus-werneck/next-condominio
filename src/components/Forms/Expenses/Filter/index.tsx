@@ -70,7 +70,8 @@ function useFormData({ searchParams, expenseTypes }: IFormData) {
       label: 'Tipo',
       type: 'select',
       multiSelect: true,
-      options: expenseTypes
+      options: expenseTypes,
+      initialValue: searchParams?.expenseTypes
     }
   ];
   /* eslint-disable camelcase */
