@@ -1,7 +1,11 @@
 import Button from '@Components/Structure/Button';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-export default function Reload(onClickFunction: () => void): JSX.Element {
+type TReload = {
+  onClickFunction: () => void;
+};
+
+export default function Reload({ onClickFunction }: TReload): JSX.Element {
   return (
     <Button
       key="TableDate_Reload"

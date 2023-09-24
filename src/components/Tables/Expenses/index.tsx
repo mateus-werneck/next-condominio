@@ -1,8 +1,5 @@
 'use client';
 
-import ExpenseForm from '@Components/Forms/Expenses/Edit';
-import FormCard from '@Components/Structure/Card/Form/FormCard';
-import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
@@ -14,6 +11,7 @@ import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { ExpenseType } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 
 interface ITableListExpenses {
@@ -33,44 +31,29 @@ export default function TableListExpenses({
   expenseTypes
 }: ITableListExpenses) {
   const table = 'TableListExpenses';
-
-  const modalHashTag = `${state.editRow?.name} - ${DateUtil.toLocalePtBr(
-    state.editRow?.dueDate
-  )}`;
+  const router = useRouter();
 
   return (
     <>
-      <Modal
-        onClose={() => dispatch({ type: 'cancelEdit' })}
-        isVisible={state.editRow !== null && state.editRow !== undefined}
-      >
-        <FormCard
-          title="Despesa"
-          id={state.editRow?.id ?? ''}
-          hashTag={modalHashTag}
-        >
-          <ExpenseForm
-            expense={{
-              ...(state.editRow ?? ({} as ExpenseDto)),
-              dueDate: DateUtil.toLocalePtBr(state.editRow?.dueDate)
-            }}
-            alignment="center"
-            formSubmitCallback={(payload: ExpenseDto) =>
-              dispatch({ type: 'updateRow', payload })
-            }
-          />
-        </FormCard>
-      </Modal>
       <TableData
         name={table}
         columns={getColumns(table, dispatch, expenseTypes)}
         rows={state.rows}
         customToolbar={[
-          Add('/expenses?id=new'),
-          Reload(() => {
-            dispatch({ type: 'loading' });
-            dispatch({ type: 'reload', payload: { route: '/expenses' } });
-          })
+          <Add
+            key="Expense_Add_Button"
+            onClick={() => {
+              dispatch({ type: 'edit', payload: {} as ExpenseDto });
+              router.push('/expenses?id=new');
+            }}
+          />,
+          <Reload
+            key="Expense_Reload_Button"
+            onClickFunction={() => {
+              dispatch({ type: 'loading' });
+              dispatch({ type: 'reload', payload: { route: '/expenses' } });
+            }}
+          />
         ]}
         loading={state.loading}
         checkBoxSelection={true}
@@ -112,9 +95,15 @@ function getColumns(
   dispatch: Dispatch<ITableReducerAction>,
   expenseTypes: ExpenseType[]
 ) {
+  /* eslint-disable react-hooks/rules-of-hooks*/
+  const router = useRouter();
+
   const rowActions: IDefaultTableActions<ExpenseDto> = {
     table,
-    onEditRow: (row: ExpenseDto) => dispatch({ type: 'edit', payload: row }),
+    onEditRow: (row: ExpenseDto) => {
+      dispatch({ type: 'edit', payload: row });
+      router.push(`/expenses?id=${row.id}`);
+    },
     onConfirmDeletion: (row: ExpenseDto) =>
       dispatch({ type: 'delete', payload: { row, route: '/expenses' } })
   };

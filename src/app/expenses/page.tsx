@@ -1,10 +1,9 @@
 import ViewExpenses from '@Components/Views/Expenses';
 import { DateUtil } from '@Lib/Treat/Date';
+import { isValidUUID } from '@Lib/Treat/String';
+import { ExpenseDto } from '@Types/Expense/types';
 import { Metadata } from 'next';
 import { fetchExpense, fetchExpenses, fetchTypes } from './utils/requests';
-import ExpenseForm from '@Components/Forms/Expenses/Edit';
-import { ExpenseDto } from '@Types/Expense/types';
-import { isValidUUID } from '@Lib/Treat/String';
 
 export const metadata: Metadata = {
   title: 'Despesas'
@@ -24,24 +23,23 @@ export default async function Expenses({ searchParams }: IExpense) {
   const expenseTypes = await fetchTypes();
 
   const id = searchParams?.id ?? '';
-  const expense = isValidUUID(id) ? await fetchExpense(id) : ({} as ExpenseDto);
+  let editRow = null;
 
-  if (id == 'new' || expense.id !== undefined) {
-    const title = id == 'new' ? 'Cadastrar' : 'Editar';
+  if (isValidUUID(id)) {
+    const expense = await fetchExpense(id);
+    editRow = expense.id ? expense : null;
+  }
 
-    return (
-      <div className="flex flex-col gap-1 mt-4">
-        <h1 className="text-bold text-2x">{title}</h1>
-        <ExpenseForm expense={expense} expenseTypes={expenseTypes} />
-      </div>
-    );
+  if (id == 'new') {
+    editRow = {} as ExpenseDto;
   }
 
   return (
     <ViewExpenses
-      rows={rows}
       monthRange={monthRange}
+      rows={rows}
       expenseTypes={expenseTypes}
+      editRow={editRow}
     />
   );
 }

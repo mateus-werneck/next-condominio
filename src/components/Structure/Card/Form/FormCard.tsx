@@ -17,8 +17,7 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
   const [showCheckIcon, setShowCheckIcon] = useState<boolean>(false);
 
   const path = usePathname();
-
-  const route = `${path}?id=${id}`;
+  const route = `${path}/edit?id=${id}`;
 
   const notifyClipboard = () => {
     toast('Copiado para a área de trabalho.', {
@@ -34,6 +33,17 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
     setTimeout(() => setShowCheckIcon(false), 1200);
   };
 
+  const notifyFailedClipboard = () =>
+    toast('Falha ao copiar para área de trabalho.', {
+      position: 'bottom-center',
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      hideProgressBar: true,
+      autoClose: 2000,
+      type: 'error'
+    });
+
   return (
     <>
       <div className="pt-4" />
@@ -44,7 +54,7 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
         >
           <div className="flex gap-2 text-small sm:text-base">
             <span>
-              {title} #{hashTag ?? id}
+              {title} {hashTag ? `#${hashTag}` : ''}
             </span>
             <div>
               <span
@@ -56,15 +66,7 @@ export default function FormCard({ id, hashTag, title, children }: IFormCard) {
                     navigator.clipboard.writeText(url);
                     notifyClipboard();
                   } catch (error) {
-                    toast('Falha ao copiar para área de trabalho.', {
-                      position: 'bottom-center',
-                      closeButton: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      hideProgressBar: true,
-                      autoClose: 2000,
-                      type: 'error'
-                    });
+                    notifyFailedClipboard();
                   }
                 }}
               >

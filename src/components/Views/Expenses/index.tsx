@@ -1,5 +1,8 @@
 'use client';
+import ExpenseForm from '@Components/Forms/Expenses/Edit';
 import ListExpensesForm from '@Components/Forms/Expenses/List';
+import FormCard from '@Components/Structure/Card/Form/FormCard';
+import Modal from '@Components/Structure/Modal';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
 import { DateUtil, MonthRange } from '@Lib/Treat/Date';
@@ -12,14 +15,15 @@ import { IExpenseQueryParams, IExpensesFilters } from './types';
 
 interface IViewExpenses {
   monthRange: MonthRange;
-  expenseTypes: ExpenseType[];
   rows: ExpenseDto[];
+  expenseTypes: ExpenseType[];
+  editRow: ExpenseDto | null;
 }
 
-export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
+export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
   const initialState = {
-    editRow: null,
-    rows: rows.map((row) => ({
+    editRow,
+    rows: props.rows.map((row) => ({
       ...row,
       dueDate: DateUtil.toLocalePtBr(row.dueDate)
     })),
@@ -33,6 +37,35 @@ export default function ViewExpenses({ rows, ...props }: IViewExpenses) {
 
   return (
     <>
+      <Modal
+        onClose={() => {
+          reducer.dispatch({ type: 'cancelEdit' });
+          router.push(path);
+        }}
+        isVisible={reducer.state.editRow !== null}
+      >
+        <FormCard
+          title={reducer.state.editRow?.id ? 'Despesa' : 'Nova despesa'}
+          id={reducer.state.editRow?.id ?? 'new'}
+          hashTag={
+            reducer.state.editRow?.id &&
+            `${reducer.state.editRow?.name} - ${DateUtil.toLocalePtBr(
+              reducer.state.editRow?.dueDate
+            )}`
+          }
+        >
+          <ExpenseForm
+            expense={{
+              ...(reducer.state.editRow ?? ({} as ExpenseDto)),
+              dueDate: DateUtil.toLocalePtBr(reducer.state.editRow?.dueDate)
+            }}
+            alignment="center"
+            formSubmitCallback={(payload: ExpenseDto) =>
+              reducer.dispatch({ type: 'updateRow', payload })
+            }
+          />
+        </FormCard>
+      </Modal>
       <ListExpensesForm
         monthRange={props.monthRange}
         expenseTypes={props.expenseTypes}
