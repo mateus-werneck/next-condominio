@@ -73,7 +73,7 @@ export default function ActionsTable(props: ITableData) {
     return (
       <Button
         key={getDeleteButtonKey()}
-        className="bg-transperent hover:bg-light-blue/4"
+        className="bg-transperent hover:bg-light-blue/4 transition-all animate-slideIn"
         onClickFunction={() =>
           props.onBatchDelete && props.onBatchDelete(currentSelectedRows)
         }

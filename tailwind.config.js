@@ -63,6 +63,22 @@ module.exports = {
     },
     boxShadow: {
       button: '0 0.5em 0.5em -0.4em rgba(100 116 139)'
+    },
+    keyframes: {
+      fadeIn: {
+        '0%': { opacity: 0 },
+        '50%': { opacity: 0.5 },
+        '100%': { opacity: 1 }
+      },
+      slideIn: {
+        '0%': { transform: 'translateX(-0.1em)' },
+        '50%': { transform: 'translateX(0.5em)' },
+        '100%': { transform: 'translateX(0)' }
+      }
+    },
+    animation: {
+      fadeIn: 'fadeIn 1s ease-in-out',
+      slideIn: 'slideIn 1s ease-in-out'
     }
   },
   plugins: [],
