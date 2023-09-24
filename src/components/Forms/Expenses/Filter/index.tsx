@@ -1,30 +1,24 @@
 'use client';
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
+import { IExpenseQueryParams } from '@Components/Views/Expenses/types';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
-interface ISearchParams {
-  startAt?: string;
-  endAt?: string;
-  name?: string;
-  expenseTypes?: string;
-}
-
 interface IFilterExpensesForm {
-  searchParams?: ISearchParams;
+  filters?: IExpenseQueryParams;
   expenseTypes: ExpenseType[];
   onFormSubmit: (data: any) => void;
 }
 
 export default function FilterExpensesForm({
-  searchParams,
+  filters,
   expenseTypes,
   onFormSubmit
 }: IFilterExpensesForm) {
   const { inputs, validationSchema } = useFormData({
-    searchParams,
+    filters,
     expenseTypes
   });
 
@@ -42,26 +36,26 @@ export default function FilterExpensesForm({
 
 type IFormData = Omit<IFilterExpensesForm, 'onFormSubmit'>;
 
-function useFormData({ searchParams, expenseTypes }: IFormData) {
+function useFormData({ filters, expenseTypes }: IFormData) {
   const inputs: IFormInput[] = [
     {
       name: 'startAt',
       label: 'Data Inicial',
-      initialValue: searchParams?.startAt,
+      initialValue: filters?.startAt,
       required: true,
       type: 'date' as const
     },
     {
       name: 'endAt',
       label: 'Data Final',
-      initialValue: searchParams?.endAt,
+      initialValue: filters?.endAt,
       required: true,
       type: 'date' as const
     },
     {
       name: 'name',
       label: 'Despesa',
-      initialValue: searchParams?.name,
+      initialValue: filters?.name,
       placeHolder: 'Nome da Despesa',
       type: 'text'
     },
@@ -71,7 +65,7 @@ function useFormData({ searchParams, expenseTypes }: IFormData) {
       type: 'select',
       multiSelect: true,
       options: expenseTypes,
-      initialValue: searchParams?.expenseTypes
+      initialValue: filters?.expenseTypes
     }
   ];
   /* eslint-disable camelcase */

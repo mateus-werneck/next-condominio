@@ -13,15 +13,8 @@ import { Expense, ExpenseType } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
 
-interface ISearchParams {
-  startAt?: string;
-  endAt?: string;
-  name?: string;
-  expenseTypes?: string;
-}
-
 interface IViewExpenses {
-  searchParams?: ISearchParams;
+  filters?: IExpenseQueryParams;
   rows: ExpenseDto[];
   expenseTypes: ExpenseType[];
   editRow: ExpenseDto | null;
@@ -84,7 +77,7 @@ export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
         </FormCard>
       </Modal>
       <FilterExpensesForm
-        searchParams={props.searchParams}
+        filters={props.filters}
         expenseTypes={props.expenseTypes}
         onFormSubmit={async (filters: IExpensesFilters): Promise<void> => {
           reducer.dispatch({ type: 'loading' });

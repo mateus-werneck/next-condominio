@@ -1,4 +1,5 @@
 import ViewExpenses from '@Components/Views/Expenses';
+import { IExpenseQueryParams } from '@Components/Views/Expenses/types';
 import { DateUtil } from '@Lib/Treat/Date';
 import { isValidUUID } from '@Lib/Treat/String';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -24,15 +25,14 @@ interface IExpense {
 export default async function Expenses({ searchParams }: IExpense) {
   const monthRange = DateUtil.getMonthRange();
 
-  if (searchParams?.startAt) {
-    monthRange.startAt = DateUtil.toDateObject(searchParams.startAt);
-  }
+  const filters: IExpenseQueryParams = {
+    startAt: searchParams?.startAt ?? DateUtil.toISOString(monthRange.startAt),
+    endAt: searchParams?.endAt ?? DateUtil.toISOString(monthRange.endAt),
+    name: searchParams?.name ?? '',
+    expenseTypes: searchParams?.expenseTypes ?? ''
+  };
 
-  if (searchParams?.endAt) {
-    monthRange.endAt = DateUtil.toDateObject(searchParams.endAt);
-  }
-
-  const rows = await fetchExpenses(monthRange);
+  const rows = await fetchExpenses(filters);
   const expenseTypes = await fetchTypes();
 
   const id = searchParams?.id ?? '';
@@ -49,11 +49,7 @@ export default async function Expenses({ searchParams }: IExpense) {
 
   return (
     <ViewExpenses
-      searchParams={{
-        ...searchParams,
-        startAt: DateUtil.toISOString(monthRange.startAt),
-        endAt: DateUtil.toISOString(monthRange.endAt)
-      }}
+      filters={filters}
       rows={rows}
       expenseTypes={expenseTypes}
       editRow={editRow}
