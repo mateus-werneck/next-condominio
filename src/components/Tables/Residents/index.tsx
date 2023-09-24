@@ -1,61 +1,55 @@
 'use client';
 
-import ResidentForm from '@Components/Forms/Resident/Edit';
-import FormCard from '@Components/Structure/Card/Form/FormCard';
-import Modal from '@Components/Structure/Modal';
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
-import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 
 interface ITableListResidents {
-  rows: Resident[];
+  reducer: {
+    state: {
+      editRow: Resident | null;
+      rows: Resident[];
+      loading?: boolean;
+    };
+    dispatch: Dispatch<ITableReducerAction>;
+  };
 }
 
-export default function TableListResidents({ rows }: ITableListResidents) {
+export default function TableListResidents({
+  reducer: { state, dispatch }
+}: ITableListResidents) {
   const table = 'TableListResidents';
-
-  const { state, dispatch } = useTableReducer<Resident>({
-    editRow: null,
-    rows
-  });
+  const router = useRouter();
 
   return (
     <>
-      <Modal
-        onClose={() => dispatch({ type: 'cancelEdit' })}
-        isVisible={state.editRow !== null && state.editRow !== undefined}
-      >
-        <FormCard
-          title="Apartamento"
-          id={state.editRow?.id ?? ''}
-          hashTag={state.editRow?.apartment}
-        >
-          <ResidentForm
-            resident={state.editRow ?? ({} as Resident)}
-            alignment="center"
-            formSubmitCallback={(payload: Resident) => {
-              dispatch({ type: 'updateRow', payload });
-            }}
-          />
-        </FormCard>
-      </Modal>
       <TableData
         name={table}
-        columns={getColumns(table, dispatch)}
+        columns={getColumns(table, dispatch, router)}
         rows={state.rows}
         customToolbar={[
-          Add('/residents/new'),
-          Reload(() => {
-            dispatch({ type: 'loading' });
-            dispatch({ type: 'reload', payload: { route: '/residents' } });
-          })
+          <Add
+            key="Resident_Add_Button"
+            onClick={() => {
+              dispatch({ type: 'edit', payload: {} as Resident });
+              router.push('/residents?id=new');
+            }}
+          />,
+          <Reload
+            key="Resident_Reload_Button"
+            onClickFunction={() => {
+              dispatch({ type: 'loading' });
+              dispatch({ type: 'reload', payload: { route: '/residents' } });
+            }}
+          />
         ]}
         onBatchDelete={(selectedRows: string[]) =>
           dispatch({
@@ -79,10 +73,17 @@ export default function TableListResidents({ rows }: ITableListResidents) {
   );
 }
 
-function getColumns(table: string, dispatch: Dispatch<ITableReducerAction>) {
+function getColumns(
+  table: string,
+  dispatch: Dispatch<ITableReducerAction>,
+  router: AppRouterInstance
+) {
   const rowActions: IDefaultTableActions<Resident> = {
     table,
-    onEditRow: (row: Resident) => dispatch({ type: 'edit', payload: row }),
+    onEditRow: (row: Resident) => {
+      dispatch({ type: 'edit', payload: row });
+      router.push(`/residents?id=${row.id}`);
+    },
     onConfirmDeletion: (row: Resident) =>
       dispatch({ type: 'delete', payload: { row, route: '/residents' } })
   };

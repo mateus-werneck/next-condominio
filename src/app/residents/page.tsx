@@ -1,16 +1,39 @@
-import TableListResidents from '@Components/Tables/Residents';
+import ViewResidents from '@Components/Views/Residents';
+import { isValidUUID } from '@Lib/Treat/String';
+import { Resident } from '@prisma/client';
 import { Metadata } from 'next';
-import { fetchResidents } from './utils/requests';
+import { fetchResident, fetchResidents } from './utils/requests';
 
 export const metadata: Metadata = {
   title: 'Moradores'
 };
 
-export default async function Residents() {
+interface ISearchParams {
+  id?: string;
+}
+
+interface IResident {
+  searchParams?: ISearchParams;
+}
+
+export default async function Residents({ searchParams }: IResident) {
   const rows = await fetchResidents();
+
+  const id = searchParams?.id ?? '';
+  let editRow = null;
+
+  if (isValidUUID(id)) {
+    const expense = await fetchResident(id);
+    editRow = expense.id ? expense : null;
+  }
+
+  if (id == 'new') {
+    editRow = {} as Resident;
+  }
+
   return (
     <>
-      <TableListResidents rows={rows} />
+      <ViewResidents rows={rows} editRow={editRow} />
     </>
   );
 }

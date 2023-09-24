@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 interface IResidentForm {
   resident: Resident;
-  formSubmitCallback?: (value: Resident) => void;
+  formSubmitCallback?: (value: Resident, type: 'create' | 'update') => void;
   alignment?: 'start' | 'center' | 'end';
 }
 
@@ -35,8 +35,12 @@ export default function ResidentForm(props: IResidentForm) {
             ...submitData
           })
         : await clientConn.post('residents', submitData);
+      props.formSubmitCallback &&
+        props.formSubmitCallback(
+          response.data,
+          props.resident.id ? 'update' : 'create'
+        );
       alertEditSuccess(props.resident.id ? undefined : reset);
-      props.formSubmitCallback && props.formSubmitCallback(response.data);
     } catch (error) {
       alertEditFailed();
       Promise.resolve();

@@ -11,6 +11,7 @@ import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { ExpenseType } from '@prisma/client';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 
@@ -37,7 +38,7 @@ export default function TableListExpenses({
     <>
       <TableData
         name={table}
-        columns={getColumns(table, dispatch, expenseTypes)}
+        columns={getColumns(table, dispatch, router, expenseTypes)}
         rows={state.rows}
         customToolbar={[
           <Add
@@ -93,11 +94,9 @@ export default function TableListExpenses({
 function getColumns(
   table: string,
   dispatch: Dispatch<ITableReducerAction>,
+  router: AppRouterInstance,
   expenseTypes: ExpenseType[]
 ) {
-  /* eslint-disable react-hooks/rules-of-hooks*/
-  const router = useRouter();
-
   const rowActions: IDefaultTableActions<ExpenseDto> = {
     table,
     onEditRow: (row: ExpenseDto) => {
