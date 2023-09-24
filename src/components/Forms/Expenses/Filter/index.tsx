@@ -1,24 +1,30 @@
 'use client';
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
-import { DateUtil, MonthRange } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
 
-interface IListExpensesForm {
-  monthRange: MonthRange;
+interface ISearchParams {
+  startAt?: string;
+  endAt?: string;
+  name?: string;
+  expenseTypes?: string;
+}
+
+interface IFilterExpensesForm {
+  searchParams?: ISearchParams;
   expenseTypes: ExpenseType[];
   onFormSubmit: (data: any) => void;
 }
 
-export default function ListExpensesForm({
-  monthRange,
+export default function FilterExpensesForm({
+  searchParams,
   expenseTypes,
   onFormSubmit
-}: IListExpensesForm) {
+}: IFilterExpensesForm) {
   const { inputs, validationSchema } = useFormData({
-    monthRange,
+    searchParams,
     expenseTypes
   });
 
@@ -34,30 +40,28 @@ export default function ListExpensesForm({
   );
 }
 
-type IFormData = Omit<IListExpensesForm, 'onFormSubmit'>;
+type IFormData = Omit<IFilterExpensesForm, 'onFormSubmit'>;
 
-function useFormData({
-  monthRange: { startAt, endAt },
-  expenseTypes
-}: IFormData) {
+function useFormData({ searchParams, expenseTypes }: IFormData) {
   const inputs: IFormInput[] = [
     {
       name: 'startAt',
       label: 'Data Inicial',
-      initialValue: DateUtil.toISOString(startAt),
+      initialValue: searchParams?.startAt,
       required: true,
       type: 'date' as const
     },
     {
       name: 'endAt',
       label: 'Data Final',
-      initialValue: DateUtil.toISOString(endAt),
+      initialValue: searchParams?.endAt,
       required: true,
       type: 'date' as const
     },
     {
       name: 'name',
       label: 'Despesa',
+      initialValue: searchParams?.name,
       placeHolder: 'Nome da Despesa',
       type: 'text'
     },

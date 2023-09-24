@@ -1,11 +1,11 @@
 'use client';
 import ExpenseForm from '@Components/Forms/Expenses/Edit';
-import ListExpensesForm from '@Components/Forms/Expenses/List';
+import FilterExpensesForm from '@Components/Forms/Expenses/Filter';
 import FormCard from '@Components/Structure/Card/Form/FormCard';
 import Modal from '@Components/Structure/Modal';
 import TableListExpenses from '@Components/Tables/Expenses';
 import { clientConn } from '@Lib/Client/api';
-import { DateUtil, MonthRange } from '@Lib/Treat/Date';
+import { DateUtil } from '@Lib/Treat/Date';
 import { appendQueryParams } from '@Lib/Treat/Request';
 import { useTableReducer } from '@Reducers/tableActions/reducer';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -13,8 +13,15 @@ import { Expense, ExpenseType } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
 
+interface ISearchParams {
+  startAt?: string;
+  endAt?: string;
+  name?: string;
+  expenseTypes?: string;
+}
+
 interface IViewExpenses {
-  monthRange: MonthRange;
+  searchParams?: ISearchParams;
   rows: ExpenseDto[];
   expenseTypes: ExpenseType[];
   editRow: ExpenseDto | null;
@@ -76,8 +83,8 @@ export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
           />
         </FormCard>
       </Modal>
-      <ListExpensesForm
-        monthRange={props.monthRange}
+      <FilterExpensesForm
+        searchParams={props.searchParams}
         expenseTypes={props.expenseTypes}
         onFormSubmit={async (filters: IExpensesFilters): Promise<void> => {
           reducer.dispatch({ type: 'loading' });

@@ -11,6 +11,10 @@ export const metadata: Metadata = {
 
 interface ISearchParams {
   id?: string;
+  startAt?: string;
+  endAt?: string;
+  name?: string;
+  expenseTypes?: string;
 }
 
 interface IExpense {
@@ -19,6 +23,15 @@ interface IExpense {
 
 export default async function Expenses({ searchParams }: IExpense) {
   const monthRange = DateUtil.getMonthRange();
+
+  if (searchParams?.startAt) {
+    monthRange.startAt = DateUtil.toDateObject(searchParams.startAt);
+  }
+
+  if (searchParams?.endAt) {
+    monthRange.endAt = DateUtil.toDateObject(searchParams.endAt);
+  }
+
   const rows = await fetchExpenses(monthRange);
   const expenseTypes = await fetchTypes();
 
@@ -36,7 +49,11 @@ export default async function Expenses({ searchParams }: IExpense) {
 
   return (
     <ViewExpenses
-      monthRange={monthRange}
+      searchParams={{
+        ...searchParams,
+        startAt: DateUtil.toISOString(monthRange.startAt),
+        endAt: DateUtil.toISOString(monthRange.endAt)
+      }}
       rows={rows}
       expenseTypes={expenseTypes}
       editRow={editRow}
