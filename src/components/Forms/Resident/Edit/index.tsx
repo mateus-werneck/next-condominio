@@ -88,14 +88,8 @@ function useFormData({ resident }: IResidentForm) {
   const validationSchema = z.object({
     name: ZodValidator.string(),
     apartment: ZodValidator.number(),
-    email: z
-      .union([z.string().email('Email inválido'), z.string().length(0)])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e)),
-    phone: z
-      .union([z.string().min(15, 'Telefone inválido'), z.string().length(0)])
-      .optional()
-      .transform((e) => (e === '' ? undefined : e))
+    email: ZodValidator.email(),
+    phone: ZodValidator.phone()
   });
   return { inputs, validationSchema };
 }

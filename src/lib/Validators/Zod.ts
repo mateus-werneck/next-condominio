@@ -44,11 +44,14 @@ export class ZodValidator {
     return z
       .object(
         {
-          id: z.string({ required_error: 'Campo Obrigatório.' }),
-          name: z.string({ required_error: 'Campo Obrigatório.' }),
-          label: z.string({ required_error: 'Campo Obrigatório.' })
+          id: z.string(),
+          name: z.string(),
+          label: z.string()
         },
-        { invalid_type_error: 'Valor selecionado inválido' }
+        {
+          invalid_type_error: 'Valor selecionado inválido',
+          required_error: 'Campo Obrigatário.'
+        }
       )
       .transform(({ id }) => id);
   }
@@ -57,9 +60,9 @@ export class ZodValidator {
     return z
       .array(
         z.object({
-          id: z.string({ required_error: 'Campo Obrigatório.' }),
-          name: z.string({ required_error: 'Campo Obrigatório.' }),
-          label: z.string({ required_error: 'Campo Obrigatório.' })
+          id: z.string(),
+          name: z.string(),
+          label: z.string()
         }),
         {
           required_error: 'Campo Obrigatório.',
@@ -76,7 +79,17 @@ export class ZodValidator {
   }
 
   public static phone() {
-    return z.string().min(15, 'Telefone inválido.');
+    return z
+      .union([z.string().min(15, 'Telefone inválido'), z.string().length(0)])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e));
+  }
+
+  public static email() {
+    return z
+      .union([z.string().email('Email inválido'), z.string().length(0)])
+      .optional()
+      .transform((e) => (e === '' ? undefined : e));
   }
 
   public static number() {

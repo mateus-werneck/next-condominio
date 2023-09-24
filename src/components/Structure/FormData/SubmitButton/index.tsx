@@ -1,7 +1,5 @@
 import Button from '@Components/Structure/Button';
-import BlockIcon from '@mui/icons-material/Block';
 import { CircularProgress } from '@mui/material';
-import { useMemo } from 'react';
 
 interface ISubmitButton {
   isBlocked: boolean;
@@ -42,7 +40,8 @@ export default function SubmitButton({
     <Button
       type="submit"
       disable={isSubmitting}
-      className="bg-slate-700 text-white px-4 py-1 hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500"
+      className="bg-slate-700 text-white px-4 py-1 hover:shadow-button hover:translate -translate-x-1 
+      hover:bg-gradient-to-r from-slate-700 to-slate-500"
     >
       {label}
     </Button>
