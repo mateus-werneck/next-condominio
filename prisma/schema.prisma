@@ -15,7 +15,7 @@ model Expense {
   type         String?      @map("type_expense") @db.VarChar(256)
   createdAt    DateTime     @default(now()) @map("insertdate_expense")
   updatedAt    DateTime     @default(now()) @map("updatedate_expense")
-  installments Int          @default(1) @map("installments_expense")
+  installments Int          @default(1) @map("installments_expense") @db.Integer
   paymentType  String       @default("À Vista") @map("payment_type_expense") @db.VarChar(256)
   expenseType  ExpenseType? @relation(fields: [type], references: [id])
 
