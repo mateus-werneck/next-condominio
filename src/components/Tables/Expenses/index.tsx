@@ -5,6 +5,7 @@ import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
+import { paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
@@ -124,6 +125,19 @@ function getColumns(
       headerName: 'Tipo',
       type: 'singleSelect',
       valueOptions: expenseTypes
+    },
+    {
+      field: 'paymentType',
+      valueFormatter: (params) =>
+        paymentTypes.find((e) => e.id === params.value)?.label ?? '',
+      headerName: 'Pagamento',
+      type: 'singleSelect',
+      valueOptions: paymentTypes
+    },
+    {
+      field: 'installments',
+      headerName: 'Parcelas',
+      type: 'number'
     },
     {
       field: 'dueDate',

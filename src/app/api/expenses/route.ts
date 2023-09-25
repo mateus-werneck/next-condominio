@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     orderBy: [{ dueDate: 'asc' }, { name: 'asc' }]
   });
 
-  return NextResponse.json(expenses as Expense[]);
+  return NextResponse.json(expenses);
 }
 export async function POST(request: NextRequest) {
   const data = await request.json();

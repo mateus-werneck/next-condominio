@@ -8,14 +8,16 @@ datasource db {
 }
 
 model Expense {
-  id          String       @id @default(uuid()) @map("id_expense")
-  name        String       @map("name_expense") @db.VarChar(256)
-  value       Decimal      @map("value_expense") @db.Money
-  dueDate     DateTime     @map("duedate_expense") @db.Date
-  type        String?      @map("type_expense") @db.VarChar(256)
-  createdAt   DateTime     @default(now()) @map("insertdate_expense")
-  updatedAt   DateTime     @default(now()) @map("updatedate_expense")
-  expenseType ExpenseType? @relation(fields: [type], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  id           String       @id @default(uuid()) @map("id_expense")
+  name         String       @map("name_expense") @db.VarChar(256)
+  value        Decimal      @map("value_expense") @db.Money
+  dueDate      DateTime     @map("duedate_expense") @db.Date
+  type         String?      @map("type_expense") @db.VarChar(256)
+  createdAt    DateTime     @default(now()) @map("insertdate_expense")
+  updatedAt    DateTime     @default(now()) @map("updatedate_expense")
+  installments Int          @default(1) @map("installments_expense")
+  paymentType  String       @default("À Vista") @map("payment_type_expense") @db.VarChar(256)
+  expenseType  ExpenseType? @relation(fields: [type], references: [id])
 
   @@map("expenses")
 }
@@ -34,8 +36,8 @@ model Resident {
 
 model ExpenseType {
   id      String    @id @default(uuid()) @map("id_type")
-  name    String    @unique @map("name_type") @db.VarChar(256)
   label   String    @unique @map("label_type") @db.VarChar(256)
+  name    String    @unique @map("name_type") @db.VarChar(256)
   Expense Expense[]
 
   @@map("expense_types")

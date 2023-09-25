@@ -4,12 +4,13 @@ import { IFormInput, ISubmitForm } from '@Components/Structure/FormData/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import Masks from '@Lib/Masks/Masks';
+import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
 import { useQuery } from 'react-query';
-import { z } from 'zod';
+import { ZodType, z } from 'zod';
 
 interface IExpenseForm {
   expense: ExpenseDto;
@@ -78,6 +79,19 @@ function useFormData({
       initialValue: DateUtil.toLocalePtBr(expense.dueDate)
     },
     {
+      name: 'paymentType',
+      label: 'Pagamento',
+      type: 'select',
+      options: paymentTypes,
+      initialValue: getPaymentType(expense.paymentType) ?? '1'
+    },
+    {
+      name: 'installments',
+      label: 'Parcelas',
+      mask: Masks.INSTALLMENT,
+      initialValue: expense.installments ?? '1'
+    },
+    {
       name: 'expenseType',
       label: 'Tipo',
       type: 'select',
@@ -86,10 +100,12 @@ function useFormData({
     }
   ];
 
-  const validationSchema = z.object({
+  const validationSchema: ZodType = z.object({
     name: ZodValidator.string(),
     value: ZodValidator.brl(),
     dueDate: ZodValidator.ptBrDate(),
+    paymentType: ZodValidator.select(),
+    installments: ZodValidator.number(),
     expenseType: ZodValidator.select()
   });
 

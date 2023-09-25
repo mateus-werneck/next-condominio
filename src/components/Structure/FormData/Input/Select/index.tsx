@@ -1,4 +1,3 @@
-import { ObjectUtil } from '@Lib/Treat/Object';
 import { Autocomplete, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
@@ -50,7 +49,7 @@ export default function StandardSelect(props: IStandardSelect) {
             multiple={props.multiSelect ?? false}
             autoHighlight
             readOnly={props.readOnly ?? false}
-            options={ObjectUtil.sort(props.options, 'label') || []}
+            options={props.options || []}
             fullWidth
             isOptionEqualToValue={(option, value) => option.id == value.id}
             getOptionLabel={(option) => (option.label ? option.label : '')}
