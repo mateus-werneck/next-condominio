@@ -1,6 +1,7 @@
 import { IExpenseQueryParams } from '@Components/Views/Expenses/types';
+import { clientConn } from '@Lib/Client/api';
 import { appendQueryParams } from '@Lib/Treat/Request';
-import { ExpenseDto } from '@Types/Expense/types';
+import { CreateExpense, ExpenseDto, UpdateExpense } from '@Types/Expense/types';
 import { ExpenseType } from '@prisma/client';
 
 export const fetchExpenses = async (
@@ -30,7 +31,29 @@ export const fetchExpense = async (id: string): Promise<ExpenseDto> => {
   return expense;
 };
 
-export const fetchTypes = async (): Promise<ExpenseType[]> => {
+export const createOrUpdate = async (
+  data: CreateExpense,
+  id?: string
+): Promise<ExpenseDto> => {
+  if (id) return updateExpense({ ...data, id: id });
+  return createExpense(data);
+};
+
+export const createExpense = async (
+  data: CreateExpense
+): Promise<ExpenseDto> => {
+  const response = await clientConn.post('expenses', data);
+  return response.data;
+};
+
+export const updateExpense = async (
+  data: UpdateExpense
+): Promise<ExpenseDto> => {
+  const response = await clientConn.put('expenses', data);
+  return response.data;
+};
+
+export const fetchExpenseTypes = async (): Promise<ExpenseType[]> => {
   const response = await fetch(`${process.env.SYSTEM_URL}/api/expenses/types`, {
     next: { revalidate: 0 }
   });

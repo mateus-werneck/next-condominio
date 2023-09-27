@@ -129,7 +129,7 @@ function getColumns(
     {
       field: 'paymentType',
       valueFormatter: (params) =>
-        paymentTypes.find((e) => e.id === params.value)?.label ?? '',
+        paymentTypes.find((p) => p.label === params.value)?.label,
       headerName: 'Pagamento',
       type: 'singleSelect',
       valueOptions: paymentTypes

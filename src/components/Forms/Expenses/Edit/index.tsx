@@ -3,62 +3,68 @@ import FormData from '@Components/Structure/FormData';
 import { IFormInput, ISubmitForm } from '@Components/Structure/FormData/types';
 import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
+import { getExpenseEditData } from '@Lib/Data/Expense/submit';
 import Masks from '@Lib/Masks/Masks';
+import { createOrUpdate } from '@Lib/Requests/expenses';
 import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
-import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
-import { ExpenseType } from '@prisma/client';
+import { ExpenseDto } from '@Types/Expense/types';
 import { useQuery } from 'react-query';
 import { ZodType, z } from 'zod';
-
-interface IExpenseForm {
-  expense: ExpenseDto;
-  expenseTypes?: ExpenseType[];
-  formSubmitCallback?: (value: ExpenseDto, type: 'create' | 'update') => void;
-  alignment?: 'start' | 'center' | 'end';
-}
-
-interface IExpenseSubmit {
-  name: string;
-  value: number;
-  dueDate: string;
-  expenseType: string;
-}
+import { IExpenseForm, IExpenseSubmit } from './types';
 
 export default function ExpenseForm(props: IExpenseForm) {
-  const { data } = useQuery({
-    queryKey: ['expenseTypes'],
-    cacheTime: 60 * 60 * 24,
-    queryFn: () =>
-      props.expenseTypes ??
-      clientConn.get('/expenses/types').then((response) => response.data)
-  });
+  const formData = useFormData(props);
 
-  const { inputs, validationSchema, onFormSubmit } = useFormData({
-    expense: props.expense,
-    expenseTypes: data ?? [],
-    formSubmitCallback: props.formSubmitCallback
-  });
+  const formSubmitCallback = (expense: ExpenseDto, type: 'create' | 'update') =>
+    props.formSubmitCallback && props.formSubmitCallback(expense, type);
+
+  const onSubmit: ISubmitForm = async (
+    submitData: IExpenseSubmit,
+    { reset }
+  ) => {
+    try {
+      const data = getExpenseEditData(submitData);
+      const expense = await createOrUpdate(data, props.expense.id);
+      formSubmitCallback(expense, props.expense.id ? 'update' : 'create');
+      alertEditSuccess(props.expense.id ? undefined : reset);
+    } catch (error) {
+      alertEditFailed();
+      Promise.resolve();
+    }
+  };
 
   return (
     <>
       <FormData
-        inputs={inputs}
-        validationSchema={validationSchema}
-        onSubmit={onFormSubmit}
+        {...formData}
         submitButtonText="Salvar"
         alignment={props.alignment}
+        onSubmit={onSubmit}
       />
     </>
   );
 }
 
-function useFormData({
-  expense,
-  expenseTypes,
-  formSubmitCallback
-}: IExpenseForm) {
+function useFormData({ expense, expenseTypes }: IExpenseForm) {
+  const { data } = useQuery({
+    queryKey: ['expenseTypes'],
+    cacheTime: 60 * 60 * 24,
+    queryFn: () =>
+      expenseTypes ??
+      clientConn.get('/expenses/types').then((response) => response.data)
+  });
+
+  const validationSchema: ZodType = z.object({
+    name: ZodValidator.string(),
+    value: ZodValidator.brl(),
+    dueDate: ZodValidator.ptBrDate(),
+    paymentType: ZodValidator.select(),
+    installments: ZodValidator.number(),
+    expenseType: ZodValidator.select()
+  });
+
   const inputs: IFormInput[] = [
     {
       name: 'name',
@@ -95,47 +101,10 @@ function useFormData({
       name: 'expenseType',
       label: 'Tipo',
       type: 'select',
-      options: expenseTypes,
+      options: data ?? [],
       initialValue: expense.type
     }
   ];
 
-  const validationSchema: ZodType = z.object({
-    name: ZodValidator.string(),
-    value: ZodValidator.brl(),
-    dueDate: ZodValidator.ptBrDate(),
-    paymentType: ZodValidator.select(),
-    installments: ZodValidator.number(),
-    expenseType: ZodValidator.select()
-  });
-
-  const onFormSubmit: ISubmitForm = async (
-    submitData: IExpenseSubmit,
-    { reset }
-  ) => {
-    const data: CreateExpense = {
-      name: submitData.name,
-      value: submitData.value,
-      dueDate: new Date(submitData.dueDate),
-      type: submitData.expenseType
-    };
-
-    try {
-      const response = expense.id
-        ? await clientConn.put('expenses', { id: expense.id, ...data })
-        : await clientConn.post('expenses', data);
-
-      formSubmitCallback &&
-        formSubmitCallback(
-          response.data as ExpenseDto,
-          expense.id ? 'update' : 'create'
-        );
-      alertEditSuccess(expense.id ? undefined : reset);
-    } catch (error) {
-      alertEditFailed();
-      Promise.resolve();
-    }
-  };
-
-  return { inputs, validationSchema, onFormSubmit };
+  return { inputs, validationSchema };
 }

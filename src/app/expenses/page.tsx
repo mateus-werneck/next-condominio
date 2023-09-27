@@ -1,10 +1,14 @@
 import ViewExpenses from '@Components/Views/Expenses';
 import { IExpenseQueryParams } from '@Components/Views/Expenses/types';
+import {
+  fetchExpense,
+  fetchExpenses,
+  fetchExpenseTypes
+} from '@Lib/Requests/expenses';
 import { DateUtil } from '@Lib/Treat/Date';
 import { isValidUUID } from '@Lib/Treat/String';
 import { ExpenseDto } from '@Types/Expense/types';
 import { Metadata } from 'next';
-import { fetchExpense, fetchExpenses, fetchTypes } from './utils/requests';
 
 export const metadata: Metadata = {
   title: 'Despesas'
@@ -33,7 +37,7 @@ export default async function Expenses({ searchParams }: IExpense) {
   };
 
   const rows = await fetchExpenses(filters);
-  const expenseTypes = await fetchTypes();
+  const expenseTypes = await fetchExpenseTypes();
 
   const id = searchParams?.id ?? '';
   let editRow = null;

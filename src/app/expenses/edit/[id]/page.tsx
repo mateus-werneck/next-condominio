@@ -1,9 +1,9 @@
 import ExpenseForm from '@Components/Forms/Expenses/Edit';
+import { fetchExpense, fetchExpenseTypes } from '@Lib/Requests/expenses';
 import { DateUtil } from '@Lib/Treat/Date';
 import { isValidUUID } from '@Lib/Treat/String';
 import { ExpenseDto } from '@Types/Expense/types';
 import { notFound } from 'next/navigation';
-import { fetchExpense, fetchTypes } from '../../utils/requests';
 
 interface IEditExpense {
   params: {
@@ -22,7 +22,7 @@ export default async function EditExpense({ params }: IEditExpense) {
     notFound();
   }
 
-  const expenseTypes = await fetchTypes();
+  const expenseTypes = await fetchExpenseTypes();
 
   return (
     <div className="flex flex-col gap-1 mt-4">

@@ -1,8 +1,8 @@
 import ViewResidents from '@Components/Views/Residents';
+import { fetchResident, fetchResidents } from '@Lib/Requests/residents';
 import { isValidUUID } from '@Lib/Treat/String';
 import { Resident } from '@prisma/client';
 import { Metadata } from 'next';
-import { fetchResident, fetchResidents } from './utils/requests';
 
 export const metadata: Metadata = {
   title: 'Moradores'

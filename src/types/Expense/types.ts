@@ -1,11 +1,11 @@
 import { Expense } from '@prisma/client';
 
-export type CreateExpense = {
-  name: string;
+export interface UpdateExpense
+  extends Omit<Expense, 'createdAt' | 'updatedAt' | 'value'> {
   value: number;
-  dueDate: Date;
-  type: string;
-};
+}
+
+export type CreateExpense = Omit<UpdateExpense, 'id'>;
 
 export interface ExpenseDto extends Omit<Expense, 'dueDate'> {
   dueDate: string;
