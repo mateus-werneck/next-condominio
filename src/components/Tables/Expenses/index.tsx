@@ -5,7 +5,7 @@ import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
-import { paymentTypes } from '@Lib/Select/PaymentOptions';
+import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
@@ -77,6 +77,8 @@ export default function TableListExpenses({
                 id: newRow.id,
                 name: expense.name,
                 type: expense.type,
+                paymentType: getPaymentType(expense.paymentType),
+                installments: Number(expense.installments),
                 dueDate: DateUtil.toDateObject(expense.dueDate),
                 value: MoneyUtil.toFloat(String(newRow.value))
               },

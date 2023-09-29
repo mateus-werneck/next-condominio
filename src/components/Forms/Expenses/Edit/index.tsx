@@ -6,7 +6,7 @@ import { clientConn } from '@Lib/Client/api';
 import { getExpenseEditData } from '@Lib/Data/Expense/submit';
 import Masks from '@Lib/Masks/Masks';
 import { createOrUpdate } from '@Lib/Requests/expenses';
-import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
+import { getPaymentTypeId, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseDto } from '@Types/Expense/types';
@@ -89,13 +89,13 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       label: 'Pagamento',
       type: 'select',
       options: paymentTypes,
-      initialValue: getPaymentType(expense.paymentType) ?? '1'
+      initialValue: getPaymentTypeId(expense.paymentType) ?? '1'
     },
     {
       name: 'installments',
       label: 'Parcelas',
       mask: Masks.INSTALLMENT,
-      initialValue: expense.installments ?? '1'
+      initialValue: String(expense.installments) ?? '1'
     },
     {
       name: 'expenseType',
