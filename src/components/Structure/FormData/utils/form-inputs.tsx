@@ -13,6 +13,7 @@ import StandardSelect from '../Input/Select';
 import { IStandardSelect } from '../Input/Select/types';
 import StandardInput from '../Input/Standard';
 import { IDefaultFormInputProps, IFormInput } from '../types';
+import StandardFileInput from '../Input/File';
 
 interface IFormInputProps {
   inputs: IFormInput[];
@@ -32,6 +33,10 @@ export function getFormInputs({
   return inputs.map((formInput: IFormInput) => {
     if (formInput.type == 'select') {
       return getSelectInput(formInput, control, setValue, errors);
+    }
+
+    if (formInput.type == 'file') {
+      return getFileInput(formInput, control, setValue, errors);
     }
 
     if (!formInput.mask) {
@@ -119,6 +124,27 @@ function getCurrencyInput(
         <StandardCurrencyInput
           {...getFormInputProps(formInput)}
           control={control}
+          key={formInput.name}
+        />
+        <Error name={formInput.name} errors={errors} />
+      </div>
+    </Label>
+  );
+}
+
+function getFileInput(
+  formInput: IFormInput,
+  control: Control<any, any>,
+  setValue: UseFormSetValue<any>,
+  errors: FieldErrors<any>
+) {
+  return (
+    <Label label={formInput.label} key={formInput.name}>
+      <div className="flex flex-col" key={formInput.name + '-div'}>
+        <StandardFileInput
+          {...getFormInputProps(formInput)}
+          control={control}
+          setValue={setValue}
           key={formInput.name}
         />
         <Error name={formInput.name} errors={errors} />

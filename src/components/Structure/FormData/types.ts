@@ -16,6 +16,7 @@ export interface IFormData {
   onSubmit: ISubmitForm;
   submitButtonText: string;
   styles?: CSSProperties;
+  className?: string;
   zodValidationMode?: Mode;
 }
 

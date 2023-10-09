@@ -4,6 +4,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import Import from '@Components/Structure/TableData/Toolbar/Buttons/Import';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
@@ -42,6 +43,7 @@ export default function TableListExpenses({
         columns={getColumns(table, dispatch, router, expenseTypes)}
         rows={state.rows}
         customToolbar={[
+          <Import key="Expense_Import_Button" />,
           <Add
             key="Expense_Add_Button"
             onClick={() => {

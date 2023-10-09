@@ -32,13 +32,13 @@ export default function FormData(props: IFormData) {
   return (
     <div
       className={
-        `flex flex-col md:items-${alignment} self-center md:self-${alignment}` +
+        `flex flex-col md:items-${alignment} md:self-${alignment}` +
         ' max-w-fit bg-slate-100 p-4 mt-4 mb-4 gap-8 rounded-lg'
       }
-      style={props.styles}
     >
       <form
         className="flex flex-col mt-4 gap-4 lg:grid lg:grid-cols-2 min-w-[256px]"
+        style={props.styles}
         onSubmit={handleSubmit(onSubmitFunction)}
       >
         {getFormInputs({

@@ -7,6 +7,9 @@ export default function Button(props: IButton) {
     <button
       onMouseEnter={props.onMouseEnter}
       onMouseLeave={props.onMouseLeave}
+      onDragOver={props.onDragOver}
+      onDragLeave={props.onDragLeave}
+      onDrop={props.onDrop}
       className={`${className} flex gap-1 text-lg md:text-sm rounded-md hover:transition-all ease-in-out duration-500`}
       disabled={props.disable ?? false}
       type={props.type ?? 'button'}
