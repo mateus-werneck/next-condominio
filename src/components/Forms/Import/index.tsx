@@ -1,5 +1,6 @@
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
+import { File } from 'buffer';
 import { ZodType, z } from 'zod';
 
 export default function ImportForm() {
@@ -10,7 +11,7 @@ export default function ImportForm() {
       <FormData
         inputs={inputs}
         onSubmit={(data) => console.log(data)}
-        submitButtonText="Importar"
+        submitButtonText="Enviar"
         validationSchema={validationSchema}
         alignment="center"
         styles={{ display: 'flex' }}
@@ -23,12 +24,24 @@ function useFormData() {
   const inputs: IFormInput[] = [
     {
       name: 'importFile',
-      type: 'file'
+      type: 'file',
+      accept: '.json,.xlsx,.xls,.odt'
     }
   ];
 
   const validationSchema: ZodType = z.object({
-    importFile: z.object({}).optional()
+    importFile: z.object(
+      {
+        name: z.string(),
+        size: z.number(),
+        type: z.string(),
+        lastModified: z.number()
+      },
+      {
+        required_error: 'Nenhum arquivo selecionado.',
+        invalid_type_error: 'Arquivo enviado inválido.'
+      }
+    )
   });
 
   return {

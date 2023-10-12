@@ -15,31 +15,32 @@ export default function StandardFileInput({
   control,
   ...props
 }: IStandardFileInput) {
-  const ref = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isDropping, setIsDropping] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!ref.current) return;
+    if (!inputRef.current) return;
 
     const filesUploaded = event.target.files;
 
     if (!filesUploaded) return;
 
     setFile(filesUploaded[0]);
+    props.setValue('importFile', filesUploaded, { shouldValidate: true });
   };
 
   const handleDrop = (event: DragEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (!ref.current) return;
+    if (!inputRef.current) return;
 
     const fileUploaded = event.dataTransfer.files[0];
 
     setFile(fileUploaded);
-
+    props.setValue('importFile', fileUploaded, { shouldValidate: true });
     setTimeout(() => setIsDropping(false), 500);
   };
 
@@ -49,7 +50,7 @@ export default function StandardFileInput({
         name={props.name}
         control={control}
         rules={{ required: props.required ?? false }}
-        render={() => (
+        render={({ field: { value, onChange, ref, ..._field } }) => (
           <>
             <Button
               className={`p-4 ${
@@ -57,7 +58,7 @@ export default function StandardFileInput({
               }`}
               onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
-                ref.current?.click();
+                inputRef.current?.click();
               }}
               onDragOver={(e: DragEvent<HTMLButtonElement>) => {
                 e.preventDefault();
@@ -84,9 +85,11 @@ export default function StandardFileInput({
             <input
               className="hidden"
               type="file"
-              ref={ref}
+              ref={inputRef}
               multiple={false}
               onChange={handleChange}
+              accept={props.accept}
+              {..._field}
             />
             <div
               className={`${
@@ -113,7 +116,12 @@ export default function StandardFileInput({
               </Button>
               <Button
                 className="max-w-fit hover:opacity-50"
-                onClickFunction={() => setFile(null)}
+                onClickFunction={() => {
+                  setFile(null);
+                  props.setValue('importFile', undefined, {
+                    shouldValidate: true
+                  });
+                }}
               >
                 <HighlightOffIcon />
               </Button>

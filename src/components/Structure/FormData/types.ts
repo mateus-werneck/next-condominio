@@ -16,7 +16,6 @@ export interface IFormData {
   onSubmit: ISubmitForm;
   submitButtonText: string;
   styles?: CSSProperties;
-  className?: string;
   zodValidationMode?: Mode;
 }
 
@@ -49,6 +48,7 @@ export interface IFormInput {
   required?: boolean;
   options?: ISelectOption[];
   multiSelect?: boolean;
+  accept?: string;
 }
 
 export interface IDefaultFormInputProps
