@@ -1,6 +1,5 @@
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
-import { File } from 'buffer';
 import { ZodType, z } from 'zod';
 
 export default function ImportForm() {
