@@ -1,4 +1,4 @@
-import { DragEventHandler } from 'react';
+import { DragEventHandler, MouseEvent } from 'react';
 
 export interface IButton {
   type?: 'button' | 'submit' | 'reset';
@@ -6,7 +6,7 @@ export interface IButton {
   disable?: boolean;
   className?: string;
   children: React.ReactNode;
-  onClickFunction?: () => void;
+  onClickFunction?: (e: MouseEvent<HTMLButtonElement>) => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   onDragOver?: DragEventHandler<HTMLButtonElement>;

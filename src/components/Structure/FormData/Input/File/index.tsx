@@ -1,14 +1,9 @@
 import Button from '@Components/Structure/Button';
-import {
-  ChangeEvent,
-  DragEvent,
-  DragEventHandler,
-  useRef,
-  useState
-} from 'react';
+import { ChangeEvent, DragEvent, MouseEvent, useRef, useState } from 'react';
 import { IDefaultFormInputProps } from '../../types';
 import { Control, Controller, UseFormSetValue } from 'react-hook-form';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 export interface IStandardFileInput
   extends Omit<IDefaultFormInputProps, 'options' | 'multiselect'> {
@@ -23,13 +18,16 @@ export default function StandardFileInput({
   const ref = useRef<HTMLInputElement>(null);
 
   const [isDropping, setIsDropping] = useState<boolean>(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!ref.current) return;
 
-    const fileUploaded = event.target.files[0];
-    console.log(fileUploaded);
+    const filesUploaded = event.target.files;
+
+    if (!filesUploaded) return;
+
+    setFile(filesUploaded[0]);
   };
 
   const handleDrop = (event: DragEvent<HTMLButtonElement>) => {
@@ -39,7 +37,10 @@ export default function StandardFileInput({
     if (!ref.current) return;
 
     const fileUploaded = event.dataTransfer.files[0];
-    console.log(fileUploaded);
+
+    setFile(fileUploaded);
+
+    setTimeout(() => setIsDropping(false), 500);
   };
 
   return (
@@ -52,9 +53,9 @@ export default function StandardFileInput({
           <>
             <Button
               className={`p-4 ${
-                isDropping ? 'bg-slate-700' : 'bg-transparent'
+                isDropping || file !== null ? 'bg-slate-700' : 'bg-transparent'
               }`}
-              onClickFunction={(e) => {
+              onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 ref.current?.click();
               }}
@@ -70,7 +71,7 @@ export default function StandardFileInput({
               }}
               onDrop={handleDrop}
             >
-              <div className="flex">
+              <div className="flex flex-col">
                 <FileOpenIcon
                   style={{
                     width: 320,
@@ -87,6 +88,36 @@ export default function StandardFileInput({
               multiple={false}
               onChange={handleChange}
             />
+            <div
+              className={`${
+                file !== null ? 'visible' : 'invisible'
+              } flex flex-row p-4 text-slate-700 items-center justify-center gap-2`}
+            >
+              <Button
+                className="max-w-fit hover:shadow-button"
+                onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
+                  e.preventDefault();
+
+                  if (file === null) return;
+
+                  const ancor = document.createElement('a');
+
+                  ancor.target = '_blank';
+                  ancor.download = file.name;
+                  ancor.href = URL.createObjectURL(file);
+
+                  ancor.click();
+                }}
+              >
+                {file?.name}
+              </Button>
+              <Button
+                className="max-w-fit hover:opacity-50"
+                onClickFunction={() => setFile(null)}
+              >
+                <HighlightOffIcon />
+              </Button>
+            </div>
           </>
         )}
       />
