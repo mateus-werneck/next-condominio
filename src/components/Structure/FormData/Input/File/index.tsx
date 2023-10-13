@@ -1,15 +1,9 @@
 import Button from '@Components/Structure/Button';
 import { ChangeEvent, DragEvent, MouseEvent, useRef, useState } from 'react';
-import { IDefaultFormInputProps } from '../../types';
-import { Control, Controller, UseFormSetValue } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
-export interface IStandardFileInput
-  extends Omit<IDefaultFormInputProps, 'options' | 'multiselect'> {
-  control: Control<any, any>;
-  setValue: UseFormSetValue<any>;
-}
+import { IStandardFileInput } from './types';
 
 export default function StandardFileInput({
   control,
