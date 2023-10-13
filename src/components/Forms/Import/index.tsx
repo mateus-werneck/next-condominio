@@ -1,5 +1,6 @@
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
+import { ZodValidator } from '@Lib/Validators/Zod';
 import { ZodType, z } from 'zod';
 
 export default function ImportForm() {
@@ -29,18 +30,7 @@ function useFormData() {
   ];
 
   const validationSchema: ZodType = z.object({
-    importFile: z.object(
-      {
-        name: z.string(),
-        size: z.number(),
-        type: z.string(),
-        lastModified: z.number()
-      },
-      {
-        required_error: 'Nenhum arquivo selecionado.',
-        invalid_type_error: 'Arquivo enviado inválido.'
-      }
-    )
+    importFile: ZodValidator.file(['json', 'xlsx', 'xls', 'odt'])
   });
 
   return {

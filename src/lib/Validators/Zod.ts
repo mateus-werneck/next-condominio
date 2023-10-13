@@ -101,4 +101,32 @@ export class ZodValidator {
       .refine((value) => !isNaN(Number(value)), 'Valor informado inválido')
       .transform(Number);
   }
+
+  public static file(validExtensions: string[]) {
+    return z
+      .object(
+        {
+          name: z.string(),
+          size: z.number(),
+          type: z.string(),
+          lastModified: z.number()
+        },
+        {
+          required_error: 'Nenhum arquivo selecionado.',
+          invalid_type_error: 'Arquivo enviado inválido.'
+        }
+      )
+      .refine(
+        (value) => {
+          const fileType = value?.type?.split('/').pop();
+          return validExtensions.includes(String(fileType));
+        },
+        {
+          message:
+            'Extensão de arquivo inválida.' +
+            'Extensões permitidas: ' +
+            validExtensions.join(',')
+        }
+      );
+  }
 }
