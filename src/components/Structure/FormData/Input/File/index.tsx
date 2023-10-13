@@ -53,11 +53,11 @@ export default function StandardFileInput({
         render={({ field: { value, onChange, ref, ..._field } }) => (
           <>
             <Button
-              className={`max-w-[240px] md:max-w-xs self-center items-center justify-center p-4 ${
+              className={`w-[240px] md:w-[320px] outline-dashed outline-offset-2 outline-slate-500 self-center items-center justify-center p-4 ${
                 isDropping || file !== null
-                  ? 'bg-gradient-to-r from-slate-700 to-slate-500'
-                  : 'bg-slate-200'
-              } hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500`}
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-500 text-white'
+                  : 'bg-slate-200 text-[var(--gray-light)]'
+              } hover:text-white hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500`}
               onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 inputRef.current?.click();
@@ -74,14 +74,20 @@ export default function StandardFileInput({
               }}
               onDrop={handleDrop}
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col items-center justify-center gap-2">
                 <FileOpenIcon
+                  sx={{ '&:hover': { color: 'inherit' } }}
                   style={{
-                    width: 240,
-                    height: 240,
-                    color: 'var(--gray-lighter)'
+                    width: 80,
+                    height: 80
                   }}
                 />
+                <span className={`${file !== null ? 'hidden' : 'visible'}`}>
+                  Arraste um arquivo
+                </span>
+                <span className={`${file !== null ? 'hidden' : 'visible'}`}>
+                  Ou clique aqui
+                </span>
               </div>
             </Button>
             <input
@@ -96,10 +102,10 @@ export default function StandardFileInput({
             <div
               className={`${
                 file !== null ? 'visible' : 'invisible'
-              } flex flex-col max-w-xs break-all p-4 text-slate-700 items-center justify-between gap-2`}
+              } flex flex-col max-w-xs p-4 text-slate-700 items-center justify-between gap-2`}
             >
               <Button
-                className="text-sm md:text-md hover:shadow-button"
+                className="flex flex-col p-4 text-sm md:text-md bg-slate-200 rounded-md gap-4 hover:bg-slate-500"
                 onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
 
@@ -114,7 +120,11 @@ export default function StandardFileInput({
                   ancor.click();
                 }}
               >
-                {file?.name}
+                <span className="text-sm break-all">{file?.name}</span>
+                <span className="font-bold">
+                  {' '}
+                  {Number(file?.size ?? 0) / Math.pow(10, 6)} Mb
+                </span>
               </Button>
               <Button
                 className="hover:opacity-50"
