@@ -28,7 +28,7 @@ export default function StandardFileInput({
     if (!filesUploaded) return;
 
     setFile(filesUploaded[0]);
-    props.setValue('importFile', filesUploaded, { shouldValidate: true });
+    props.setValue('importFile', filesUploaded[0], { shouldValidate: true });
   };
 
   const handleDrop = (event: DragEvent<HTMLButtonElement>) => {
@@ -53,9 +53,11 @@ export default function StandardFileInput({
         render={({ field: { value, onChange, ref, ..._field } }) => (
           <>
             <Button
-              className={`p-4 ${
-                isDropping || file !== null ? 'bg-slate-700' : 'bg-transparent'
-              }`}
+              className={`max-w-[240px] md:max-w-xs self-center items-center justify-center p-4 ${
+                isDropping || file !== null
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-500'
+                  : 'bg-slate-200'
+              } hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500`}
               onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 inputRef.current?.click();
@@ -75,8 +77,8 @@ export default function StandardFileInput({
               <div className="flex flex-col">
                 <FileOpenIcon
                   style={{
-                    width: 320,
-                    height: 320,
+                    width: 240,
+                    height: 240,
                     color: 'var(--gray-lighter)'
                   }}
                 />
@@ -94,10 +96,10 @@ export default function StandardFileInput({
             <div
               className={`${
                 file !== null ? 'visible' : 'invisible'
-              } flex flex-row p-4 text-slate-700 items-center justify-center gap-2`}
+              } flex flex-col max-w-xs break-all p-4 text-slate-700 items-center justify-between gap-2`}
             >
               <Button
-                className="max-w-fit hover:shadow-button"
+                className="text-sm md:text-md hover:shadow-button"
                 onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
 
@@ -115,7 +117,7 @@ export default function StandardFileInput({
                 {file?.name}
               </Button>
               <Button
-                className="max-w-fit hover:opacity-50"
+                className="hover:opacity-50"
                 onClickFunction={() => {
                   setFile(null);
                   props.setValue('importFile', undefined, {

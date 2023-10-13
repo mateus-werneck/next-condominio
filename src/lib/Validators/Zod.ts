@@ -124,8 +124,8 @@ export class ZodValidator {
         {
           message:
             'Extensão de arquivo inválida.' +
-            'Extensões permitidas: ' +
-            validExtensions.join(',')
+            '|Extensões permitidas: ' +
+            validExtensions.join(', ')
         }
       );
   }

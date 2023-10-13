@@ -10,12 +10,15 @@ export default function Error({ name, errors }: IError) {
     return <></>;
   }
 
+  const message = String(errors[name]?.message ?? '');
+
   return (
-    <span
-      className="indent-2 text-xs text-red mb-4 mt-[0.3rem]"
-      key={name + '-warning'}
-    >
-      {String(errors[name]?.message)}
-    </span>
+    <div className="flex flex-col py-4">
+      {message.split('|').map((m: string) => (
+        <span className="indent-2 text-xs text-red" key={name + '-warning'}>
+          {m}
+        </span>
+      ))}
+    </div>
   );
 }
