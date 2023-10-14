@@ -1,16 +1,34 @@
-import FormData from '@Components/Structure/FormData';
+import Form from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
+import { clientConn } from '@Lib/Client/api';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ZodType, z } from 'zod';
 
-export default function ImportForm() {
+type IImportForm = {
+  route: string;
+};
+
+type ISubmitData = {
+  importFile: File;
+};
+
+export default function ImportForm({ route }: IImportForm) {
   const { inputs, validationSchema } = useFormData();
 
   return (
     <>
-      <FormData
+      <Form
         inputs={inputs}
-        onSubmit={(data) => console.log(data)}
+        onSubmit={(data: ISubmitData) => {
+          const fileData = new FormData();
+          fileData.append('importFile', data.importFile);
+
+          clientConn.post(route, fileData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+        }}
         submitButtonText="Enviar"
         validationSchema={validationSchema}
         alignment="center"

@@ -5,7 +5,11 @@ import Modal from '@Components/Structure/Modal';
 import UploadIcon from '@mui/icons-material/Upload';
 import { useState } from 'react';
 
-export default function Import(): JSX.Element {
+type IImport = {
+  route: string;
+};
+
+export default function Import({ route }: IImport): JSX.Element {
   const [showImportForm, setShowImportForm] = useState<boolean>(false);
 
   return (
@@ -15,7 +19,7 @@ export default function Import(): JSX.Element {
         isVisible={showImportForm}
       >
         <FormCard id="uploadFile" title="Importar Dados">
-          <ImportForm />
+          <ImportForm route={route} />
         </FormCard>
       </Modal>
       <Button

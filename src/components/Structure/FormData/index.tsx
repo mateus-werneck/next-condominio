@@ -5,7 +5,7 @@ import SubmitButton from './SubmitButton';
 import { IFormData } from './types';
 import { getFormInputs } from './utils/form-inputs';
 
-export default function FormData(props: IFormData) {
+export default function FormData<T>(props: IFormData<T>) {
   type FormDataType = z.infer<typeof props.validationSchema>;
 
   const formContext = useForm<FormDataType>({

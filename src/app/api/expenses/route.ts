@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(expenses);
 }
+
 export async function POST(request: NextRequest) {
   const data = await request.json();
   const expense = data as CreateExpense;

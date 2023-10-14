@@ -4,16 +4,16 @@ import { Mode, UseFormReturn } from 'react-hook-form';
 import { ZodType } from 'zod';
 import { ISelectOption } from './Input/Select/types';
 
-export type ISubmitForm = (
-  data: any,
+export type ISubmitForm<T> = (
+  data: T,
   formContext: UseFormReturn<any>
 ) => void | Promise<void>;
 
-export interface IFormData {
+export interface IFormData<T> {
   inputs: IFormInput[];
   validationSchema: ZodType;
   alignment?: 'start' | 'center' | 'end';
-  onSubmit: ISubmitForm;
+  onSubmit: ISubmitForm<T>;
   submitButtonText: string;
   styles?: CSSProperties;
   zodValidationMode?: Mode;
