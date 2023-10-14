@@ -32,7 +32,7 @@ function useFormData() {
   ];
 
   const validationSchema: ZodType = z.object({
-    importFile: ZodValidator.file(validExtensions, 2)
+    importFile: ZodValidator.file(validExtensions, 50)
   });
 
   return {

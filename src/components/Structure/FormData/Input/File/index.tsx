@@ -5,7 +5,7 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { IStandardFileInput } from './types';
 import CustomIcon from '@Components/Structure/CustomIcon';
-import { getDisplayName, getExtension } from '@Lib/Treat/File';
+import { getDisplayName, getExtension, getFileSizeMb } from '@Lib/Treat/File';
 import { LocalIcon } from '@Components/Structure/CustomIcon/types';
 
 export default function StandardFileInput({
@@ -140,7 +140,7 @@ export default function StandardFileInput({
                 </p>
                 <span className="font-bold">
                   {' '}
-                  {Number(file?.size ?? 0) / Math.pow(10, 6)} Mb
+                  {file ? getFileSizeMb(file).toFixed(2) : 0} Mb
                 </span>
               </Button>
               <Button
