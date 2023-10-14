@@ -110,18 +110,7 @@ export class ZodValidator {
 
   public static file(validExtensions: string[], maxSize?: number) {
     return z
-      .object(
-        {
-          name: z.string(),
-          size: z.number(),
-          type: z.string(),
-          lastModified: z.number()
-        },
-        {
-          required_error: 'Nenhum arquivo selecionado.',
-          invalid_type_error: 'Arquivo enviado inválido.'
-        }
-      )
+      .instanceof(File, { message: 'Arquivo enviado inválido.' })
       .refine((value: any) => hasValidExtension(value, validExtensions), {
         message:
           'Extensão de arquivo inválida.' +
