@@ -4,6 +4,9 @@ import { Controller } from 'react-hook-form';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { IStandardFileInput } from './types';
+import CustomIcon from '@Components/Structure/CustomIcon';
+import { getDisplayName, getExtension } from '@Lib/Treat/File';
+import { LocalIcon } from '@Components/Structure/CustomIcon/types';
 
 export default function StandardFileInput({
   control,
@@ -33,8 +36,14 @@ export default function StandardFileInput({
 
     const fileUploaded = event.dataTransfer.files[0];
 
-    setFile(fileUploaded);
-    props.setValue('importFile', fileUploaded, { shouldValidate: true });
+    const extension = '.' + getExtension(fileUploaded);
+    const validExtensions = props.accept.split(',');
+
+    if (validExtensions.includes(extension)) {
+      setFile(fileUploaded);
+      props.setValue('importFile', fileUploaded, { shouldValidate: true });
+    }
+
     setTimeout(() => setIsDropping(false), 500);
   };
 
@@ -96,10 +105,10 @@ export default function StandardFileInput({
             <div
               className={`${
                 file !== null ? 'visible' : 'invisible'
-              } flex flex-col max-w-xs p-4 text-slate-700 items-center justify-between gap-2`}
+              } flex flex-col w-full p-4 text-slate-700 items-center justify-between gap-2`}
             >
               <Button
-                className="flex flex-col p-4 text-sm md:text-md bg-slate-200 rounded-md gap-4 hover:bg-slate-500"
+                className="flex flex-col items-center justify-center p-4 text-sm md:text-md bg-slate-200 rounded-md gap-4 hover:bg-slate-500"
                 onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
 
@@ -114,7 +123,21 @@ export default function StandardFileInput({
                   ancor.click();
                 }}
               >
-                <span className="text-sm break-all">{file?.name}</span>
+                <p className="flex flex-row gap-2 items-center justify-center">
+                  {file ? (
+                    <CustomIcon
+                      alt="Uploaded File Extension Icon"
+                      src={getExtension(file).toUpperCase() as LocalIcon}
+                      width={40}
+                      height={40}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  <span className="text-sm text-black break-all">
+                    {file ? getDisplayName(file) : ''}
+                  </span>
+                </p>
                 <span className="font-bold">
                   {' '}
                   {Number(file?.size ?? 0) / Math.pow(10, 6)} Mb

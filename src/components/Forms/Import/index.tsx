@@ -21,16 +21,18 @@ export default function ImportForm() {
 }
 
 function useFormData() {
+  const validExtensions = ['.json', '.xlsx', '.xls', '.odt', '.csv'];
+
   const inputs: IFormInput[] = [
     {
       name: 'importFile',
       type: 'file',
-      accept: '.json,.xlsx,.xls,.odt'
+      accept: validExtensions.join(',')
     }
   ];
 
   const validationSchema: ZodType = z.object({
-    importFile: ZodValidator.file(['json', 'xlsx', 'xls', 'odt'])
+    importFile: ZodValidator.file(validExtensions, 2)
   });
 
   return {

@@ -1,4 +1,10 @@
 import { DateUtil } from '@Lib/Treat/Date';
+import {
+  getExtension,
+  getFileSizeMb,
+  hasValidExtension,
+  hasValidSize
+} from '@Lib/Treat/File';
 import { MoneyUtil } from '@Lib/Treat/Money';
 import { z } from 'zod';
 
@@ -102,7 +108,7 @@ export class ZodValidator {
       .transform(Number);
   }
 
-  public static file(validExtensions: string[]) {
+  public static file(validExtensions: string[], maxSize?: number) {
     return z
       .object(
         {
@@ -116,17 +122,18 @@ export class ZodValidator {
           invalid_type_error: 'Arquivo enviado inválido.'
         }
       )
-      .refine(
-        (value) => {
-          const fileType = value?.type?.split('/').pop();
-          return validExtensions.includes(String(fileType));
-        },
-        {
-          message:
-            'Extensão de arquivo inválida.' +
-            '|Extensões permitidas: ' +
-            validExtensions.join(', ')
-        }
-      );
+      .refine((value: any) => hasValidExtension(value, validExtensions), {
+        message:
+          'Extensão de arquivo inválida.' +
+          '|Extensões permitidas: ' +
+          validExtensions.join(', ')
+      })
+      .refine((value: any) => hasValidSize(value, maxSize), {
+        message:
+          'Tamanho do arquivo excede o permitido.' +
+          '|Tamanho máximo esperado: ' +
+          maxSize +
+          ' MB'
+      });
   }
 }

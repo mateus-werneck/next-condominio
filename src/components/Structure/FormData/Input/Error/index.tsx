@@ -14,8 +14,11 @@ export default function Error({ name, errors }: IError) {
 
   return (
     <div className="flex flex-col py-4">
-      {message.split('|').map((m: string) => (
-        <span className="indent-2 text-xs text-red" key={name + '-warning'}>
+      {message.split('|').map((m: string, index: number) => (
+        <span
+          className="indent-2 text-xs text-red"
+          key={name + '-' + index + '-warning'}
+        >
           {m}
         </span>
       ))}
