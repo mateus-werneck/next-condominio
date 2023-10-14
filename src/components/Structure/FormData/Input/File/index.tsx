@@ -17,7 +17,10 @@ export default function StandardFileInput({
   const [isDropping, setIsDropping] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    onChange: (event: any) => void
+  ) => {
     if (!inputRef.current) return;
 
     const filesUploaded = event.target.files;
@@ -25,10 +28,13 @@ export default function StandardFileInput({
     if (!filesUploaded) return;
 
     setFile(filesUploaded[0]);
-    props.setValue('importFile', filesUploaded[0], { shouldValidate: true });
+    onChange(filesUploaded[0]);
   };
 
-  const handleDrop = (event: DragEvent<HTMLButtonElement>) => {
+  const handleDrop = (
+    event: DragEvent<HTMLButtonElement>,
+    onChange: (event: any) => void
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -41,10 +47,10 @@ export default function StandardFileInput({
 
     if (validExtensions.includes(extension)) {
       setFile(fileUploaded);
-      props.setValue('importFile', fileUploaded, { shouldValidate: true });
+      onChange(fileUploaded);
     }
 
-    setTimeout(() => setIsDropping(false), 500);
+    setTimeout(() => setIsDropping(false), 400);
   };
 
   return (
@@ -75,7 +81,9 @@ export default function StandardFileInput({
                 e.stopPropagation();
                 setIsDropping(false);
               }}
-              onDrop={handleDrop}
+              onDrop={(event: DragEvent<HTMLButtonElement>) =>
+                handleDrop(event, onChange)
+              }
             >
               <div className="flex flex-col items-center justify-center gap-2">
                 <FileOpenIcon
@@ -98,7 +106,7 @@ export default function StandardFileInput({
               type="file"
               ref={inputRef}
               multiple={false}
-              onChange={handleChange}
+              onChange={(event) => handleChange(event, onChange)}
               accept={props.accept}
               {..._field}
             />

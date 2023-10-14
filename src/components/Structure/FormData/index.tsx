@@ -21,7 +21,7 @@ export default function FormData<T>(props: IFormData<T>) {
     formState: { errors, isSubmitting, isValid }
   } = formContext;
 
-  function onSubmitFunction(data: any) {
+  function onSubmitFunction(data: T) {
     return new Promise<void>((resolve) => {
       resolve(props.onSubmit(data, formContext));
     });

@@ -8,7 +8,7 @@ type IImportForm = {
   route: string;
 };
 
-type ISubmitData = {
+type ISubmitImportData = {
   importFile: File;
 };
 
@@ -19,9 +19,10 @@ export default function ImportForm({ route }: IImportForm) {
     <>
       <Form
         inputs={inputs}
-        onSubmit={(data: ISubmitData) => {
+        onSubmit={(data: ISubmitImportData) => {
           const fileData = new FormData();
-          fileData.append('importFile', data.importFile);
+
+          fileData.append('file', JSON.stringify(data.importFile));
 
           clientConn.post(route, fileData, {
             headers: {
