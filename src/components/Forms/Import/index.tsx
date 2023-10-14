@@ -1,5 +1,6 @@
 import Form from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
+import { alertEditFailed, alertEditSuccess } from '@Lib/Alerts/customActions';
 import { clientConn } from '@Lib/Client/api';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ZodType, z } from 'zod';
@@ -19,11 +20,16 @@ export default function ImportForm({ route }: IImportForm) {
     <>
       <Form
         inputs={inputs}
-        onSubmit={(data: ISubmitImportData) => {
+        onSubmit={async (data: ISubmitImportData) => {
           const fileData = new FormData();
           fileData.append('file', data.importFile);
 
-          clientConn.post(route, fileData);
+          const response = await clientConn.post(route, fileData);
+          const imported = response.data?.imported ?? 0;
+
+          if (imported) return alertEditSuccess();
+
+          alertEditFailed();
         }}
         submitButtonText="Enviar"
         validationSchema={validationSchema}
