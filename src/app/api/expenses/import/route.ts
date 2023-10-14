@@ -7,15 +7,11 @@ export async function POST(request: NextRequest) {
 
   if (!file) return NextResponse.json({ success: false });
 
-  console.log(typeof file);
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-  //  const bytes = await file.stream();
-  //  const buffer = Buffer.from(bytes);
-  //
-  //  const path = `/tmp/${file.name}`;
-  //  await writeFile(path, buffer);
-  //
-  //  console.log(`open ${path} to see the uploaded file`);
+  const path = `/tmp/${file.name}`;
+  await writeFile(path, buffer);
 
   return NextResponse.json({});
 }

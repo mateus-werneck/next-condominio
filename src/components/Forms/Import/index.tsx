@@ -21,14 +21,9 @@ export default function ImportForm({ route }: IImportForm) {
         inputs={inputs}
         onSubmit={(data: ISubmitImportData) => {
           const fileData = new FormData();
+          fileData.append('file', data.importFile);
 
-          fileData.append('file', JSON.stringify(data.importFile));
-
-          clientConn.post(route, fileData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          });
+          clientConn.post(route, fileData);
         }}
         submitButtonText="Enviar"
         validationSchema={validationSchema}
