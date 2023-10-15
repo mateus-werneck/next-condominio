@@ -5,22 +5,22 @@ import { clientConn } from '@Lib/Client/api';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ZodType, z } from 'zod';
 
-type IImportForm = {
+type TImportForm = {
   route: string;
 };
 
-type ISubmitImportData = {
+type TSubmitImportData = {
   importFile: File;
 };
 
-export default function ImportForm({ route }: IImportForm) {
+export default function ImportForm({ route }: TImportForm) {
   const { inputs, validationSchema } = useFormData();
 
   return (
     <>
       <Form
         inputs={inputs}
-        onSubmit={async (data: ISubmitImportData) => {
+        onSubmit={async (data: TSubmitImportData) => {
           const fileData = new FormData();
           fileData.append('file', data.importFile);
 

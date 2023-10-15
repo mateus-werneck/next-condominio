@@ -26,3 +26,7 @@ export function getFileSizeMb(file: File): number {
 export function hasValidSize(file: File, maxSize?: number): boolean {
   return maxSize === undefined || getFileSizeMb(file) <= maxSize;
 }
+
+export function hasExcelExtension(file: File): boolean {
+  return hasValidExtension(file, ['.xlsx', '.xls', '.csv', '.odt']);
+}

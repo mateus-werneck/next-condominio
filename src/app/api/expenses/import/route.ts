@@ -1,9 +1,7 @@
-import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
-import { DateUtil } from '@Lib/Treat/Date';
-import { isValidUUID } from '@Lib/Treat/String';
-import { readFileSync } from 'fs';
-import { writeFile } from 'fs/promises';
+import { importMany } from '@Lib/Import/ImportFile';
+import { Prisma } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -12,31 +10,32 @@ export async function POST(request: NextRequest) {
 
   if (!file) return NextResponse.json({ success: false });
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  const props = [
+    'name',
+    'value',
+    'dueDate',
+    'type',
+    'paymentType',
+    'installments'
+  ];
 
-  const path = `/tmp/${file.name}`;
-  await writeFile(path, buffer);
+  const mapExpense = (entity: Record<string, any>) => {
+    const headers = Object.keys(entity);
 
-  return importJsonExpenses(path);
-}
+    return headers.reduce(
+      (acc: Record<string, any>, header: string, index: number) => {
+        acc[props[index]] = entity[header];
+        return acc;
+      },
+      {}
+    );
+  };
 
-async function importJsonExpenses(path: string) {
-  const data = readFileSync(path, { encoding: 'utf-8' });
-  const expenses = JSON.parse(data);
+  const result = await importMany<Prisma.ExpenseDelegate<DefaultArgs>>(
+    file,
+    prisma.expense,
+    mapExpense
+  );
 
-  return safelyExecute(async () => {
-    const result = await prisma.expense.createMany({
-      data: expenses.map((e: any) => ({
-        name: e.name,
-        value: e.value,
-        dueDate: DateUtil.toDateObject(e.dueDate),
-        type: isValidUUID(e.type) ? e.type : null,
-        installments: e.installments ?? 1,
-        paymentType: e.paymentType ?? 'À Vista'
-      }))
-    });
-
-    return { imported: result.count };
-  });
+  return NextResponse.json(result);
 }
