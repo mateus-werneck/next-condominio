@@ -1,7 +1,13 @@
 import * as XLSX from 'xlsx';
 import { writeFile } from 'fs/promises';
 
-export async function sheetToJSON(path: string) {
+export type SheetRecord = Record<string, any>;
+
+export async function sheetToJSON(
+  path: string,
+  props: string[],
+  callbackFn?: (entity: SheetRecord, props: string[]) => SheetRecord
+): Promise<string> {
   const workbook = XLSX.readFile(path);
   const worksheets = workbook.Sheets;
   const worksheet = Object.values(worksheets)[0];
@@ -10,28 +16,29 @@ export async function sheetToJSON(path: string) {
     any
   >[];
 
-  const props = [
-    'name',
-    'value',
-    'dueDate',
-    'type',
-    'installments',
-    'paymentType'
-  ];
+  const mapFunction = callbackFn ?? mapStandardData;
 
-  const mappedData = rawData.map((newExpense: Record<string, any>) => {
-    const headers = Object.keys(newExpense);
+  const mappedData = rawData.map((entity: SheetRecord) =>
+    mapFunction(entity, props)
+  );
 
-    if (headers.length != props.length) return {};
+  const jsonPath = path.split('.')[0] + '.json';
 
-    return headers.reduce(
-      (acc: Record<string, any>, header: string, index: number) => {
-        acc[props[index]] = newExpense[header];
-        return acc;
-      },
-      {}
-    );
-  });
+  await writeFile(jsonPath, JSON.stringify(mappedData));
 
-  await writeFile(path, JSON.stringify(mappedData));
+  return jsonPath;
+}
+
+function mapStandardData(entity: SheetRecord, props: string[]): SheetRecord {
+  const headers = Object.keys(entity);
+
+  if (headers.length != props.length) return {};
+
+  return headers.reduce(
+    (acc: Record<string, any>, header: string, index: number) => {
+      acc[props[index]] = entity[header];
+      return acc;
+    },
+    {}
+  );
 }

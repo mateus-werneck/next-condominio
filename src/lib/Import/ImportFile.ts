@@ -1,5 +1,5 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
-import { sheetToJSON } from '@Lib/Treat/Excel';
+import { SheetRecord, sheetToJSON } from '@Lib/Treat/Excel';
 import { hasExcelExtension } from '@Lib/Treat/File';
 import { readFileSync } from 'fs';
 import { writeFile } from 'fs/promises';
@@ -8,18 +8,21 @@ type TRepository = {
   createMany: (args: { data: any }) => any;
 };
 
+export type ImportRecords = Record<string, any>[];
+
 export async function importMany<T extends TRepository>(
   file: File,
   repository: T,
-  callbackFn: (entity: Record<string, any>) => Record<string, any>
+  props: string[],
+  callbackFn?: (entity: SheetRecord, props: string[]) => SheetRecord
 ) {
-  const path = await writeTempFile(file);
+  let path = await writeTempFile(file);
 
   if (hasExcelExtension(file)) {
-    await sheetToJSON(path);
+    path = await sheetToJSON(path, props, callbackFn);
   }
 
-  const data = getJSONData(path, callbackFn);
+  const data = getJSONData(path);
 
   return safelyExecute(async () => {
     const result = await repository.createMany({ data });
@@ -37,12 +40,7 @@ async function writeTempFile(file: File): Promise<string> {
   return path;
 }
 
-async function getJSONData(
-  path: string,
-  callbackFn: (entity: Record<string, any>) => Record<string, any>
-) {
+async function getJSONData(path: string) {
   const content = readFileSync(path, { encoding: 'utf-8' });
-  const rawData = JSON.parse(content) as unknown as T;
-
-  return rawData.map(callbackFn);
+  return JSON.parse(content) as unknown as ImportRecords[];
 }
