@@ -1,17 +1,13 @@
-import Button from '@Components/Structure/Button';
 import { ChangeEvent, DragEvent, MouseEvent, useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import FileOpenIcon from '@mui/icons-material/FileOpen';
 import { getExtension } from '@Lib/Treat/File';
 import { IStandardFileInput } from './types';
-
 import ShowFiles from './ShowFiles';
 import FileInfo from './FileInfo';
+import DragButton from '@Components/Structure/Button/DragButton';
 
 export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [isDropping, setIsDropping] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (
@@ -46,8 +42,6 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
       setFile(fileUploaded);
       onChange(fileUploaded);
     }
-
-    setTimeout(() => setIsDropping(false), 400);
   };
 
   return (
@@ -58,46 +52,16 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
         rules={{ required: props.required ?? false }}
         render={({ field: { value, onChange, ref, ..._field } }) => (
           <>
-            <Button
-              className={`w-[240px] md:w-[320px] outline-dashed outline-offset-2 outline-slate-500 self-center items-center justify-center p-4 ${
-                isDropping || file !== null
-                  ? 'bg-gradient-to-r from-slate-700 to-slate-500 text-white'
-                  : 'bg-slate-200 text-[var(--gray-light)]'
-              } hover:text-white hover:shadow-button hover:translate -translate-x-1 hover:bg-gradient-to-r from-slate-700 to-slate-500`}
+            <DragButton
+              isDisabled={file !== null}
               onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 inputRef.current?.click();
               }}
-              onDragOver={(e: DragEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsDropping(true);
-              }}
-              onDragLeave={(e: DragEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsDropping(false);
-              }}
-              onDrop={(event: DragEvent<HTMLButtonElement>) =>
+              handleDrop={(event: DragEvent<HTMLButtonElement>) =>
                 handleDrop(event, onChange)
               }
-            >
-              <div className="flex flex-col items-center justify-center gap-2">
-                <FileOpenIcon
-                  sx={{ '&:hover': { color: 'inherit' } }}
-                  style={{
-                    width: 80,
-                    height: 80
-                  }}
-                />
-                <span className={`${file !== null ? 'hidden' : 'visible'}`}>
-                  Arraste um arquivo
-                </span>
-                <span className={`${file !== null ? 'hidden' : 'visible'}`}>
-                  Ou clique aqui
-                </span>
-              </div>
-            </Button>
+            />
             <FileInfo fileInfo={props.fileInfo} />
             <input
               className="hidden"
