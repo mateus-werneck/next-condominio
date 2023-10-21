@@ -2,12 +2,10 @@ import Button from '@Components/Structure/Button';
 import { ChangeEvent, DragEvent, MouseEvent, useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import CustomIcon from '@Components/Structure/CustomIcon';
-import { getDisplayName, getExtension, getFileSizeMb } from '@Lib/Treat/File';
-import { LocalIcon } from '@Components/Structure/CustomIcon/types';
+import { getExtension } from '@Lib/Treat/File';
 import { IStandardFileInput } from './types';
 import InfoIcon from '@mui/icons-material/Info';
+import ShowFiles from './ShowFiles';
 
 export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -142,59 +140,15 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
               accept={props.accept}
               {..._field}
             />
-            <div
-              className={`${
-                file !== null ? 'visible' : 'invisible'
-              } flex flex-col w-full p-4 text-slate-700 items-center justify-between gap-2`}
-            >
-              <Button
-                className="flex flex-col items-center justify-center p-4 text-sm md:text-md bg-slate-200 rounded-md gap-4 hover:bg-slate-500"
-                onClickFunction={(e: MouseEvent<HTMLButtonElement>) => {
-                  e.preventDefault();
-
-                  if (file === null) return;
-
-                  const ancor = document.createElement('a');
-
-                  ancor.target = '_blank';
-                  ancor.download = file.name;
-                  ancor.href = URL.createObjectURL(file);
-
-                  ancor.click();
-                }}
-              >
-                <p className="flex flex-row gap-2 items-center justify-center">
-                  {file ? (
-                    <CustomIcon
-                      alt="Uploaded File Extension Icon"
-                      src={getExtension(file).toUpperCase() as LocalIcon}
-                      width={40}
-                      height={40}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                  <span className="text-sm text-black break-all">
-                    {file ? getDisplayName(file) : ''}
-                  </span>
-                </p>
-                <span className="font-bold">
-                  {' '}
-                  {file ? getFileSizeMb(file).toFixed(2) : 0} Mb
-                </span>
-              </Button>
-              <Button
-                className="hover:opacity-50"
-                onClickFunction={() => {
-                  setFile(null);
-                  props.setValue('importFile', undefined, {
-                    shouldValidate: true
-                  });
-                }}
-              >
-                <HighlightOffIcon />
-              </Button>
-            </div>
+            <ShowFiles
+              file={file}
+              removeFile={() => {
+                setFile(null);
+                props.setValue('importFile', undefined, {
+                  shouldValidate: true
+                });
+              }}
+            />
           </>
         )}
       />
