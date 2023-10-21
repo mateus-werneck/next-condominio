@@ -7,9 +7,10 @@ import { useState } from 'react';
 
 type IImport = {
   route: string;
+  onSuccess?: () => void;
 };
 
-export default function Import({ route }: IImport): JSX.Element {
+export default function Import({ route, onSuccess }: IImport): JSX.Element {
   const [showImportForm, setShowImportForm] = useState<boolean>(false);
 
   return (
@@ -19,7 +20,7 @@ export default function Import({ route }: IImport): JSX.Element {
         isVisible={showImportForm}
       >
         <FormCard id="uploadFile" title="Importar Dados">
-          <ImportForm route={route} />
+          <ImportForm route={route} onSubmitCallback={onSuccess} />
         </FormCard>
       </Modal>
       <Button

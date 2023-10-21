@@ -43,7 +43,13 @@ export default function TableListExpenses({
         columns={getColumns(table, dispatch, router, expenseTypes)}
         rows={state.rows}
         customToolbar={[
-          <Import key="Expense_Import_Button" route="expenses/import" />,
+          <Import
+            key="Expense_Import_Button"
+            route="expenses/import"
+            onSuccess={() =>
+              dispatch({ type: 'reload', payload: { route: '/expenses' } })
+            }
+          />,
           <Add
             key="Expense_Add_Button"
             onClick={() => {

@@ -7,13 +7,14 @@ import { ZodType, z } from 'zod';
 
 type TImportForm = {
   route: string;
+  onSubmitCallback?: () => void;
 };
 
 type TSubmitImportData = {
   importFile: File;
 };
 
-export default function ImportForm({ route }: TImportForm) {
+export default function ImportForm({ route, onSubmitCallback }: TImportForm) {
   const { inputs, validationSchema } = useFormData();
 
   return (
@@ -27,9 +28,10 @@ export default function ImportForm({ route }: TImportForm) {
           const response = await clientConn.post(route, fileData);
           const imported = response.data?.imported ?? 0;
 
-          if (imported) return alertEditSuccess();
+          if (!imported) return alertEditFailed();
 
-          alertEditFailed();
+          alertEditSuccess();
+          onSubmitCallback && onSubmitCallback();
         }}
         submitButtonText="Enviar"
         validationSchema={validationSchema}
