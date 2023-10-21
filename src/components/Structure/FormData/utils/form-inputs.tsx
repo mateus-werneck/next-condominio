@@ -162,7 +162,9 @@ function getFormInputProps({
   return {
     ...props,
     className:
-      'w-full md:w-56 xl:w-96 h-8 text-xs rounded-md outline-none text-black indent-2 hover:border-sky-200 border-transparent border-2 focus:outline-none focus:ring-2 focus:ring-sky-200',
+      'w-full md:w-56 xl:w-96 h-8 text-xs rounded-md outline-none ' +
+      ' text-black indent-2 hover:border-sky-200 border-transparent border-2' +
+      'focus:outline-none focus:ring-2 focus:ring-sky-200',
     placeholder: placeHolder ?? '',
     readOnly: props.readOnly ?? false,
     required: props.required ?? false,
