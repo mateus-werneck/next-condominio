@@ -18,29 +18,32 @@ export default function FileInfo({ fileInfo }: TFileInfo) {
   return (
     <>
       <Button
-        className="flex flex-col text-slate-400 self-end p-4 hover:text-slate-700"
+        className="flex flex-col text-slate-300 self-end p-4 md:hover:text-slate-700"
         onClickFunction={() =>
           setShowFileInfo((previousValue: boolean) => !previousValue)
         }
       >
         <InfoIcon />
       </Button>
-      {showFileInfo ? (
-        <div className="flex flex-col gap-4 p-4 bg-slate-200 rounded-md text-sm ">
-          <p>{message}</p>
-          <table className="border-collapse w-full">
-            <tr>
-              {fields.map((field: string) => (
-                <th key={field} className="border border-black p-2 text-left">
-                  {field}
-                </th>
-              ))}
-            </tr>
-          </table>
+      <div
+        className={
+          showFileInfo
+            ? 'flex flex-col'
+            : 'hidden' + ' gap-4 p-4 bg-slate-200 rounded-md text-sm'
+        }
+      >
+        <p>{message}</p>
+        <div className="flex flex-col">
+          {fields.map((field: string) => (
+            <span
+              key={field}
+              className="border border-black p-2 text-left font-bold"
+            >
+              {field}
+            </span>
+          ))}
         </div>
-      ) : (
-        <></>
-      )}
+      </div>
     </>
   );
 }

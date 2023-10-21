@@ -9,22 +9,18 @@ type ICustomIcon = {
 };
 
 export default function CustomIcon(props: ICustomIcon) {
-  const src = isLocalIcon(props.src)
-    ? `/images/icons/${LocalIcons[props.src as LocalIcon]}`
-    : props.src;
+  if (!isLocalIcon(props.src)) return <></>;
 
-  try {
-    return (
-      <>
-        <Image
-          alt={props.alt}
-          src={src}
-          width={props.width ?? 32}
-          height={props.height ?? 32}
-        />
-      </>
-    );
-  } catch (error) {
-    return <></>;
-  }
+  const src = `/images/icons/${LocalIcons[props.src as LocalIcon]}`;
+
+  return (
+    <>
+      <Image
+        alt={props.alt}
+        src={src}
+        width={props.width ?? 32}
+        height={props.height ?? 32}
+      />
+    </>
+  );
 }
