@@ -7,12 +7,14 @@ import CustomIcon from '@Components/Structure/CustomIcon';
 import { getDisplayName, getExtension, getFileSizeMb } from '@Lib/Treat/File';
 import { LocalIcon } from '@Components/Structure/CustomIcon/types';
 import { IStandardFileInput } from './types';
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isDropping, setIsDropping] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
+  const [showFileInfo, setShowFileInfo] = useState<boolean>(false);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -98,6 +100,39 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
                 </span>
               </div>
             </Button>
+            {props.fileInfo ? (
+              <>
+                <Button
+                  className="flex flex-col text-slate-400 self-end p-4 hover:text-slate-700"
+                  onClickFunction={() =>
+                    setShowFileInfo((previousValue: boolean) => !previousValue)
+                  }
+                >
+                  <InfoIcon />
+                </Button>
+                {showFileInfo ? (
+                  <div className="flex flex-col gap-4 p-4 bg-slate-200 rounded-md text-sm ">
+                    <p>{props.fileInfo.message}</p>
+                    <table className="border-collapse w-full">
+                      <tr>
+                        {props.fileInfo.fields.map((field: string) => (
+                          <th
+                            key={field}
+                            className="border border-black p-2 text-left"
+                          >
+                            {field}
+                          </th>
+                        ))}
+                      </tr>
+                    </table>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
             <input
               className="hidden"
               type="file"

@@ -49,6 +49,7 @@ export interface IFormInput {
   options?: ISelectOption[];
   multiSelect?: boolean;
   accept?: string;
+  fileInfo?: any;
 }
 
 export interface IDefaultFormInputProps

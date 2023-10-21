@@ -47,7 +47,18 @@ function useFormData() {
     {
       name: 'importFile',
       type: 'file',
-      accept: validExtensions.join(',')
+      accept: validExtensions.join(','),
+      fileInfo: {
+        message: 'A planilha deve seguir o padrão abaixo:',
+        fields: [
+          'Nome',
+          'Valor Total',
+          'Data de Vencimento',
+          'Tipo',
+          'Tipo de Pagamento',
+          'Parcelas'
+        ]
+      }
     }
   ];
 
