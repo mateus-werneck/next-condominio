@@ -20,7 +20,7 @@ export default function ExpenseForm(props: IExpenseForm) {
   const formSubmitCallback = (expense: ExpenseDto, type: 'create' | 'update') =>
     props.formSubmitCallback && props.formSubmitCallback(expense, type);
 
-  const onSubmit: ISubmitForm = async (
+  const onSubmit: ISubmitForm<IExpenseSubmit> = async (
     submitData: IExpenseSubmit,
     { reset }
   ) => {
