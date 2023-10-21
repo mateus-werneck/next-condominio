@@ -33,7 +33,7 @@ export default function FormData<T>(props: IFormData<T>) {
     <div
       className={
         `flex flex-col md:items-${alignment} md:self-${alignment}` +
-        ' max-w-fit bg-slate-100 p-4 mt-4 mb-4 gap-8 rounded-lg'
+        ' max-w-full bg-slate-100 p-4 mt-4 mb-4 gap-8 rounded-lg'
       }
     >
       <form
