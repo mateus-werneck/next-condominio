@@ -143,6 +143,7 @@ function getFileInput(
       <div className="flex flex-col" key={formInput.name + '-div'}>
         <DragAndDrop
           {...getFormInputProps(formInput)}
+          accept={formInput.accept ?? ''}
           control={control}
           setValue={setValue}
           key={formInput.name}
