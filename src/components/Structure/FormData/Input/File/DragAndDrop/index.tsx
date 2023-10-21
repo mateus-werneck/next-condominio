@@ -14,8 +14,6 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
     event: ChangeEvent<HTMLInputElement>,
     onChange: (event: any) => void
   ) => {
-    if (!inputRef.current) return;
-
     const filesUploaded = event.target.files;
 
     if (!filesUploaded) return;
@@ -76,7 +74,7 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
               file={file}
               removeFile={() => {
                 setFile(null);
-                props.setValue('importFile', undefined, {
+                props.setValue('importFile', '', {
                   shouldValidate: true
                 });
               }}
