@@ -5,8 +5,11 @@ export type SheetRecord = Record<string, any>;
 
 export async function sheetToJSON(
   path: string,
-  props: string[],
-  callbackFn?: (entity: SheetRecord, props: string[]) => SheetRecord
+  props: Record<string, string>,
+  callbackFn?: (
+    entity: SheetRecord,
+    props: Record<string, string>
+  ) => SheetRecord
 ): Promise<string> {
   const workbook = XLSX.readFile(path);
   const worksheets = workbook.Sheets;
@@ -29,16 +32,18 @@ export async function sheetToJSON(
   return jsonPath;
 }
 
-function mapStandardData(entity: SheetRecord, props: string[]): SheetRecord {
+function mapStandardData(
+  entity: SheetRecord,
+  props: Record<string, string>
+): SheetRecord {
   const headers = Object.keys(entity);
+  const expectedHeaders = Object.keys(props);
 
-  if (headers.length != props.length) return {};
+  if (headers.length != expectedHeaders.length) return {};
 
-  return headers.reduce(
-    (acc: Record<string, any>, header: string, index: number) => {
-      acc[props[index]] = entity[header];
-      return acc;
-    },
-    {}
-  );
+  return headers.reduce((accumulator: Record<string, any>, header: string) => {
+    const property = props[header];
+    accumulator[property] = entity[header];
+    return accumulator;
+  }, {});
 }

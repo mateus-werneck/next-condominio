@@ -13,8 +13,11 @@ export type ImportRecords = Record<string, any>[];
 export async function importMany<T extends TRepository>(
   file: File,
   repository: T,
-  props: string[],
-  callbackFn?: (entity: SheetRecord, props: string[]) => SheetRecord
+  props: Record<string, string>,
+  callbackFn?: (
+    entity: SheetRecord,
+    props: Record<string, string>
+  ) => SheetRecord
 ) {
   let path = await writeTempFile(file);
 

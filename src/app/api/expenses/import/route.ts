@@ -10,50 +10,54 @@ export async function POST(request: NextRequest) {
 
   if (!file) return NextResponse.json({ success: false });
 
-  const props = [
-    'name',
-    'value',
-    'dueDate',
-    'type',
-    'paymentType',
-    'installments'
-  ];
+  const fields: Record<string, string> = {
+    Nome: 'name',
+    'Valor Total': 'value',
+    'Data de Vencimento': 'dueDate',
+    Tipo: 'type',
+    'Tipo de Pagamento': 'paymentType',
+    Parcelas: 'installments'
+  };
 
   const types = await prisma.expenseType.findMany();
 
   const mapExpense = (entity: Record<string, any>) => {
-    const headers = Object.keys(entity);
+    const headers = Object.keys(fields);
 
     return headers.reduce(
-      (acc: Record<string, any>, header: string, index: number) => {
-        const prop = props[index];
+      (accumulator: Record<string, any>, header: string) => {
+        const propertyName = fields[header];
 
-        acc[prop] = entity[header];
+        accumulator[propertyName] = entity[header];
 
-        if (prop === 'type') {
-          acc[prop] = types.find((e: ExpenseType) => e.label === acc[prop])?.id;
+        if (propertyName === 'type') {
+          accumulator[propertyName] = types.find(
+            (e: ExpenseType) => e.label === accumulator[propertyName]
+          )?.id;
         }
 
-        if (prop === 'dueDate') {
-          acc[prop] = DateUtil.toISOString(acc[prop]);
-          acc[prop] = DateUtil.toDateObject(acc[prop]);
+        if (propertyName === 'dueDate') {
+          accumulator[propertyName] = DateUtil.toISOString(
+            accumulator[propertyName]
+          );
+          accumulator[propertyName] = DateUtil.toDateObject(
+            accumulator[propertyName]
+          );
         }
 
-        if (prop === 'paymentType' && !acc[prop]) {
-          acc[prop] = 'À Vista';
+        if (propertyName === 'paymentType' && !accumulator[propertyName]) {
+          accumulator[propertyName] = 'À Vista';
         }
 
-        if (prop === 'installments' && !acc[prop]) {
-          acc[prop] = 1;
+        if (propertyName === 'installments' && !accumulator[propertyName]) {
+          accumulator[propertyName] = 1;
         }
 
-        return acc;
+        return accumulator;
       },
       {}
     );
   };
 
-  const result = await importMany(file, prisma.expense, props, mapExpense);
-
-  return NextResponse.json(result);
+  return await importMany(file, prisma.expense, fields, mapExpense);
 }
