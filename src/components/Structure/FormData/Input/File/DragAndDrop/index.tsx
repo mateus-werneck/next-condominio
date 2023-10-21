@@ -77,6 +77,7 @@ export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
                 props.setValue('importFile', '', {
                   shouldValidate: true
                 });
+                if (inputRef.current) inputRef.current.value = '';
               }}
             />
           </>
