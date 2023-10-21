@@ -1,5 +1,5 @@
+import { IDefaultFormInputProps } from '@Components/Structure/FormData/types';
 import { Control, UseFormSetValue } from 'react-hook-form';
-import { IDefaultFormInputProps } from '../../types';
 
 export interface IStandardFileInput
   extends Omit<IDefaultFormInputProps, 'options' | 'multiselect' | 'accept'> {

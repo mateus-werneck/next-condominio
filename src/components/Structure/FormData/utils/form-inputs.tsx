@@ -13,7 +13,7 @@ import StandardSelect from '../Input/Select';
 import { IStandardSelect } from '../Input/Select/types';
 import StandardInput from '../Input/Standard';
 import { IDefaultFormInputProps, IFormInput } from '../types';
-import StandardFileInput from '../Input/File';
+import DragAndDrop from '../Input/File/DragAndDrop';
 
 interface IFormInputProps {
   inputs: IFormInput[];
@@ -141,7 +141,7 @@ function getFileInput(
   return (
     <Label label={formInput.label} key={formInput.name}>
       <div className="flex flex-col" key={formInput.name + '-div'}>
-        <StandardFileInput
+        <DragAndDrop
           {...getFormInputProps(formInput)}
           control={control}
           setValue={setValue}

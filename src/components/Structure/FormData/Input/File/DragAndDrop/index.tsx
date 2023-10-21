@@ -3,15 +3,12 @@ import { ChangeEvent, DragEvent, MouseEvent, useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { IStandardFileInput } from './types';
 import CustomIcon from '@Components/Structure/CustomIcon';
 import { getDisplayName, getExtension, getFileSizeMb } from '@Lib/Treat/File';
 import { LocalIcon } from '@Components/Structure/CustomIcon/types';
+import { IStandardFileInput } from './types';
 
-export default function StandardFileInput({
-  control,
-  ...props
-}: IStandardFileInput) {
+export default function DragAndDrop({ control, ...props }: IStandardFileInput) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isDropping, setIsDropping] = useState<boolean>(false);
