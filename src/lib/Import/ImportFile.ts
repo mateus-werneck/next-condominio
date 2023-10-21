@@ -24,7 +24,7 @@ export async function importMany<T extends TRepository>(
 
   const data = getJSONData(path);
 
-  return safelyExecute(async () => {
+  return await safelyExecute(async () => {
     const result = await repository.createMany({ data });
     return { imported: result.count };
   });
@@ -40,7 +40,7 @@ async function writeTempFile(file: File): Promise<string> {
   return path;
 }
 
-async function getJSONData(path: string) {
+function getJSONData(path: string) {
   const content = readFileSync(path, { encoding: 'utf-8' });
   return JSON.parse(content) as unknown as ImportRecords[];
 }

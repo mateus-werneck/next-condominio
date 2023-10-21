@@ -14,7 +14,7 @@ export default function Reload({ onClickFunction }: TReload): JSX.Element {
     >
       <div className="flex gap-1">
         <RefreshIcon className="font-bold w-6 h-6 pb-0 sm:pb-1" />
-        <span className="font-medium sm:font-normal">Recarregar</span>
+        <span className="font-medium sm:font-normal">RECARREGAR</span>
       </div>
     </Button>
   );

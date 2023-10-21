@@ -30,7 +30,7 @@ export default function Import({ route }: IImport): JSX.Element {
       >
         <div className="flex gap-1">
           <UploadIcon className="font-bold w-6 h-6 pb-0 sm:pb-1" />
-          <span className="font-medium sm:font-normal">Importar</span>
+          <span className="font-medium sm:font-normal">IMPORTAR</span>
         </div>
       </Button>
     </>

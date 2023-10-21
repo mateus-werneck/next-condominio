@@ -1,8 +1,7 @@
 import { prisma } from '@Lib/Database/prisma';
 import { importMany } from '@Lib/Import/ImportFile';
 import { DateUtil } from '@Lib/Treat/Date';
-import { ExpenseType, Prisma } from '@prisma/client';
-import { DefaultArgs } from '@prisma/client/runtime/library';
+import { ExpenseType } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -32,11 +31,20 @@ export async function POST(request: NextRequest) {
         acc[prop] = entity[header];
 
         if (prop === 'type') {
-          acc[prop] = types.find((e: ExpenseType) => e.label === acc[prop]);
+          acc[prop] = types.find((e: ExpenseType) => e.label === acc[prop])?.id;
         }
 
         if (prop === 'dueDate') {
+          acc[prop] = DateUtil.toISOString(acc[prop]);
           acc[prop] = DateUtil.toDateObject(acc[prop]);
+        }
+
+        if (prop === 'paymentType' && !acc[prop]) {
+          acc[prop] = 'À Vista';
+        }
+
+        if (prop === 'installments' && !acc[prop]) {
+          acc[prop] = 1;
         }
 
         return acc;
