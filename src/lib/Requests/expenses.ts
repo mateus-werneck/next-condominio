@@ -26,9 +26,7 @@ export const fetchExpense = async (id: string): Promise<ExpenseDto> => {
     next: { revalidate: 0 }
   });
 
-  const expense = await response.json();
-
-  return expense;
+  return await response.json();
 };
 
 export const createOrUpdate = async (

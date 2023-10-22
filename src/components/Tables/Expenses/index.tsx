@@ -13,7 +13,7 @@ import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { ExpenseType } from '@prisma/client';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 

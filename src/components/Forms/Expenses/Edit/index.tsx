@@ -13,6 +13,7 @@ import { useQuery } from 'react-query';
 import { ZodType, z } from 'zod';
 import { IExpenseForm, IExpenseSubmit } from './types';
 import { getExpenseEditData } from '@Lib/Data/Expense/submit';
+import { MoneyUtil } from '@Lib/Treat/Money';
 
 export default function ExpenseForm(props: IExpenseForm) {
   const formData = useFormData(props);
@@ -26,7 +27,6 @@ export default function ExpenseForm(props: IExpenseForm) {
   ) => {
     try {
       const data = getExpenseEditData(submitData);
-      console.log(data);
       const expense = await createOrUpdate(data, props.expense.id);
       formSubmitCallback(expense, props.expense.id ? 'update' : 'create');
       alertEditSuccess(props.expense.id ? undefined : reset);
@@ -75,7 +75,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
     {
       name: 'value',
       label: 'Valor',
-      initialValue: expense.value,
+      initialValue: MoneyUtil.toFloat(expense.value),
       mask: Masks.BRL
     },
     {
