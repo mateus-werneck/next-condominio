@@ -7,6 +7,7 @@ export interface UpdateExpense
 
 export type CreateExpense = Omit<UpdateExpense, 'id'>;
 
-export interface ExpenseDto extends Omit<Expense, 'dueDate'> {
+export interface ExpenseDto extends Omit<Expense, 'value' | 'dueDate'> {
+  value: string;
   dueDate: string;
 }

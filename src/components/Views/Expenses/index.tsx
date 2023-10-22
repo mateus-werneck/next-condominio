@@ -12,6 +12,7 @@ import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
+import { MoneyUtil } from '@Lib/Treat/Money';
 
 interface IViewExpenses {
   filters?: IExpenseQueryParams;
@@ -25,6 +26,7 @@ export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
     editRow,
     rows: props.rows.map((row) => ({
       ...row,
+      value: MoneyUtil.toBRL(row.value),
       dueDate: DateUtil.toLocalePtBr(row.dueDate)
     })),
     loading: false

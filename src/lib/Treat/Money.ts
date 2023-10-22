@@ -6,7 +6,8 @@ export class MoneyUtil {
     });
   }
 
-  public static toBRL(value: number): string {
+  public static toBRL(value: number | string): string {
+    if (typeof value === 'string') value = MoneyUtil.toFloat(value);
     return MoneyUtil.formatter().format(value);
   }
 

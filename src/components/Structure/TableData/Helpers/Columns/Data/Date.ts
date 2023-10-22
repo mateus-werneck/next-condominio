@@ -14,5 +14,9 @@ export const columnDate: Partial<GridColDef> = {
     const date = DateUtil.toISOString(params.value);
     return DateUtil.GMTOffset(date);
   },
+  valueParser: (value: string) => {
+    const date = DateUtil.toISOString(value);
+    return DateUtil.GMTOffset(date);
+  },
   filterOperators: getGridDateOperators()
 };
