@@ -4,8 +4,7 @@ import { CreateExpense } from '@Types/Expense/types';
 
 export function getExpenseEditData(submitData: IExpenseSubmit): CreateExpense {
   return {
-    name: submitData.name,
-    value: submitData.value,
+    ...submitData,
     dueDate: new Date(submitData.dueDate),
     type: submitData.expenseType,
     paymentType: getPaymentType(submitData.paymentType) as string,
