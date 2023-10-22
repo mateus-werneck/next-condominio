@@ -12,7 +12,6 @@ import { ExpenseDto } from '@Types/Expense/types';
 import { Expense, ExpenseType } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 import { IExpenseQueryParams, IExpensesFilters } from './types';
-import { MoneyUtil } from '@Lib/Treat/Money';
 
 interface IViewExpenses {
   filters?: IExpenseQueryParams;
@@ -21,14 +20,14 @@ interface IViewExpenses {
   editRow: ExpenseDto | null;
 }
 
-export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
+export default function ViewExpenses({
+  editRow,
+  rows,
+  ...props
+}: IViewExpenses) {
   const initialState = {
     editRow,
-    rows: props.rows.map((row) => ({
-      ...row,
-      value: MoneyUtil.toBRL(row.value),
-      dueDate: DateUtil.toLocalePtBr(row.dueDate)
-    })),
+    rows,
     loading: false
   };
 
@@ -57,10 +56,7 @@ export default function ViewExpenses({ editRow, ...props }: IViewExpenses) {
           }
         >
           <ExpenseForm
-            expense={{
-              ...(reducer.state.editRow ?? ({} as ExpenseDto)),
-              dueDate: DateUtil.toLocalePtBr(reducer.state.editRow?.dueDate)
-            }}
+            expense={reducer.state.editRow ?? ({} as ExpenseDto)}
             alignment="center"
             formSubmitCallback={(payload: ExpenseDto, type: string) => {
               switch (type) {

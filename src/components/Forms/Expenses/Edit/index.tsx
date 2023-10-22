@@ -26,6 +26,7 @@ export default function ExpenseForm(props: IExpenseForm) {
   ) => {
     try {
       const data = getExpenseEditData(submitData);
+      console.log(data);
       const expense = await createOrUpdate(data, props.expense.id);
       formSubmitCallback(expense, props.expense.id ? 'update' : 'create');
       alertEditSuccess(props.expense.id ? undefined : reset);

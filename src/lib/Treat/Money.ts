@@ -7,7 +7,7 @@ export class MoneyUtil {
   }
 
   public static toBRL(value: number | string): string {
-    if (typeof value === 'string') value = MoneyUtil.toFloat(value);
+    if (typeof value === 'string') value = MoneyUtil.toNumber(value);
     return MoneyUtil.formatter().format(value);
   }
 
@@ -15,5 +15,10 @@ export class MoneyUtil {
     const numbers = value.replace(/\D/g, '');
     const money = (parseFloat(numbers) / 100).toFixed(2);
     return Number(money);
+  }
+
+  public static toNumber(value: string): number {
+    const decimal = Number(value.replace(/\D/g, '')).toFixed(2);
+    return Number(decimal);
   }
 }

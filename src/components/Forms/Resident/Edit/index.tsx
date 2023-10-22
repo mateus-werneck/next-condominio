@@ -24,7 +24,7 @@ interface IResidentSubmit {
 export default function ResidentForm(props: IResidentForm) {
   const { inputs, validationSchema } = useFormData(props);
 
-  const onFormSubmit: ISubmitForm = async (
+  const onFormSubmit: ISubmitForm<IResidentSubmit> = async (
     submitData: IResidentSubmit,
     { reset }
   ) => {

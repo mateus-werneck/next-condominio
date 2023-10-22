@@ -1,6 +1,7 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
 import { prisma } from '@Lib/Database/prisma';
-import { CreateExpense } from '@Types/Expense/types';
+import { treatMany, treatOne } from '@Lib/Treat/Entity/Expense';
+import { CreateExpense, ExpenseDto } from '@Types/Expense/types';
 import { Expense, Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
@@ -14,16 +15,16 @@ export async function GET(request: NextRequest) {
     orderBy: [{ dueDate: 'asc' }, { name: 'asc' }]
   });
 
-  return NextResponse.json(expenses);
+  return NextResponse.json(treatMany(expenses));
 }
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
   const expense = data as CreateExpense;
 
-  return await safelyExecute(async (): Promise<Expense> => {
+  return await safelyExecute(async (): Promise<ExpenseDto> => {
     const createdExpense = await prisma.expense.create({ data: expense });
-    return createdExpense;
+    return treatOne(createdExpense);
   });
 }
 
@@ -31,13 +32,13 @@ export async function PUT(request: NextRequest) {
   const data = await request.json();
   const expense = data as Expense;
 
-  return await safelyExecute(async (): Promise<Expense> => {
+  return await safelyExecute(async (): Promise<ExpenseDto> => {
     const updatedExpense = await prisma.expense.update({
       where: { id: expense.id },
       data: expense
     });
 
-    return updatedExpense;
+    return treatOne(updatedExpense);
   });
 }
 
