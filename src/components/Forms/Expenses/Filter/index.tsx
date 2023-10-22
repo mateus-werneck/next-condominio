@@ -1,7 +1,11 @@
 'use client';
+
 import FormData from '@Components/Structure/FormData';
 import { IFormInput } from '@Components/Structure/FormData/types';
-import { IExpenseQueryParams } from '@Components/Views/Expenses/types';
+import {
+  IExpenseQueryParams,
+  IExpensesFilters
+} from '@Components/Views/Expenses/types';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ExpenseType } from '@prisma/client';
 import { z } from 'zod';
@@ -9,13 +13,13 @@ import { z } from 'zod';
 interface IFilterExpensesForm {
   filters?: IExpenseQueryParams;
   expenseTypes: ExpenseType[];
-  onFormSubmit: (data: any) => void;
+  onFormSubmit: (filters: IExpensesFilters) => Promise<void>;
 }
 
 export default function FilterExpensesForm({
   filters,
   expenseTypes,
-  onFormSubmit
+  ...props
 }: IFilterExpensesForm) {
   const { inputs, validationSchema } = useFormData({
     filters,
@@ -27,7 +31,7 @@ export default function FilterExpensesForm({
       <FormData
         inputs={inputs}
         validationSchema={validationSchema}
-        onSubmit={onFormSubmit}
+        onSubmit={props.onFormSubmit}
         submitButtonText="Filtrar"
       />
     </>
