@@ -7,7 +7,7 @@ export function treatOne(expense: Expense): ExpenseDto {
   const { value, dueDate } = expense;
   return {
     ...expense,
-    value: MoneyUtil.toBRL(String(value)),
+    value: MoneyUtil.toBRL(Number(value)),
     dueDate: DateUtil.toLocalePtBr(dueDate)
   };
 }
