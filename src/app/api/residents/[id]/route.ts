@@ -10,10 +10,7 @@ export interface IResidentParams {
   };
 }
 
-export async function GET(
-  req: NextRequest,
-  { params: { id } }: IResidentParams
-) {
+export async function GET(_: NextRequest, { params: { id } }: IResidentParams) {
   return await safelyExecute(async (): Promise<Resident> => {
     const resident: Resident = await prisma.resident.findFirstOrThrow({
       where: { id }
@@ -23,7 +20,7 @@ export async function GET(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _: NextRequest,
   { params: { id } }: IResidentParams
 ) {
   return await safelyExecute(async (): Promise<object> => {

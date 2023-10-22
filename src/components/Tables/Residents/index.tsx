@@ -8,7 +8,7 @@ import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 
@@ -85,7 +85,7 @@ function getColumns(
       router.push(`/residents?id=${row.id}`);
     },
     onConfirmDeletion: (row: Resident) =>
-      dispatch({ type: 'delete', payload: { row, route: '/residents' } })
+      dispatch({ type: 'delete', payload: { row, route: 'residents' } })
   };
 
   const columns: GridColDef[] = [
