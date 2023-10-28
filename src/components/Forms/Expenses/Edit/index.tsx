@@ -75,7 +75,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
     {
       name: 'value',
       label: 'Valor',
-      initialValue: MoneyUtil.toFloat(expense.value),
+      initialValue: MoneyUtil.toFloat(expense.value ?? 'R$ 0,00'),
       mask: Masks.BRL
     },
     {
@@ -96,7 +96,7 @@ function useFormData({ expense, expenseTypes }: IExpenseForm) {
       name: 'installments',
       label: 'Parcelas',
       mask: Masks.INSTALLMENT,
-      initialValue: String(expense.installments) ?? '1'
+      initialValue: expense.installments ?? '1'
     },
     {
       name: 'expenseType',
