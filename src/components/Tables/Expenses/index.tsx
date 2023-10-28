@@ -70,7 +70,7 @@ export default function TableListExpenses({
         onBatchDelete={(selectedRows: string[]) =>
           dispatch({
             type: 'batchDelete',
-            payload: { selectedRows, route: '/expenses' }
+            payload: { selectedRows, route: 'expenses' }
           })
         }
         onRowUpdate={(
@@ -115,7 +115,7 @@ function getColumns(
       router.push(`/expenses?id=${row.id}`);
     },
     onConfirmDeletion: (row: ExpenseDto) =>
-      dispatch({ type: 'delete', payload: { row, route: '/expenses' } })
+      dispatch({ type: 'delete', payload: { row, route: 'expenses' } })
   };
 
   const columns: GridColDef[] = [

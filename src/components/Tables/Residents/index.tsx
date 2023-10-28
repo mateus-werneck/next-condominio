@@ -54,7 +54,7 @@ export default function TableListResidents({
         onBatchDelete={(selectedRows: string[]) =>
           dispatch({
             type: 'batchDelete',
-            payload: { selectedRows, route: '/residents' }
+            payload: { selectedRows, route: 'residents' }
           })
         }
         onRowUpdate={(
