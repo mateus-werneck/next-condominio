@@ -2,7 +2,7 @@ import { alertEditFailed } from '@Lib/Alerts/customActions';
 import axios from 'axios';
 
 export const clientConn = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_SYSTEM_URL}/api/`
+  baseURL: `http://localhost:9015/api/`
 });
 
 clientConn.interceptors.response.use(

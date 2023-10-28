@@ -15,10 +15,10 @@ export async function sheetToJSON(
   const workbook = XLSX.read(content);
   const worksheets = workbook.Sheets;
   const worksheet = Object.values(worksheets)[0];
-  const rawData = XLSX.utils.sheet_to_json(worksheet) as unknown as Record<
-    string,
-    any
-  >[];
+
+  const rawData = XLSX.utils.sheet_to_json(
+    worksheet
+  ) as unknown as SheetRecord[];
 
   const mapFunction = callbackFn ?? mapStandardData;
 
