@@ -23,7 +23,7 @@ export async function GET(_: NextRequest, { params: { id } }: IExpenseParams) {
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _: NextRequest,
   { params: { id } }: IExpenseParams
 ) {
   return await safelyExecute(async (): Promise<object> => {

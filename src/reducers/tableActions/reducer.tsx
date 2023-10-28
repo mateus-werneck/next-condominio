@@ -16,6 +16,7 @@ import {
   ITableReducerAction,
   TableReducerInitialState
 } from './types';
+import { treatOne } from '@Lib/Treat/Entity/Expense';
 
 export function useTableReducer<T extends Record<string, any>>(
   initialState: TableReducerInitialState<T>
@@ -29,7 +30,10 @@ export function useTableReducer<T extends Record<string, any>>(
       const response = await clientConn.put(route, newRow);
       if (response.status != 200) data = oldRow;
 
-      if (response.status == 200) alertEditSuccess();
+      if (response.status == 200) {
+        alertEditSuccess();
+        data = response.data;
+      }
     } catch (error) {
       alertEditFailed();
       data = oldRow;
