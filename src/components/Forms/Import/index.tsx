@@ -5,8 +5,14 @@ import { clientConn } from '@Lib/Client/api';
 import { ZodValidator } from '@Lib/Validators/Zod';
 import { ZodType, z } from 'zod';
 
+export type TImportFileInfo = {
+  message: string;
+  fields: string[];
+};
+
 type TImportForm = {
   route: string;
+  fileInfo: TImportFileInfo;
   onSubmitCallback?: () => void;
 };
 
@@ -14,8 +20,12 @@ type TSubmitImportData = {
   importFile: File;
 };
 
-export default function ImportForm({ route, onSubmitCallback }: TImportForm) {
-  const { inputs, validationSchema } = useFormData();
+export default function ImportForm({
+  route,
+  onSubmitCallback,
+  fileInfo
+}: TImportForm) {
+  const { inputs, validationSchema } = useFormData(fileInfo);
 
   return (
     <>
@@ -47,7 +57,7 @@ export default function ImportForm({ route, onSubmitCallback }: TImportForm) {
   );
 }
 
-function useFormData() {
+function useFormData(fileInfo: TImportFileInfo) {
   const validExtensions = ['.json', '.xlsx', '.xls', '.odt', '.csv'];
 
   const inputs: IFormInput[] = [
@@ -55,17 +65,7 @@ function useFormData() {
       name: 'importFile',
       type: 'file',
       accept: validExtensions.join(','),
-      fileInfo: {
-        message: 'A planilha deve seguir o padrão abaixo:',
-        fields: [
-          'Nome',
-          'Valor Total',
-          'Data de Vencimento',
-          'Tipo',
-          'Tipo de Pagamento',
-          'Parcelas'
-        ]
-      }
+      fileInfo
     }
   ];
 

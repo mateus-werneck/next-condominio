@@ -4,6 +4,7 @@ import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
+import Import from '@Components/Structure/TableData/Toolbar/Buttons/Import';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
@@ -36,6 +37,17 @@ export default function TableListResidents({
         columns={getColumns(table, dispatch, router)}
         rows={state.rows}
         customToolbar={[
+          <Import
+            key="Resident_Import_Button"
+            route="residents/import"
+            fileInfo={{
+              message: 'A planilha deve seguir o padrão abaixo:',
+              fields: ['Nome', 'Apartamento', 'Email', 'Telefone']
+            }}
+            onSuccess={() =>
+              dispatch({ type: 'reload', payload: { route: '/residents' } })
+            }
+          />,
           <Add
             key="Resident_Add_Button"
             onClick={() => {

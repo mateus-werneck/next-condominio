@@ -46,6 +46,17 @@ export default function TableListExpenses({
           <Import
             key="Expense_Import_Button"
             route="expenses/import"
+            fileInfo={{
+              message: 'A planilha deve seguir o padrão abaixo:',
+              fields: [
+                'Nome',
+                'Valor Total',
+                'Data de Vencimento',
+                'Tipo',
+                'Tipo de Pagamento',
+                'Parcelas'
+              ]
+            }}
             onSuccess={() =>
               dispatch({ type: 'reload', payload: { route: '/expenses' } })
             }
