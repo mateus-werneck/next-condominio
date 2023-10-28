@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx';
-import { writeFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 
 export type SheetRecord = Record<string, any>;
 
@@ -11,7 +11,8 @@ export async function sheetToJSON(
     props: Record<string, string>
   ) => SheetRecord
 ): Promise<string> {
-  const workbook = XLSX.readFile(path);
+  const content = await readFile(path);
+  const workbook = XLSX.read(content);
   const worksheets = workbook.Sheets;
   const worksheet = Object.values(worksheets)[0];
   const rawData = XLSX.utils.sheet_to_json(worksheet) as unknown as Record<

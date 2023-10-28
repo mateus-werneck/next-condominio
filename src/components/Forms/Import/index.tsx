@@ -25,10 +25,15 @@ export default function ImportForm({ route, onSubmitCallback }: TImportForm) {
           const fileData = new FormData();
           fileData.append('file', data.importFile);
 
-          const response = await clientConn.post(route, fileData);
-          const imported = response.data?.imported ?? 0;
-
-          if (!imported) return alertEditFailed();
+          try {
+            const response = await clientConn.post(route, fileData);
+            const imported = response.data?.imported ?? 0;
+            if (!imported) return alertEditFailed();
+          } catch (error) {
+            alertEditFailed();
+            onSubmitCallback && onSubmitCallback();
+            return;
+          }
 
           alertEditSuccess();
           onSubmitCallback && onSubmitCallback();
