@@ -1,3 +1,4 @@
+import { ExpenseMap } from '@Lib/Data/Expense/export';
 import { prisma } from '@Lib/Database/prisma';
 import { importMany } from '@Lib/Import/ImportFile';
 import { DateUtil } from '@Lib/Treat/Date';
@@ -10,23 +11,14 @@ export async function POST(request: NextRequest) {
 
   if (!file) return NextResponse.json({ success: false });
 
-  const fields: Record<string, string> = {
-    Nome: 'name',
-    'Valor Total': 'value',
-    'Data de Vencimento': 'dueDate',
-    Tipo: 'type',
-    'Tipo de Pagamento': 'paymentType',
-    Parcelas: 'installments'
-  };
-
   const types = await prisma.expenseType.findMany();
 
   const mapExpense = (entity: Record<string, any>) => {
-    const headers = Object.keys(fields);
+    const headers = Object.keys(ExpenseMap);
 
     return headers.reduce(
       (accumulator: Record<string, any>, header: string) => {
-        const propertyName = fields[header];
+        const propertyName = ExpenseMap[header];
 
         accumulator[propertyName] = entity[header];
 
@@ -59,5 +51,5 @@ export async function POST(request: NextRequest) {
     );
   };
 
-  return await importMany(file, prisma.expense, fields, mapExpense);
+  return await importMany(file, prisma.expense, ExpenseMap, mapExpense);
 }

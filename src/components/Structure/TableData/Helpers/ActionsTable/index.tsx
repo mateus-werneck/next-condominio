@@ -13,7 +13,6 @@ import {
 } from '@mui/x-data-grid';
 import { useCallback, useState } from 'react';
 import { ITableData } from '../../types';
-import Export from '../Export/Export';
 
 export default function ActionsTable(props: ITableData) {
   const { isMobileView } = useDevice();
@@ -27,11 +26,10 @@ export default function ActionsTable(props: ITableData) {
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
         {!isMobileView() && <GridToolbarDensitySelector />}
-        <Export rows={props.rows} />
         {customToolbar}
       </GridToolbarContainer>
     );
-  }, [customToolbar, isMobileView, props.rows]);
+  }, [customToolbar, isMobileView]);
 
   function getCustomBarElements() {
     return props.customToolbar !== undefined

@@ -5,7 +5,12 @@ import { GridToolbarExportContainer } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 
-export default function Export({ rows }: { rows: any[] }) {
+type TExport<T> = {
+  rows: T[];
+  route: string;
+};
+
+export default function Export<T>({ rows, route }: TExport<T>) {
   const styles =
     'flex w-full justify-start items-center font-normal leading-6 bg-transparent indent-4 hover:bg-black/[.04] min-w-[80px] min-h-[40px]';
   const ExportExcel = () => {
@@ -18,7 +23,7 @@ export default function Export({ rows }: { rows: any[] }) {
           setLoading(true);
 
           clientConn
-            .post('/export/xlsx', rows)
+            .post(route, rows)
             .then((response) => {
               const { file } = response.data;
               const buffer = Buffer.from(file, 'base64');

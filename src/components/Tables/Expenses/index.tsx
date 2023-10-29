@@ -3,6 +3,7 @@
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
+import Export from '@Components/Structure/TableData/Helpers/Export/Export';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Import from '@Components/Structure/TableData/Toolbar/Buttons/Import';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
@@ -43,6 +44,11 @@ export default function TableListExpenses({
         columns={getColumns(table, dispatch, router, expenseTypes)}
         rows={state.rows}
         customToolbar={[
+          <Export
+            key="Expense_Export_Button"
+            rows={state.rows}
+            route="expenses/export"
+          />,
           <Import
             key="Expense_Import_Button"
             route="expenses/import"

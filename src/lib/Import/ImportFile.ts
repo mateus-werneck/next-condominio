@@ -1,5 +1,5 @@
 import { safelyExecute } from '@Lib/Database/Helpers/queryHandler';
-import { SheetRecord, sheetToJSON } from '@Lib/Treat/Excel';
+import { TSheetCallback, sheetToJSON } from '@Lib/Treat/Excel';
 import { hasExcelExtension } from '@Lib/Treat/File';
 import { readFileSync } from 'fs';
 import { writeFile } from 'fs/promises';
@@ -10,15 +10,10 @@ type TRepository = {
 
 export type ImportRecords = Record<string, any>[];
 
-export async function importMany<T extends TRepository>(
-  file: File,
-  repository: T,
-  props: Record<string, string>,
-  callbackFn?: (
-    entity: SheetRecord,
-    props: Record<string, string>
-  ) => SheetRecord
-) {
+export async function importMany<
+  T extends TRepository,
+  K extends Record<string, string>
+>(file: File, repository: T, props: K, callbackFn?: TSheetCallback<K>) {
   let path = await writeTempFile(file);
 
   if (hasExcelExtension(file)) {
