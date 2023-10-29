@@ -9,7 +9,7 @@ import { TColDef, tableToSheet } from '@Lib/Treat/Table';
 type TExport<T extends Record<string, any>> = {
   rows: T[];
   columns: TColDef[];
-  route: string;
+  route?: string;
 };
 
 export default function Export<T extends Record<string, any>>({
@@ -31,7 +31,7 @@ export default function Export<T extends Record<string, any>>({
           const mappedRows = tableToSheet(rows, columns);
 
           clientConn
-            .post(route, mappedRows)
+            .post(route ?? '/export', mappedRows)
             .then((response) => {
               const { file } = response.data;
               const buffer = Buffer.from(file, 'base64');

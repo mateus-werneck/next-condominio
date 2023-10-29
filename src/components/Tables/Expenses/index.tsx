@@ -107,7 +107,6 @@ export default function TableListExpenses({
               type: expenseTypes.find((e) => e.id === expense.type)?.label ?? ''
             }))}
             columns={columns as TColExportDef[]}
-            route="expenses/export"
           />,
           <Import
             key="Expense_Import_Button"

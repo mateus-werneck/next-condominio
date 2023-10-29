@@ -3,9 +3,11 @@
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
 import { TTableActions } from '@Components/Structure/TableData/FieldActions/types';
+import Export from '@Components/Structure/TableData/Helpers/Export/Export';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Import from '@Components/Structure/TableData/Toolbar/Buttons/Import';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
+import { TColExportDef } from '@Lib/Treat/Table';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
@@ -65,6 +67,11 @@ export default function TableListResidents({
           return newRow;
         }}
         customToolbar={[
+          <Export
+            key="Resident_Export_Button"
+            rows={state.rows}
+            columns={columns as TColExportDef[]}
+          />,
           <Import
             key="Resident_Import_Button"
             route="residents/import"
