@@ -4,11 +4,11 @@ import { clientConn } from '@Lib/Client/api';
 import { GridToolbarExportContainer } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import { TColDef, tableToSheet } from '@Lib/Treat/Table';
+import { TColExportDef, tableToSheet } from '@Lib/Treat/Table';
 
 type TExport<T extends Record<string, any>> = {
   rows: T[];
-  columns: TColDef[];
+  columns: TColExportDef[];
   route?: string;
 };
 
@@ -19,6 +19,7 @@ export default function Export<T extends Record<string, any>>({
 }: TExport<T>) {
   const styles =
     'flex w-full justify-start items-center font-normal leading-6 bg-transparent indent-4 hover:bg-black/[.04] min-w-[80px] min-h-[40px]';
+
   const ExportExcel = () => {
     const [isLoading, setLoading] = useState<boolean>(false);
     return (
