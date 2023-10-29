@@ -28,10 +28,10 @@ export default function Export<T extends Record<string, any>>({
           e.preventDefault();
           setLoading(true);
 
-          const mappedRows = tableToSheet(rows, columns);
+          const data = tableToSheet(rows, columns);
 
           clientConn
-            .post(route ?? '/export', mappedRows)
+            .post(route ?? '/export', { extension: 'xlsx', data })
             .then((response) => {
               const { file } = response.data;
               const buffer = Buffer.from(file, 'base64');
