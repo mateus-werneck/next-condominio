@@ -1,3 +1,5 @@
+import { DateUtil } from '@Lib/Treat/Date';
+import { MoneyUtil } from '@Lib/Treat/Money';
 import { Record } from '@prisma/client/runtime/library';
 import { Alignment, Borders, Font, Workbook, Worksheet, Row } from 'exceljs';
 
@@ -66,6 +68,21 @@ function getEachRow(d: TSheetRow, worksheet: Worksheet): Row {
 
   row.font = font;
   row.alignment = alignment;
+
+  Object.keys(d).forEach((name: string, index: number) => {
+    const cell = row.getCell(index + 1);
+    cell.value = d[name].value;
+
+    if (d[name].type == 'date') {
+      cell.value = DateUtil.toDateObject(cell.value);
+      cell.numFmt = 'dd/mm/yyyy';
+    }
+
+    if (d[name].type == 'money') {
+      cell.value = MoneyUtil.toFloat(d[name].value);
+      cell.numFmt = '"R$"#.##';
+    }
+  });
 
   row.eachCell((cell) => {
     cell.border = border;

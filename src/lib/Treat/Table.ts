@@ -1,29 +1,29 @@
 import { TSheetRow } from '@Lib/Export/ExcelExport';
 
-export type TColDef = {
+export type TColExportDef = {
   field: string;
   headerName: string;
-  type: string;
+  exportType?: string;
 };
 
 export function tableToSheet<T extends Record<string, any>>(
   rows: T[],
-  columns: TColDef[]
+  columns: TColExportDef[]
 ): TSheetRow[] {
   return rows.map((row) => mapEachRow(row, columns));
 }
 
 function mapEachRow<T extends Record<string, any>>(
   row: T,
-  columns: TColDef[]
+  columns: TColExportDef[]
 ): TSheetRow {
   const treatedRow = columns.reduce(
-    (accumulator: TSheetRow, column: TColDef) => {
+    (accumulator: TSheetRow, column: TColExportDef) => {
       const propertyName = column.field;
 
       if (propertyName == 'actions') return accumulator;
 
-      const type = column.type ?? 'string';
+      const type = column.exportType ?? 'string';
       const value = row[propertyName];
 
       const header = column.headerName ?? '';

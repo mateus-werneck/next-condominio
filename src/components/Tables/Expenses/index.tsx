@@ -10,7 +10,7 @@ import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { getPaymentType, paymentTypes } from '@Lib/Select/PaymentOptions';
 import { DateUtil } from '@Lib/Treat/Date';
 import { MoneyUtil } from '@Lib/Treat/Money';
-import { TColDef } from '@Lib/Treat/Table';
+import { TColExportDef } from '@Lib/Treat/Table';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { ExpenseDto } from '@Types/Expense/types';
 import {
@@ -32,6 +32,15 @@ interface ITableListExpenses {
   };
   expenseTypes: ExpenseType[];
 }
+
+type TExpenseColDef = {
+  field: string;
+  valueFormatter?: (params: GridValueFormatterParams<any>) => void;
+  headerName: string;
+  type: string;
+  exportType?: string;
+  valueOptions?: any[];
+};
 
 export default function TableListExpenses({
   reducer: { state, dispatch },
@@ -56,7 +65,7 @@ export default function TableListExpenses({
     <>
       <TableData
         name={table}
-        columns={columns.concat(fieldActions)}
+        columns={[...columns, fieldActions]}
         rows={state.rows}
         loading={state.loading}
         checkBoxSelection={true}
@@ -95,11 +104,9 @@ export default function TableListExpenses({
             key="Expense_Export_Button"
             rows={state.rows.map((expense: ExpenseDto) => ({
               ...expense,
-              dueDate: DateUtil.toISOString(expense.dueDate),
-              value: MoneyUtil.toFloat(expense.value),
               type: expenseTypes.find((e) => e.id === expense.type)?.label ?? ''
             }))}
-            columns={columns as TColDef[]}
+            columns={columns as TColExportDef[]}
             route="expenses/export"
           />,
           <Import
@@ -133,16 +140,18 @@ export default function TableListExpenses({
   );
 }
 
-function getColumns(expenseTypes: ExpenseType[]) {
-  const columns = [
+function getColumns(expenseTypes: ExpenseType[]): TExpenseColDef[] {
+  return [
     {
       field: 'name',
-      headerName: 'Nome'
+      headerName: 'Nome',
+      type: 'string'
     },
     {
       field: 'value',
       headerName: 'Valor',
-      type: 'money'
+      type: 'money',
+      exportType: 'money'
     },
     {
       field: 'type',
@@ -163,14 +172,14 @@ function getColumns(expenseTypes: ExpenseType[]) {
     {
       field: 'installments',
       headerName: 'Parcelas',
-      type: 'number'
+      type: 'number',
+      exportType: 'number'
     },
     {
       field: 'dueDate',
       headerName: 'Data de Vencimento',
-      type: 'date'
+      type: 'date',
+      exportType: 'date'
     }
   ];
-
-  return columns;
 }
