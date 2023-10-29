@@ -2,14 +2,13 @@
 
 import TableData from '@Components/Structure/TableData';
 import FieldActions from '@Components/Structure/TableData/FieldActions';
-import { IDefaultTableActions } from '@Components/Structure/TableData/FieldActions/types';
+import { TTableActions } from '@Components/Structure/TableData/FieldActions/types';
 import Add from '@Components/Structure/TableData/Toolbar/Buttons/Add';
 import Import from '@Components/Structure/TableData/Toolbar/Buttons/Import';
 import Reload from '@Components/Structure/TableData/Toolbar/Buttons/Reload';
 import { ITableReducerAction } from '@Reducers/tableActions/types';
 import { GridCellEditStopParams, GridColDef } from '@mui/x-data-grid';
 import { Resident } from '@prisma/client';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 
@@ -30,12 +29,41 @@ export default function TableListResidents({
   const table = 'TableListResidents';
   const router = useRouter();
 
+  const rowActions: TTableActions<Resident> = {
+    onEditRow: (row: Resident) => {
+      dispatch({ type: 'edit', payload: row });
+      router.push(`/residents?id=${row.id}`);
+    },
+    onConfirmDeletion: (row: Resident) =>
+      dispatch({ type: 'delete', payload: { row, route: 'residents' } })
+  };
+
+  const columns = getColumns();
+  const fieldActions = FieldActions(table, rowActions);
+
   return (
     <>
       <TableData
         name={table}
-        columns={getColumns(table, dispatch, router)}
+        columns={columns.concat(fieldActions)}
         rows={state.rows}
+        onBatchDelete={(selectedRows: string[]) =>
+          dispatch({
+            type: 'batchDelete',
+            payload: { selectedRows, route: 'residents' }
+          })
+        }
+        onRowUpdate={(
+          newRow: GridCellEditStopParams,
+          oldRow: GridCellEditStopParams
+        ) => {
+          dispatch({
+            type: 'update',
+            payload: { newRow, oldRow, route: '/residents' }
+          });
+
+          return newRow;
+        }}
         customToolbar={[
           <Import
             key="Resident_Import_Button"
@@ -63,43 +91,12 @@ export default function TableListResidents({
             }}
           />
         ]}
-        onBatchDelete={(selectedRows: string[]) =>
-          dispatch({
-            type: 'batchDelete',
-            payload: { selectedRows, route: 'residents' }
-          })
-        }
-        onRowUpdate={(
-          newRow: GridCellEditStopParams,
-          oldRow: GridCellEditStopParams
-        ) => {
-          dispatch({
-            type: 'update',
-            payload: { newRow, oldRow, route: '/residents' }
-          });
-
-          return newRow;
-        }}
       />
     </>
   );
 }
 
-function getColumns(
-  table: string,
-  dispatch: Dispatch<ITableReducerAction>,
-  router: AppRouterInstance
-) {
-  const rowActions: IDefaultTableActions<Resident> = {
-    table,
-    onEditRow: (row: Resident) => {
-      dispatch({ type: 'edit', payload: row });
-      router.push(`/residents?id=${row.id}`);
-    },
-    onConfirmDeletion: (row: Resident) =>
-      dispatch({ type: 'delete', payload: { row, route: 'residents' } })
-  };
-
+function getColumns() {
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -118,8 +115,7 @@ function getColumns(
     {
       field: 'phone',
       headerName: 'Telefone'
-    },
-    FieldActions<Resident>(rowActions)
+    }
   ];
 
   return columns;

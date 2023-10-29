@@ -16,8 +16,7 @@ export interface ITableDeleteButton<T> {
   onConfirmDeletion: (row: T) => void | Promise<void>;
 }
 
-export interface IDefaultTableActions<T extends TableRecord> {
-  table: string;
+export type TTableActions<T extends TableRecord> = {
   onEditRow?: (row: T) => void;
   onConfirmDeletion: (row: T) => void | Promise<void>;
-}
+};

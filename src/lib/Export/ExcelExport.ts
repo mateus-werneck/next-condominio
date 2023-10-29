@@ -1,8 +1,15 @@
-import { SheetRecord } from '@Lib/Treat/Excel';
+import { Record } from '@prisma/client/runtime/library';
 import { Alignment, Borders, Font, Workbook, Worksheet, Row } from 'exceljs';
 
-export async function exportSheet<T extends Record<string, any>>(
-  data: T[],
+export type TSheetRow = Record<string, TSheetCell>;
+
+export type TSheetCell = {
+  type: string;
+  value: any;
+};
+
+export async function exportSheet(
+  data: TSheetRow[],
   applyFormatting?: (row: Row) => void
 ): Promise<string> {
   const workbook = new Workbook();
@@ -22,7 +29,7 @@ export async function exportSheet<T extends Record<string, any>>(
     cell.alignment = alignment;
   });
 
-  data.forEach((d: SheetRecord) => {
+  data.forEach((d: TSheetRow) => {
     const row = getEachRow(d, worksheet);
     if (applyFormatting) applyFormatting(row);
   });
@@ -53,8 +60,8 @@ export function getDefaultFormat() {
   return { font, border, alignment };
 }
 
-function getEachRow(d: SheetRecord, worksheet: Worksheet): Row {
-  const row = worksheet.addRow(Object.values(d));
+function getEachRow(d: TSheetRow, worksheet: Worksheet): Row {
+  const row = worksheet.addRow([]);
   const { font, border, alignment } = getDefaultFormat();
 
   row.font = font;

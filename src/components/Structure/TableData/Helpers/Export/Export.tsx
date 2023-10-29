@@ -4,13 +4,19 @@ import { clientConn } from '@Lib/Client/api';
 import { GridToolbarExportContainer } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
+import { TColDef, tableToSheet } from '@Lib/Treat/Table';
 
-type TExport<T> = {
+type TExport<T extends Record<string, any>> = {
   rows: T[];
+  columns: TColDef[];
   route: string;
 };
 
-export default function Export<T>({ rows, route }: TExport<T>) {
+export default function Export<T extends Record<string, any>>({
+  rows,
+  columns,
+  route
+}: TExport<T>) {
   const styles =
     'flex w-full justify-start items-center font-normal leading-6 bg-transparent indent-4 hover:bg-black/[.04] min-w-[80px] min-h-[40px]';
   const ExportExcel = () => {
@@ -22,8 +28,10 @@ export default function Export<T>({ rows, route }: TExport<T>) {
           e.preventDefault();
           setLoading(true);
 
+          const mappedRows = tableToSheet(rows, columns);
+
           clientConn
-            .post(route, rows)
+            .post(route, mappedRows)
             .then((response) => {
               const { file } = response.data;
               const buffer = Buffer.from(file, 'base64');

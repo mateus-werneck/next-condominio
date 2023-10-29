@@ -1,12 +1,11 @@
 import Delete from './Buttons/Delete';
 import Edit from './Buttons/Edit';
-import { IDefaultTableActions, TableRecord } from './types';
+import { TTableActions, TableRecord } from './types';
 
-export default function FieldActions<T extends TableRecord>({
-  table,
-  onEditRow,
-  onConfirmDeletion
-}: IDefaultTableActions<T>) {
+export default function FieldActions<T extends TableRecord>(
+  table: string,
+  { onEditRow, onConfirmDeletion }: TTableActions<T>
+) {
   return {
     field: 'actions',
     headerName: 'Ações',
