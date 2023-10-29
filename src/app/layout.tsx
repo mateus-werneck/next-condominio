@@ -10,14 +10,12 @@ import { headers } from 'next/headers';
 import './globals.css';
 
 export const metadata = {
-  title: 'Controle de Condomínio',
-  icons: {
-    icon: 'https://ctpfcs.com.br/themes/wc_ecommerce/images/favicon.ico'
-  },
-  viewport: {
-    initialScale: 1,
-    width: 'device-width'
-  }
+  title: 'Controle de Condomínio'
+};
+
+export const viewport = {
+  initialScale: 1,
+  width: 'device-width'
 };
 
 const franklin = Libre_Franklin({ subsets: ['latin'] });

@@ -1,11 +1,56 @@
-import * as XLSX from 'xlsx';
+import { Alignment, Borders, Font, Workbook } from 'exceljs';
 
-export function exportSheet<T>(data: T[]): string {
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
+export async function exportSheet<T extends Record<string, any>>(
+  data: T[]
+): Promise<string> {
+  const workbook = new Workbook();
 
-  XLSX.utils.book_append_sheet(workbook, worksheet);
-  const base64 = XLSX.write(workbook, { type: 'base64' });
+  const worksheet = workbook.addWorksheet('Despesas', {
+    properties: {
+      defaultColWidth: 25
+    }
+  });
 
-  return base64;
+  const headerRow = worksheet.addRow(Object.keys(data[0]));
+
+  const font: Partial<Font> = {
+    color: { argb: '#000000' },
+    size: 12
+  };
+
+  const border: Partial<Borders> = {
+    top: { style: 'thin' },
+    left: { style: 'thin' },
+    bottom: { style: 'thin' },
+    right: { style: 'thin' }
+  };
+
+  const alignment: Partial<Alignment> = {
+    vertical: 'middle',
+    horizontal: 'center'
+  };
+
+  headerRow.eachCell((cell) => {
+    cell.font = { ...font, bold: true };
+    cell.border = border;
+    cell.alignment = alignment;
+  });
+
+  data.forEach((expense) => {
+    const row = worksheet.addRow(Object.values(expense));
+
+    row.font = font;
+    row.border = border;
+    row.alignment = alignment;
+
+    const amount = row.getCell('B');
+    amount.numFmt = '"R$"#.##0,00';
+
+    const dueDate = row.getCell('C');
+    dueDate.numFmt = 'dd/mm/yyyy';
+  });
+
+  const content = await workbook.xlsx.writeBuffer();
+  const buffer = Buffer.from(content);
+  return buffer.toString('base64');
 }

@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   const rows = await request.json();
   const data = rows.map(mapEachExpense);
-  const file = exportSheet(data);
+  const file = await exportSheet(data);
 
   return NextResponse.json({ file });
 }
