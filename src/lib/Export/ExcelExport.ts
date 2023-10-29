@@ -58,8 +58,11 @@ function getEachRow(d: SheetRecord, worksheet: Worksheet): Row {
   const { font, border, alignment } = getDefaultFormat();
 
   row.font = font;
-  row.border = border;
   row.alignment = alignment;
+
+  row.eachCell((cell) => {
+    cell.border = border;
+  });
 
   return row;
 }
