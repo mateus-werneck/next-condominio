@@ -17,7 +17,7 @@ export default function NavMenu() {
 
   const navStyles =
     'w-11/12 flex flex-col absolute items-start self-center top-16 gap-12' +
-    ' z-10 py-8 px-2 rounded-2xl bg-white text-white transition-all delay-75' +
+    ' z-10 py-8 px-2 rounded-2xl bg-white text-white animate-slideTop transition-all delay-75' +
     ' md:flex md:flex-row md:gap-12 md:items-center md:text-sm md:h-16 md:py-6 md:px-24' +
     ' md:w-full md:rounded-none md:static md:opacity-100 md:visible md:bg-black'.concat(
       showMobileMenu ? ' opacity-100 visible' : ' opacity-0 invisible'

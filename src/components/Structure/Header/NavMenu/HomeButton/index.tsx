@@ -12,7 +12,7 @@ export default function HomeButton({ styles, onClickFunction }: IHomeButton) {
     <Link
       key="home"
       href="/"
-      className="flex gap-2 items-center justify-center self-center mb-1"
+      className="flex gap-2 items-center justify-center self-center mb-1 animate-slideTop"
       style={styles}
       onClick={onClickFunction}
     >

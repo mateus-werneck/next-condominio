@@ -65,10 +65,11 @@ function useResponsive({ name, children }: INavLink) {
 
   function getDesktop(): JSX.Element {
     const navStyles =
-      'flex flex-col gap-4 p-6 absolute z-10 mt-8 w-1/5 origin-top-right rounded-md shadow-lg bg-white text-gray-700 text-md';
+      'flex flex-col gap-4 p-6 absolute z-10 mt-8 w-1/5 origin-top-right' +
+      ' rounded-md shadow-lg bg-white text-gray-700 text-md';
     return (
       <button
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 animate-slideTop"
         onMouseEnter={() => setCurrentLink(name, true)}
         onMouseLeave={() => setCurrentLink(name, false)}
       >

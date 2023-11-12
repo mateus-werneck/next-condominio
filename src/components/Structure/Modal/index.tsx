@@ -45,7 +45,8 @@ export default function Modal({ children, onClose, isVisible }: IModal) {
   if (!portal) return <></>;
 
   const containerStyle =
-    'flex flex-col fixed top-0 z-50 w-screen h-screen overflow-auto backdrop-blur-lg bg-black/4 p-8' +
+    'flex flex-col fixed top-0 z-50 w-screen h-screen overflow-auto' +
+    ' backdrop-blur-lg bg-black/4 p-8 animate-slideTop' +
     ` ${showModal ? 'visible' : 'invisible'}`;
 
   return createPortal(

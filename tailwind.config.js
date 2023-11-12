@@ -74,11 +74,16 @@ module.exports = {
         '0%': { transform: 'translateX(-0.1em)' },
         '50%': { transform: 'translateX(0.5em)' },
         '100%': { transform: 'translateX(0)' }
+      },
+      slideTop: {
+        '0%': { transform: 'translateY(-50px)', opacity: 0 },
+        '100%': { transform: 'translateY(0px)', opacity: 1 }
       }
     },
     animation: {
       fadeIn: 'fadeIn 1s ease-in-out',
-      slideIn: 'slideIn 1s ease-in-out'
+      slideIn: 'slideIn 1s ease-in-out',
+      slideTop: 'slideTop 0.5s'
     }
   },
   plugins: [],
